@@ -4,7 +4,7 @@ import routers from "./Router/main.js"
 </script>
 
 <main>
-    <Router routes={routers} />
+    <Router routes={routers}/>
 </main>
 
 <style>
