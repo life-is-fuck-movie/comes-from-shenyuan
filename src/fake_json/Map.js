@@ -28,15 +28,18 @@ let init_map_resource = {
         {
             data: {
                 name: "摩尔叶卡",
-                belongs: "",
-                type: "",
-
+                belongs: "青兰",
+                rich: "nice",
             },
             site: 124
         },
         {
-            data: {},
-            site: 162
+            data: {
+                name: "群山塔",
+                belongs: "青兰",
+                rich: "small",
+            },
+            site: 164
         },
         {
             data: {},

@@ -1,10 +1,29 @@
-
-<main  class="main" bind:this={self}>
+<main class="main" bind:this={self}>
     <div>
+        {#if (open && !side_switch)}
+            <img src="src/game_resource/assets/image/Sprites/transparentDark/transparentDark33.png"
+                 on:click={
+                     ()=>{
+                         close_side()
+                         setTimeout(
+                             ()=>{
+                                 sideSwitch.set(true)
+                                 show_mode.set({type: "default"})
+                             }, 100
+                         )
+                 }} class="cancle">
+
+        {/if}
         {#if open}
             <div class="setting">
-                <img src="src/game_resource/assets/image/Sprites/transparentDark/transparentDark31.png" on:click={settings}>
+                <img src="src/game_resource/assets/image/Sprites/transparentDark/transparentDark31.png"
+                     on:click={settings}
+                >
             </div>
+
+            {#if showMode.type === "city"}
+                <ShowCity data={showMode.data}/>
+            {/if}
         {/if}
     </div>
 
@@ -14,61 +33,109 @@
     import allow_scroll from "../../../stores/stores.js";
     import open_setting from "../../../stores/openSetting.js";
     import {onMount} from "svelte";
-
     import Setting from "./Setting.svelte";
-    let self;
-    let open = false
+    import show_mode from "../../../stores/showMode.js";
+    import ShowCity from "./Mode/ShowCity.svelte";
+    import sideSwitch from "../../../stores/sideSwitch.js";
+    // store 变量-------
     let setting_show
+    let showMode
+    let side_switch
 
-    console.log(setting_show)
+
+    show_mode.subscribe(
+        v => {
+            showMode = v
+        }
+    )
+
     open_setting.subscribe(value => {
-        console.log("被修改")
         setting_show = value
     })
 
 
+    // ------
 
+    let self;
+
+    let open = false
+
+
+    function open_side() {
+        allow_scroll.set(false)
+        self.style.width = "300px"
+        open = true
+    }
+
+    function close_side() {
+        allow_scroll.set(true)
+        self.style.width = "50px"
+        open = false
+    }
 
     onMount(
-        ()=>{
+        () => {
+            sideSwitch.subscribe(
+                value => {
+                    side_switch = value
+                    if (!side_switch) {
+                        close_side()// 刷新界面
+                        setTimeout(open_side, 1)
+                    } else {
+                        close_side()
+                    }
+                }
+            )
+
             self.addEventListener('mouseenter', (event) => {
-                allow_scroll.set(false)
-                self.style.width = "300px"
-                open = true
+                if (side_switch) {
+                    open_side()
+                }
             });
 
             self.addEventListener('mouseleave', (event) => {
-                allow_scroll.set(true)
-                self.style.width = "50px"
-                open = false
+                if (side_switch) {
+                    close_side()
+                }
             });
+
         }
     )
-    function settings(){
+
+    function settings() {
         open_setting.set(true)
     }
 </script>
 
 <style lang="less">
-  :global(.setting-ui){
+  :global(.setting-ui) {
     position: fixed;
     top: 400px;
   }
-    .main{
-        z-index: 999;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 50px;
-        background: #696A6A;
-        transition: .6s;
+
+  .main {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 50px;
+    background: #696A6A;
+    transition: .6s;
+  }
+
+  .setting {
+    text-align: right;
+    margin: 20px;
+
+    img {
+      cursor: pointer;
     }
-    .setting{
-        text-align: right;
-        margin: 20px;
-        img{
-          cursor: pointer;
-        }
-    }
+  }
+
+  .cancle {
+    float: left;
+    margin-left: 20px;
+    cursor: pointer;
+  }
 </style>

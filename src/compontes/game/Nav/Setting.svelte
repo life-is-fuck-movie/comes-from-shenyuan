@@ -11,7 +11,12 @@
         边缘移动速度： ({setting_config.move})
         <input type="range" id="slider" name="slider" min="0" max="5" bind:value={setting_config.move}>
 
-        <button class="save" on:click={saveSetting}>保存</button>
+        <button class="save" on:click={
+            ()=>{
+                saveSetting()
+                openSetting.set(false)
+            }
+        }>保存、退出</button>
     </div>
 </main>
 <style lang="less">

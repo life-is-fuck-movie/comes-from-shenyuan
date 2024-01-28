@@ -55,7 +55,6 @@ onMount(() => {
     allow_scroll.subscribe(
         value => {
             allow = value
-            console.log("被設置", value)
         }
     )
 

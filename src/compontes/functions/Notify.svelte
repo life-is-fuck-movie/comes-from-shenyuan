@@ -14,8 +14,8 @@
     import {onMount} from "svelte";
 
     let self
-    let hidden_flag = false
-    let hidden_value = "折叠通知"
+    let hidden_flag = true  // 默认隐藏
+    let hidden_value = "展开通知"
     let read_info_value = "新通知~!! "
 
     function hidden(){
@@ -44,13 +44,11 @@
                     }
 
                     html += `<div class="content-tip">&&image <p class="notify-tip ${v.type}"> ${v.value}</p></div>`
-                    console.log("image"+v.headimage)
                     html = html.replace("&&image", `<img class="headimage-tip" src="${v.headimage}" />`)
 
-                    console.log(html)
-
-                    self.querySelector("#notify-body").innerHTML += html
-
+                    let dom = self.querySelector("#notify-body")
+                    dom.innerHTML += html
+                    dom.scrollTop = dom.scrollHeight
                     read_info_value = "出现新通知"
                 }
             )
@@ -68,7 +66,7 @@
         z-index: 998;
         background-image: url("../../game_resource/assets/image/paper background.png");
         border-radius: 10px;
-        height: 300px;
+        height: 10px;
         width: 400px;
         padding: 30px;
         font-family: 楷体;

@@ -1,4 +1,4 @@
-<main class="app-default-map {clazz}" bind:this={self}>
+<main class="app-default-map {clazz}" bind:this={self} on:click={clickEvent}>
     {map_resource.point_id}
     {#if map_config.has_city}
         <img class="center-icon" src="/src/game_resource/assets/image/towndown/church.gif"/>
@@ -10,6 +10,8 @@
 <script>
     import {onMount} from "svelte";
     import init_map_resource from "/src/fake_json/Map.js"
+    import show_mode from "../../../stores/showMode.js";
+    import sideSwitch from "../../../stores/sideSwitch.js";
 
     export let map_resource; // 地图资源对象
 
@@ -23,6 +25,24 @@
     let map_config = {
         has_city: false,
         city_name: ""
+    }
+
+    function clickEvent(){
+        if (map_config.has_city){
+            // 点击的是城市
+
+            sideSwitch.set(true)
+
+            show_mode.set({
+                type: "city",
+                data: {
+                    city_name: map_config.city_name
+                }
+            })
+
+            sideSwitch.set(false)
+
+        }
     }
 
     onMount(() => {
