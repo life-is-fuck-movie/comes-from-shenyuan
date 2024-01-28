@@ -16,6 +16,7 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
+    "papercss": "^1.9.2",
     "svelte-spa-router": "^4.0.1"
   }
 }
