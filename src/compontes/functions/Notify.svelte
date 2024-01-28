@@ -52,8 +52,6 @@
                     self.querySelector("#notify-body").innerHTML += html
 
                     read_info_value = "出现新通知"
-
-
                 }
             )
         }

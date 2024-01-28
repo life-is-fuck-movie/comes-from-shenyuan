@@ -13,7 +13,11 @@ class SaveManager{
      * 加载JSON存档
      */
     LoadSaveJson(saveName){
-        return JSON.parse(localStorage.getItem(saveName))
+        let val =  localStorage.getItem(saveName)
+        if (val === null){
+            return void 0
+        }
+        return JSON.parse(val)
     }
     /**
      * JSON 存档
