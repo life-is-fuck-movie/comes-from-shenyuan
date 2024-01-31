@@ -1,4 +1,5 @@
 import save from "../other/tools/Save.js";
+import HuTao from "../characters/Impl/HuTao.js";
 
 function generateRandomNumbers(min, max, length, had) {
     if (length > (max - min + 1) || (had.length + length) > (max - min + 1)) {
@@ -53,13 +54,7 @@ let init_map_resource = {
         {
             data: {
                 name: "胡桃",
-                aliasName: "HuTao",
-                ranks: {
-                    "炮兵": 200,
-                    "士卒": 100
-                },
-                object: null,
-                buff: []
+                object: new HuTao()
             },
             site: 201
         }

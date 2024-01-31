@@ -62,10 +62,6 @@
             data: {
                 name: "胡桃", // 名称
                 aliasName: "HuTao", // 别名 用在文件系统上的
-                ranks: { // 队伍配置
-                    "炮兵": 200, 
-                    "士卒": 100
-                },
                 object: Hutao, // 主将对应的 对象
                 buff: [] // 当前配置
             },

@@ -25,6 +25,10 @@
             {#if showMode.type === "city"}
                 <ShowCity data={showMode.data}/>
             {/if}
+
+            {#if showMode.type === "army"}
+                <ShowArmy data={showMode.data}/>
+            {/if}
         {/if}
     </div>
 
@@ -38,6 +42,7 @@
     import show_mode from "../../../stores/showMode.js";
     import ShowCity from "./Mode/ShowCity.svelte";
     import sideSwitch from "../../../stores/sideSwitch.js";
+    import ShowArmy from "./Mode/ShowArmy.svelte";
     // store 变量-------
     let setting_show
     let showMode
@@ -140,5 +145,8 @@
     float: left;
     margin-left: 20px;
     cursor: pointer;
+  }
+  .aram-header{
+    width: 30px ;
   }
 </style>

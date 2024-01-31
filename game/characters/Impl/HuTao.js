@@ -1,11 +1,8 @@
-import SkillDict from "../skills/SkillDict.js";
-
-
-
-class CharacterTemplates {
-    Name = "匿名角色";
+import CharacterTemplates from '../templates.js'
+class HuTao extends CharacterTemplates{
+    Name = "胡桃";
     Buffs = []; // 被动效果 、 回合效果等
-    AliasName = "" // 别名 用在文件系统上的
+    AliasName = "hutao" // 别名 用在文件系统上的
 
     Values = {
         attack: 10, defense: 10
@@ -21,10 +18,7 @@ class CharacterTemplates {
         now_job: [], // 当前所在的职位
         overloads: [], // 所携带的物品
         ranks: {
-            "炮兵": 20,
-            "步兵": 30
         } //  当前角色所拥有的军队
     }
 }
-
-export default CharacterTemplates
+export default HuTao
