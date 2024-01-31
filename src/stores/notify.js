@@ -1,7 +1,7 @@
 
 
 import { writable } from 'svelte/store';
-import saveManager from "/src/tools/Save.js"
+import saveManager from "/game/other/tools/Save.js"
 
 
 // 创建一个 writable store

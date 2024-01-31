@@ -11,7 +11,7 @@
                                  show_mode.set({type: "default"})
                              }, 100
                          )
-                 }} class="cancle">
+                 }} class="cancle" alt="">
 
         {/if}
         {#if open}
@@ -20,6 +20,7 @@
                      on:click={settings}
                 >
             </div>
+
 
             {#if showMode.type === "city"}
                 <ShowCity data={showMode.data}/>
@@ -73,6 +74,10 @@
         open = false
     }
 
+    function settings() {
+        open_setting.set(true)
+    }
+
     onMount(
         () => {
             sideSwitch.subscribe(
@@ -102,9 +107,7 @@
         }
     )
 
-    function settings() {
-        open_setting.set(true)
-    }
+
 </script>
 
 <style lang="less">

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "papercss": "^1.9.2",
+    "rollup-plugin-svelte": "^7.1.6",
     "svelte-spa-router": "^4.0.1"
   }
 }

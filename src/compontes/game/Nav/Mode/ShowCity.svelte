@@ -14,7 +14,7 @@
 <script>
 
     import {onMount} from "svelte";
-    import mapManager from "/src/fake_json/Map.js"
+    import mapManager from "/game/fake_json/Map.js"
 
     export let data
 

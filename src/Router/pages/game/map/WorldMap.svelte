@@ -31,7 +31,7 @@
 <script>
 
 import DefaultMap from "../../../../compontes/game/map/DefaultMap.svelte";
-import mapResource from "../../../../fake_json/mapResource.js";
+import mapResource from "../../../../../game/fake_json/mapResource.js";
 import allow_scroll from "../../../../stores/stores.js"
 import settingConfig from "../../../../stores/globalSettingConfiger.js";
 

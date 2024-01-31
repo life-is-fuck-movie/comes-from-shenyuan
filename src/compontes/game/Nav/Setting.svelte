@@ -81,7 +81,7 @@
 <script>
     import allow_scroll from "../../../stores/stores.js";
     import openSetting from "../../../stores/openSetting.js";
-    import saveManager from "/src/tools/Save.js"
+    import saveManager from "/game/other/tools/Save.js"
     import {onMount} from "svelte";
     import settingConfig from "../../../stores/globalSettingConfiger.js";
     import notify_value from "../../../stores/notify.js";

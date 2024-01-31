@@ -9,7 +9,7 @@
 
 <script>
     import {onMount} from "svelte";
-    import init_map_resource from "/src/fake_json/Map.js"
+    import init_map_resource from "/game/fake_json/Map.js"
     import show_mode from "../../../stores/showMode.js";
     import sideSwitch from "../../../stores/sideSwitch.js";
 
@@ -42,6 +42,9 @@
 
             sideSwitch.set(false)
 
+        }else{
+            // 无单位格子
+            sideSwitch.set(true)
         }
     }
 

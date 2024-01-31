@@ -38,3 +38,39 @@
     name: "xxxx" // 名称
 }
 ```
+
+### 地图存档信息
+```js
+{
+    city: [
+        {
+            data: {
+                name: "群山塔", // 名称
+                belongs: "青兰", // 所属国家
+                rich: "small", // 富裕程度s
+            },
+            site: 164 // 位置
+        }
+
+    ],
+    stone: stones,
+          // 所在位置有石头 如 [23, 51, 2] 位置规则同下
+    wood: generateRandomNumbers(0, 1199, 200, stones), 
+          // 木头资源点 所在位置有木头 
+    army: [
+        {
+            data: {
+                name: "胡桃", // 名称
+                aliasName: "HuTao", // 别名 用在文件系统上的
+                ranks: { // 队伍配置
+                    "炮兵": 200, 
+                    "士卒": 100
+                },
+                object: Hutao, // 主将对应的 对象
+                buff: [] // 当前配置
+            },
+            site: 201 // 所在位置
+        }
+    ]
+}
+```
