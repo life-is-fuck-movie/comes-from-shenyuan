@@ -10,6 +10,16 @@
         <img src="{new BindBox(map_config.character).getAvatar()}" class="aram-header"/>
         <div class="aram-name">{map_config.character.Name}</div>
     {/if}
+
+    {#if map_config.has_wood}
+        <img src="/src/game_resource/assets/image/wood.svg" class="aram-header">
+    {/if}
+
+    {#if map_config.has_store}
+        <img src="/src/game_resource/assets/image/stone.png" class="aram-header">
+    {/if}
+
+
 </main>
 
 <script>
@@ -30,14 +40,14 @@
     let ground_style;
 
 
-
-
     let map_config = {
         has_city: false,
         city_name: "",
         has_army: false,
         army_data: null,
-        character: null
+        character: null,
+        has_wood: false,
+        has_store: false,
     }
 
     function clickEvent() {
@@ -77,10 +87,7 @@
     function render_map() {
 
         // region 根据丰饶度设置颜色深度
-        let rich_value = map_resource.rich_value
-        const root = document.documentElement;
-        ground_style = 200 + (rich_value / 2)
-        ground_style = `rgb(173,${ground_style},4 )`
+        ground_style = `rgb(173,255, 4)`
         self.style.background = ground_style
         // endregion
 
@@ -119,18 +126,31 @@
             }
         }
         // endregion
+
+        // region 木头石头渲染
+        let woods = save_resource.wood
+        let stones = save_resource.stone
+
+        if (woods.includes(my_id)) {
+            map_config.has_wood = true
+        } else if (stones.includes(my_id)) {
+            map_config.has_store = true
+        }
+
+        // endregion
+
         // endregion
     }
 
     onMount(() => {
         RefreshMapData.subscribe(
             v => {
-                if (v !== false){
+                if (v !== false) {
                     render_map()
                 }
             }
         )
-         render_map()
+        render_map()
     })
 </script>
 
