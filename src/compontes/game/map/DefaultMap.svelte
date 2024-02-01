@@ -18,6 +18,7 @@
     import show_mode from "../../../stores/showMode.js";
     import sideSwitch from "../../../stores/sideSwitch.js";
     import BindBox from "../../../../game/characters/BindBox.js";
+    import RefreshMapData from "../../../stores/RefreshMapData.js";
 
     export let map_resource; // 地图资源对象
 
@@ -27,6 +28,9 @@
 
     let self;
     let ground_style;
+
+
+
 
     let map_config = {
         has_city: false,
@@ -51,8 +55,7 @@
 
             sideSwitch.set(false)
 
-        }
-        else if (map_config.has_army){
+        } else if (map_config.has_army) {
             sideSwitch.set(true)
 
             show_mode.set({
@@ -64,15 +67,15 @@
             })
 
             sideSwitch.set(false)
-        }
-        else// TODO 不同单元格的点击事件
+        } else // TODO 不同单元格的点击事件
         {
             // 无单位格子
             sideSwitch.set(true)
         }
     }
 
-    onMount(() => {
+    function render_map() {
+
         // region 根据丰饶度设置颜色深度
         let rich_value = map_resource.rich_value
         const root = document.documentElement;
@@ -117,7 +120,17 @@
         }
         // endregion
         // endregion
+    }
 
+    onMount(() => {
+        RefreshMapData.subscribe(
+            v => {
+                if (v !== false){
+                    render_map()
+                }
+            }
+        )
+         render_map()
     })
 </script>
 

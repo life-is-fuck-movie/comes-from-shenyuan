@@ -5,11 +5,21 @@
     <hr>
     <span class="general-info">{data.character.Name}</span>
 
+    <input bind:value={data.character.Name}>
+    <button on:click={()=>{
+        console.log(bindBox.getName())
+        bindBox.Save();
+        do{
+            let number = Math.random()
+            RefreshMapData.set(number)
+        }while (number !== 0)
+    }}>修改名称</button>
 </main>
 
 <script>
     import BindBox from "../../../../../game/characters/BindBox.js";
     import {onMount} from "svelte";
+    import RefreshMapData from "../../../../stores/RefreshMapData.js";
 
     export let data
     let self
@@ -17,7 +27,6 @@
     onMount(
         () => {
             self.querySelector(".image-army").style.backgroundImage = `url(${bindBox.getPicture()})`
-
         }
     )
 </script>

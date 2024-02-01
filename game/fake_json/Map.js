@@ -57,6 +57,17 @@ let init_map_resource = {
                 object: new HuTao()
             },
             site: 201
+        },
+        {
+            data: {
+                name: "胡桃",
+                object:  function(){
+                    let hutao_clone = new HuTao()
+                    hutao_clone.ID = "HUTAO #02"
+                    return hutao_clone
+                }()
+            },
+            site: 204
         }
     ]
 }

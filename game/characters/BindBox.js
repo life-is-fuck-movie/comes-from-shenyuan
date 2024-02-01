@@ -1,4 +1,5 @@
 import SkillDict from "../skills/SkillDict.js";
+import Save from "../other/tools/Save.js";
 
 /**
  * 因为JSON不方便存储方法 所以存档在这里进行BindBox
@@ -10,8 +11,8 @@ class BindBox {
         this.character = character
     }
 
-    update(character){
-        // 更新数据
+    getName(){
+        return this.character.Name
     }
 
     // region 技能释放
@@ -62,8 +63,23 @@ class BindBox {
         for (let buff of buffs){
             // TODO 触发当前角色的 `buff`
             console.log("触发当前角色的 `buff`， 当前是", triggerEvent)
-
         }
+    }
+
+    Save(){
+        // 存档到本地存档
+        let save = Save.LoadSaveJson("map_data")
+        for (let index = 0 ; index < save.army.length ; index ++) {
+            console.log(save.army[index].data.object.ID, this.character.ID)
+            if(save.army[index].data.object.ID === this.character.ID){
+                // 我们需要替换数据了
+                console.log("FINDER")
+                save.army[index].data.object = this.character
+                break
+            }
+        }
+        console.log("UPDATE ", save, this.character)
+        Save.WriteSaveJSON("map_data", save)
     }
 }
 export default BindBox

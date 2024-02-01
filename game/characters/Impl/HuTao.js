@@ -1,8 +1,10 @@
 import CharacterTemplates from '../templates.js'
 class HuTao extends CharacterTemplates{
+    ID = "HUTAO #01"
     Name = "胡桃";
     Buffs = []; // 被动效果 、 回合效果等
     AliasName = "hutao" // 别名 用在文件系统上的
+
 
     Values = {
         attack: 10, defense: 10

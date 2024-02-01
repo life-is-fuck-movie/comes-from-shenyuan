@@ -1,7 +1,10 @@
 import SkillDict from "../skills/SkillDict.js";
 
 
-
+/**
+ * 不推荐使用 CharacterTemplates 直接修改变量 否则无法正确的保存到存档中
+ * 而是封装给BindBox让他来抉择
+ */
 class CharacterTemplates {
     Name = "匿名角色";
     Buffs = []; // 被动效果 、 回合效果等
