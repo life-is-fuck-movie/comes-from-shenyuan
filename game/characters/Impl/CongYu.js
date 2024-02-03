@@ -1,13 +1,13 @@
 import CharacterTemplates from '../templates.js'
-class HuTao extends CharacterTemplates{
-    ID = "HUTAO #01"
-    Name = "胡桃";
+class CongYu extends CharacterTemplates{
+    ID = "CONGYU #01"
+    Name = "朝吾丛雨";
     Buffs = []; // 被动效果 、 回合效果等
-    AliasName = "hutao" // 别名 用在文件系统上的
+    AliasName = "congyu" // 别名 用在文件系统上的
 
 
     Values = {
-        attack: 10, defense: 11,max_hp: 12, max_mp: 12, now_hp:11.3 , now_mp:10.3
+        attack: 10, defense: 10,max_hp: 10, max_mp: 10, now_hp:10 , now_mp:10
     }
 
     SkillsName = {
@@ -22,5 +22,7 @@ class HuTao extends CharacterTemplates{
         ranks: {
         } //  当前角色所拥有的军队
     }
+
+    For = "穂织"
 }
-export default HuTao
+export default CongYu

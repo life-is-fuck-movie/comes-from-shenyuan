@@ -11,7 +11,7 @@ class CharacterTemplates {
     AliasName = "" // 别名 用在文件系统上的
 
     Values = {
-        attack: 10, defense: 10
+        attack: 10, defense: 10, max_hp: 10, max_mp: 10, now_hp:10 , now_mp:10
     }
 
     SkillsName = {

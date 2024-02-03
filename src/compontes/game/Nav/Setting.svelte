@@ -21,7 +21,7 @@
 </main>
 <style lang="less">
   @w: 512px;
-  @h: 768px;
+  @h: 70vh;
   .setting {
     background-image: url("../../../game_resource/assets/image/paper background.png");
     border-radius: 10px;

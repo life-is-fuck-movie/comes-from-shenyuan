@@ -77,10 +77,30 @@
             })
 
             sideSwitch.set(false)
-        } else // TODO 不同单元格的点击事件
+        } else if(map_config.has_wood){
+            sideSwitch.set(true)
+
+            show_mode.set({
+                type: "wood"
+            })
+
+            sideSwitch.set(false)
+        }else if(map_config.has_store) {
+            sideSwitch.set(true)
+
+            show_mode.set({
+                type: "store"
+            })
+
+            sideSwitch.set(false)
+        }
+        else // TODO 不同单元格的点击事件
         {
             // 无单位格子
             sideSwitch.set(true)
+            show_mode.set({
+                type: "default"
+            })
         }
     }
 

@@ -1,5 +1,7 @@
 import save from "../other/tools/Save.js";
 import HuTao from "../characters/Impl/HuTao.js";
+import congYu from "../characters/Impl/CongYu.js";
+import CongYu from "../characters/Impl/CongYu.js";
 
 function generateRandomNumbers(min, max, length, had) {
     if (length > (max - min + 1) || (had.length + length) > (max - min + 1)) {
@@ -28,20 +30,36 @@ let init_map_resource = {
     city: [
         {
             data: {
-                name: "摩尔叶卡",
-                belongs: "青兰",
-                rich: "nice",
+                name: "吃虎岩",
+                belongs: "璃月",
+                rich: "small",
             },
             site: 124
         },
         {
             data: {
-                name: "群山塔",
-                belongs: "青兰",
+                name: "玉京台",
+                belongs: "璃月",
                 rich: "small",
             },
             site: 164
         },
+        {
+            data: {
+                name: "不卜庐",
+                belongs: "璃月",
+                rich: "small",
+            },
+            site: 212
+        },{
+            data: {
+                name: "水泽荻原",
+                belongs: "璃月",
+                rich: "small",
+            },
+            site: 212
+        },
+
         {
             data: {},
             site: 205
@@ -60,12 +78,8 @@ let init_map_resource = {
         },
         {
             data: {
-                name: "胡桃",
-                object:  function(){
-                    let hutao_clone = new HuTao()
-                    hutao_clone.ID = "HUTAO #02"
-                    return hutao_clone
-                }()
+                name: "朝吾丛雨",
+                object:  new CongYu()
             },
             site: 204
         }

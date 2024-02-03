@@ -29,6 +29,14 @@
             {#if showMode.type === "army"}
                 <ShowArmy data={showMode.data}/>
             {/if}
+
+            {#if showMode.type === "store"}
+                <div class="resource">这里有丰富的石头资源</div>
+            {/if}
+
+            {#if showMode.type === "wood"}
+                <div class="resource">这里有丰富的木头资源</div>
+            {/if}
         {/if}
     </div>
 
@@ -124,6 +132,7 @@
   .main {
     z-index: 999;
     position: fixed;
+    overflow-y: auto;
     top: 0;
     left: 0;
     height: 100vh;
@@ -148,5 +157,9 @@
   }
   .aram-header{
     width: 30px ;
+  }
+  .resource{
+    color: white;
+    font-size: 20px;
   }
 </style>
