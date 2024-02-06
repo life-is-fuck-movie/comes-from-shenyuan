@@ -6,6 +6,8 @@ import Setting from "./compontes/game/Nav/Setting.svelte";
 import  openSetting from "./stores/openSetting.js"
 import  allow_scroll from "./stores/stores.js"
 import Notify from "./compontes/functions/Notify.svelte";
+import ActionPower from "./compontes/game/Nav/ActionPower.svelte";
+import ModalTemplates from "./compontes/modals/ModalTemplates.svelte";
 
 let setting_show
 
@@ -32,6 +34,10 @@ openSetting.subscribe(value=>{
                 console.log("mouseleave")
             }}
     />
+
+    <ActionPower></ActionPower>
+
+    <ModalTemplates></ModalTemplates>
 
 </main>
 

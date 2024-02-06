@@ -106,7 +106,7 @@
 
     function render_map() {
 
-        // region 根据丰饶度设置颜色深度
+        // region 根据??置颜色深度
         ground_style = `rgb(173,255, 4)`
         self.style.background = ground_style
         // endregion
@@ -178,7 +178,7 @@
   @import "../../../style/global";
 
   .center-icon {
-    height: 150px;
+    height: 40%;
     margin: 0 auto;
     position: relative;
     top: 10%;
@@ -206,8 +206,8 @@
   }
 
   .aram-header {
-    width: 70%;
-    height: 70%;
+    width: 50%;
+    height: 50%;
     margin: 10px auto 4px;
     border-radius: 50%;
     display: block;

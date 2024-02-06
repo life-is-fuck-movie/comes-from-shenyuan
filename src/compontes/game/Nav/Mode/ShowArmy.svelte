@@ -24,10 +24,12 @@
     </div>
 
     <div class="actives">
-
         <!--   己方角色     -->
         <Button value="我要让你去... (1)" click={()=>{
-            console.log("行动")
+        }}></Button>
+        <Button value="可以参观下你的军队吗..." click={()=>{
+            let generalDetail = new GeneralDetail(data.character);
+            generalDetail.show_modal()
         }}></Button>
         <Button value="我要你攻击... (1)" click={()=>{
             console.log("行动")
@@ -44,9 +46,6 @@
         <Button value="让我给你一些职务吧... (3)" click={()=>{
             console.log("行动")
         }}></Button>
-        <Button value="可以参观下你的军队吗... ()" click={()=>{
-            console.log("行动")
-        }}></Button>
         <Button value="我们来较量一下吧... (3)" click={()=>{
             console.log("行动")
         }}></Button>
@@ -59,7 +58,7 @@
         <Button value="可以跟着我么..." click={()=>{
             console.log("行动")
         }}></Button>
-        <Button value="你犯下了滔天的错误，我要将你明正典刑..." click={()=>{
+        <Button value="你犯下了滔天大罪，我要将你明正典刑..." click={()=>{
             console.log("行动")
         }}></Button>
         <Button value="我觉得监狱可能更适合你..." click={()=>{
@@ -74,7 +73,7 @@
         <Button value="我觉得有个这地方适合你去管理..." click={()=>{
             console.log("行动")
         }}></Button>
-        <!--   友方角色     -->
+        <!--  region 友方角色     -->
         <Button value="我们要和贵国做些交易... (3)" click={()=>{
             console.log("行动")
         }}></Button>
@@ -102,14 +101,25 @@
         <Button value="贵国可以给敝国一些奴隶吗..." click={()=>{
             console.log("行动")
         }}></Button>
-        <!-- 敌人角色 -->
+<!--        endregion-->
+        <!-- region 敌人角色 -->
         <Button value="给我立刻离开这里!" click={()=>{
             console.log("行动")
         }}></Button>
-        <Button value="我给你钱,可以暂时不攻击我么..." click={()=>{
+        <Button value="我们可以停战吗?..." click={()=>{
             console.log("行动")
         }}></Button>
-        <Button value="给我这些，我承诺暂时停战一段时间" click={()=>{
+        <Button value="派人看看这个军队..." click={()=>{
+            console.log("行动")
+        }}></Button>
+        <Button value="悄悄卧底..." click={()=>{
+            console.log("行动")
+        }}></Button>
+        <!-- endregion -->
+
+        <!--region 非己方角色 -->
+
+        <Button value="我要采取政治联姻..." click={()=>{
             console.log("行动")
         }}></Button>
         <Button value="把你们俘虏的他给我换回来..." click={()=>{
@@ -118,15 +128,13 @@
         <Button value="我想我们可以结交..." click={()=>{
             console.log("行动")
         }}></Button>
+        <Button value="我有些私人的话想对你们的主将谈谈..." click={()=>{
+            console.log("行动")
+        }}></Button>
         <Button value="我要对你们宣战..." click={()=>{
             console.log("行动")
         }}></Button>
-        <!-- 非己方角色 -->
-        <Button value="我要采取政治联姻..." click={()=>{
-            console.log("行动")
-        }}></Button>
-
-
+<!--        endregion -->
     </div>
 
 </main>
@@ -135,6 +143,8 @@
     import BindBox from "../../../../../game/characters/BindBox.js";
     import {onMount} from "svelte";
     import RefreshMapData from "../../../../stores/RefreshMapData.js";
+    import Go2here from "/game/actives/go2here.js"
+    import GeneralDetail from "/game/actives/GeneralDetail.js"
     import Button from "../../../functions/Button.svelte";
 
     export let data
