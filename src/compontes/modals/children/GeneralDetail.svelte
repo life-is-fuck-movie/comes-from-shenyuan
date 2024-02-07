@@ -13,13 +13,26 @@
         </h4>
 
         <div class="value-show">
-                    <div class="value-show-item">
-                <span class="value-show-item-name">生命值</span>
-                <span class="value-show-item-value">{character_instance.Values.max_hp}</span>
-            </div>
             <div class="value-show-item">
-                <span class="value-show-item-name">攻击力</span>
-                <span class="value-show-item-value">{character_instance.Values.max_mp}</span>
+                <span class="value-show-item-name">生命值</span>
+                <Strip
+                        max_value={character_instance.Values.max_hp}
+                        now_value={character_instance.Values.now_hp}
+                        strip_width="90%"
+                        front_color="lightgreen"
+                        show_value={true}
+                />
+            </div>
+            <br><br>
+            <div class="value-show-item">
+                <span class="value-show-item-name">技能点</span>
+                <Strip
+                        max_value={character_instance.Values.max_mp}
+                        now_value={character_instance.Values.now_mp}
+                        strip_width="90%"
+                        front_color="lightblue"
+                        show_value={true}
+                />
             </div>
         </div>
     </div>
@@ -28,6 +41,7 @@
 <script>
     import {onMount} from "svelte";
     import BindBox from "../../../../game/characters/BindBox.js";
+    import Strip from "../../functions/Strip.svelte";
 
     let error = {
         "no_character": false
@@ -64,13 +78,14 @@
     margin: 20px;
     float: left;
   }
-  .general_value{
+
+  .general_value {
     float: left;
     width: calc(100% - 400px);
     margin: 20px;
   }
 
-  .general_say{
+  .general_say {
     margin-top: 20px;
     font-weight: normal;
     background: rgba(187, 166, 114, 0.71);
@@ -78,6 +93,9 @@
     border: 1px saddlebrown solid;
     font-style: italic;
     font-size: 25px;
+  }
+  .value-show{
+    margin-top: 60px;
   }
 </style>
 
