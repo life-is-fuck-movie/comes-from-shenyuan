@@ -104,19 +104,6 @@
                     }
                 }
             )
-
-            self.addEventListener('mouseenter', (event) => {
-                if (side_switch) {
-                    open_side()
-                }
-            });
-
-            self.addEventListener('mouseleave', (event) => {
-                if (side_switch) {
-                    close_side()
-                }
-            });
-
         }
     )
 

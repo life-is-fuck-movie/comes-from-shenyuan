@@ -13,7 +13,7 @@ class CharacterTemplates {
     Values = {
         attack: 10, defense: 10, max_hp: 10, max_mp: 10, now_hp:10 , now_mp:10
     }
-
+    Belongs = ""
     SkillsName = {
         SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
     }

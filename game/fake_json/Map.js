@@ -1,7 +1,9 @@
 import save from "../other/tools/Save.js";
 import HuTao from "../characters/Impl/HuTao.js";
-import congYu from "../characters/Impl/CongYu.js";
-import CongYu from "../characters/Impl/CongYu.js";
+import congYu from "../characters/Impl/Naxida.js";
+import CongYu from "../characters/Impl/Naxida.js";
+import Naxida from "../characters/Impl/Naxida.js";
+import XingQiu from "../characters/Impl/XingQiu.js";
 
 function generateRandomNumbers(min, max, length, had) {
     if (length > (max - min + 1) || (had.length + length) > (max - min + 1)) {
@@ -78,10 +80,17 @@ let init_map_resource = {
         },
         {
             data: {
-                name: "朝吾丛雨",
-                object:  new CongYu()
+                name: "纳西妲",
+                object:  new Naxida()
             },
             site: 204
+        },
+        {
+            data: {
+                name: "行秋",
+                object:  new XingQiu()
+            },
+            site: 202
         }
     ]
 }
