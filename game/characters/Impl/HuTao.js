@@ -2,7 +2,13 @@ import CharacterTemplates from '../templates.js'
 class HuTao extends CharacterTemplates{
     ID = "HUTAO #01"
     Name = "胡桃";
-    Buffs = []; // 被动效果 、 回合效果等
+    Buffs = [{
+        name: "巧言",
+        continuous_round: 99999,
+    }, {
+        name: "受伤",
+        continuous_round: 1,
+    }]; // 被动效果 、 回合效果等
     AliasName = "hutao" // 别名 用在文件系统上的
 
 
@@ -20,6 +26,7 @@ class HuTao extends CharacterTemplates{
         now_job: [], // 当前所在的职位
         overloads: [], // 所携带的物品
         ranks: {
+            "往生堂员工": 20,
         } //  当前角色所拥有的军队
     }
 }

@@ -32,6 +32,8 @@
 
 <style lang="less">
   .main {
+    user-select: none;
+    overflow: auto;
     width: 80%;
     z-index: 999;
     position: fixed;
@@ -64,5 +66,7 @@
     color: #282828;
     font-weight: bolder;
   }
+
+
 </style>
 

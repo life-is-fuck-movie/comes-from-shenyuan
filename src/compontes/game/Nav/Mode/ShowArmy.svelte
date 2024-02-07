@@ -136,6 +136,7 @@
         }}></Button>
 <!--        endregion -->
     </div>
+    <audio src={bindBox.getAudio("询问")} autoplay/>
 
 </main>
 

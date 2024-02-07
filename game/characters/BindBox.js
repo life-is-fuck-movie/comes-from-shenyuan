@@ -1,5 +1,7 @@
 import SkillDict from "../skills/SkillDict.js";
 import Save from "../other/tools/Save.js";
+import BuffDispatch from "../Buffs/BuffDispatch.js";
+import buffDispatch from "../Buffs/BuffDispatch.js";
 
 /**
  * 因为JSON不方便存储方法 所以存档在这里进行BindBox
@@ -58,6 +60,10 @@ class BindBox {
         return `/src/game_resource/assets/characters/${this.character.AliasName}/Picture.png`
     }
 
+    getAudio(type){
+        return `/src/game_resource/assets/characters/${this.character.AliasName}/sound/${type}.wav`
+    }
+
     getBuffTrigger(triggerEvent){
         let buffs = this.character.Buffs;
         for (let buff of buffs){
@@ -80,6 +86,34 @@ class BindBox {
         }
         console.log("UPDATE ", save, this.character)
         Save.WriteSaveJSON("map_data", save)
+    }
+
+    SetNowHp(value) {
+        if (value > 0 ){
+            this.character.Values.now_hp = value
+        }else{
+            this.character.Values.now_hp = 0
+            this.character.Status.is_die = true
+        }
+    }
+
+    SetNowMp(value){
+        if (value > 0){
+            this.character.Values.now_mp = value
+            return true
+        }else{
+            return false
+        }
+    }
+
+    GetBuffsWithDescription(){
+        let return_value = []
+        for (let buff_name of this.character.Buffs){
+            let Buff = new buffDispatch[buff_name.name](this.character)
+            let tmp = [buff_name.name,Buff.description]
+            return_value.push(tmp)
+        }
+        return return_value
     }
 }
 export default BindBox
