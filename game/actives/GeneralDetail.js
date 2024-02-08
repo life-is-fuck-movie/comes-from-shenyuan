@@ -12,7 +12,8 @@ class GeneralDetail{
         ShowModals.set({
             type: "character",
             flag: true,
-            data: character
+            data: character,
+            close: true
         })
     }
 }

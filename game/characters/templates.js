@@ -10,6 +10,9 @@ class CharacterTemplates {
     Buffs = []; // 被动效果 、 回合效果等
     AliasName = "" // 别名 用在文件系统上的
 
+    Avatar = null // 头像别名
+    Picture = null // 全图别名
+
     Values = {
         attack: 10, defense: 10, max_hp: 10, max_mp: 10, now_hp:10 , now_mp:10
     }

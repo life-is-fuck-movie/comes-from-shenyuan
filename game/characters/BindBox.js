@@ -53,10 +53,16 @@ class BindBox {
     }
 
     getAvatar(){
+        if (this.character.Avatar !== null){
+            return `/src/game_resource/assets/characters/${this.character.AliasName}/` + this.character.Avatar
+        }
         return `/src/game_resource/assets/characters/${this.character.AliasName}/Avatar.png`
     }
 
     getPicture(){
+        if (this.character.Picture !== null){
+            return `/src/game_resource/assets/characters/${this.character.AliasName}/` + this.character.Picture
+        }
         return `/src/game_resource/assets/characters/${this.character.AliasName}/Picture.png`
     }
 

@@ -8,7 +8,14 @@
 
     {#if map_config.has_army}
         <img src="{new BindBox(map_config.character).getAvatar()}" class="aram-header"/>
-        <div class="aram-name">{map_config.character.Name}</div>
+        <div class="aram-name">
+            {#if map_config.character_power_type === "self"}
+                <span class="self-logo">我</span>
+            {/if}
+            {map_config.character.Name}
+        </div>
+
+
     {/if}
 
     {#if map_config.has_wood}
@@ -48,6 +55,7 @@
         character: null,
         has_wood: false,
         has_store: false,
+        character_power_type: null
     }
 
     function clickEvent() {
@@ -77,7 +85,7 @@
             })
 
             sideSwitch.set(false)
-        } else if(map_config.has_wood){
+        } else if (map_config.has_wood) {
             sideSwitch.set(true)
 
             show_mode.set({
@@ -85,7 +93,7 @@
             })
 
             sideSwitch.set(false)
-        }else if(map_config.has_store) {
+        } else if (map_config.has_store) {
             sideSwitch.set(true)
 
             show_mode.set({
@@ -93,8 +101,7 @@
             })
 
             sideSwitch.set(false)
-        }
-        else // TODO 不同单元格的点击事件
+        } else // TODO 不同单元格的点击事件
         {
             // 无单位格子
             sideSwitch.set(true)
@@ -107,7 +114,7 @@
     function render_map() {
 
         // region 根据??置颜色深度
-        ground_style = `rgb(173,255, 4)`
+        ground_style = `rgb(173, 255, 4)`
         self.style.background = ground_style
         // endregion
 
@@ -142,6 +149,14 @@
                 map_config.army_data = army.data
                 map_config.character = map_config.army_data.object
 
+                //LOGO 角色类型判断
+                let character = map_config.character
+                let player_power = localStorage.getItem("player-power")
+                console.log(player_power)
+                if (player_power === character.Belongs) {
+                    console.log("找到了")
+                    map_config.character_power_type = "self"
+                }
                 return //  不继续渲染了
             }
         }
@@ -226,4 +241,13 @@
     color: white;
   }
 
+  .self-logo {
+    font-size: 14px;
+    position: relative;
+    top: -3px;
+    width: 10px;
+    height: 10px;
+    background: #5eff00;
+    color: #000;
+  }
 </style>

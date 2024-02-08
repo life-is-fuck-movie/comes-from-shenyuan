@@ -10,13 +10,46 @@
     <div class="setting-main">
         边缘移动速度： ({setting_config.move})
         <input type="range" id="slider" name="slider" min="0" max="5" bind:value={setting_config.move}>
+        <br>
+        <Button
+                click={
+                    ()=>{
+                        //LOGO 重置游戏
+                        localStorage.removeItem("map_data")
+                        localStorage.removeItem("player-power")
+                        window.location = "/"
+                    }
+                }
+                value="新的一轮"
+        />
+        <Button
+                click={
+                    ()=>{
+                        //LOGO 重置游戏
+                        localStorage.removeItem("map_data")
+                        window.location = "/"
+                    }
+                }
+                value="加载存档"
+        />
+        <Button
+                click={
+                    ()=>{
+                        //LOGO 重置游戏
+                        localStorage.removeItem("map_data")
+                        window.location = "/"
+                    }
+                }
+                value="保存存档"
+        />
 
         <button class="save" on:click={
             ()=>{
                 saveSetting()
                 openSetting.set(false)
             }
-        }>保存、退出</button>
+        }>保存、退出
+        </button>
     </div>
 </main>
 <style lang="less">
@@ -66,7 +99,8 @@
       height: 40px;
       color: #696A6A;
       background: #e5bd5e;
-      &:hover{
+
+      &:hover {
         background: #9b7f3e;
         color: #fff;
 
@@ -85,6 +119,7 @@
     import {onMount} from "svelte";
     import settingConfig from "../../../stores/globalSettingConfiger.js";
     import notify_value from "../../../stores/notify.js";
+    import Button from "../../functions/Button.svelte";
 
     let setting_config
 
@@ -94,21 +129,21 @@
         }
     )
 
-    function saveSetting(){
+    function saveSetting() {
         saveManager.WriteSaveJSON("setting", setting_config) // 读写到本地
         loadSetting() // 重新加载
         notify_value.set({
             type: "info",
-            value:"保存设置成功"
+            value: "保存设置成功"
         })
     }
 
-    function loadSetting(){
+    function loadSetting() {
         settingConfig.set(saveManager.LoadSaveJson('setting')) // 加载到全局store中
     }
 
     onMount(
-        ()=>{
+        () => {
             loadSetting()
         }
     )

@@ -8,6 +8,7 @@ import  allow_scroll from "./stores/stores.js"
 import Notify from "./compontes/functions/Notify.svelte";
 import ActionPower from "./compontes/game/Nav/ActionPower.svelte";
 import ModalTemplates from "./compontes/modals/ModalTemplates.svelte";
+import NewGame from "./compontes/game/NewGame.svelte";
 
 let setting_show
 
@@ -18,6 +19,8 @@ openSetting.subscribe(value=>{
 </script>
 
 <main on:mouseleave|stopPropagation={()=>{allow_scroll.set(false)}} on:mouseenter|stopPropagation={()=>{allow_scroll.set(true)}}>
+    <NewGame />
+
     <Side/>
     <Router routes={routers}/>
     {#if setting_show === true}
@@ -38,6 +41,7 @@ openSetting.subscribe(value=>{
     <ActionPower></ActionPower>
 
     <ModalTemplates></ModalTemplates>
+
 
 </main>
 

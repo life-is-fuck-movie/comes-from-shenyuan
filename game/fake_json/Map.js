@@ -4,6 +4,7 @@ import congYu from "../characters/Impl/Naxida.js";
 import CongYu from "../characters/Impl/Naxida.js";
 import Naxida from "../characters/Impl/Naxida.js";
 import XingQiu from "../characters/Impl/XingQiu.js";
+import LingLan from "../characters/Impl/LingLan.js";
 
 function generateRandomNumbers(min, max, length, had) {
     if (length > (max - min + 1) || (had.length + length) > (max - min + 1)) {
@@ -62,6 +63,8 @@ let init_map_resource = {
             site: 212
         },
 
+
+
         {
             data: {},
             site: 205
@@ -77,6 +80,13 @@ let init_map_resource = {
                 object: new HuTao()
             },
             site: 201
+        },
+        {
+            data: {
+                name: "铃兰",
+                object: new LingLan()
+            },
+            site: 247
         },
         {
             data: {

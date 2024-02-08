@@ -6,7 +6,8 @@ const showModals = writable(
     {
         type: "character",
         flag: false,
-        data: void 0
+        data: void 0,
+        close: false // 是否允许关闭
     }
 );
 

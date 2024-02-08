@@ -1,13 +1,24 @@
-
+{#if !allow_close && show_modal}
+    <div class="barrier"></div>
+{/if}
 {#if show_modal}
     <main class="main">
-        <div class="quit" on:click={ _ => {
-            ShowModals.set({flag: false, type: "", data: void 0});
-        }}></div>
+        {#if allow_close}
+            <div class="quit" on:click={ _ => {
+                ShowModals.set({flag: false, type: "", data: void 0});
+            }}></div>
+        {/if}
+
+
         <div class="body">
             {#if modal_type === "character"}
                 <div class="title">武将 & 部队</div>
-                <GeneralDetail  character_instance={data}/>
+                <GeneralDetail character_instance={data}/>
+            {/if}
+
+            {#if modal_type === "new_game"}
+                <div class="title">新建游戏</div>
+                <NewGameModal/>
             {/if}
         </div>
     </main>
@@ -16,15 +27,18 @@
 
     import ShowModals from "/src/stores/showModals.js";
     import GeneralDetail from "./children/GeneralDetail.svelte";
+    import NewGameModal from "./children/NewGameModal.svelte";
 
     let show_modal = true
     let modal_type = null
     let data = void 0
+    let allow_close = true
 
     ShowModals.subscribe(
         v => {
             show_modal = v.flag
             modal_type = v.type
+            allow_close = v.close
             data = v.data
         }
     )
@@ -65,6 +79,16 @@
     font-size: 20px;
     color: #282828;
     font-weight: bolder;
+  }
+
+  .barrier{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #ffffff33;
+    z-index: 0;
   }
 
 
