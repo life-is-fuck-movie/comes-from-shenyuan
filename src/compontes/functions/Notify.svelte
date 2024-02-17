@@ -62,7 +62,7 @@
     .notify {
         position: fixed;
         bottom: 20px;
-        right: 35px;
+        right: 65px;
         z-index: 998;
         background-image: url("../../game_resource/assets/image/paper background.png");
         border-radius: 10px;

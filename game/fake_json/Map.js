@@ -102,7 +102,15 @@ let init_map_resource = {
             },
             site: 202
         }
-    ]
+    ],
+    power:{
+        "璃月": {
+            army: [{
+                "万云商会情报员": 10,
+                "万云商会镖师": 1
+            }]
+        }
+    }
 }
 
 class Manager{

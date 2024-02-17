@@ -80,7 +80,8 @@
                 type: "army",
                 data: {
                     army_data: map_config.army_datal,
-                    character: map_config.character
+                    character: map_config.character,
+                    power_type: map_config.character_power_type
                 }
             })
 

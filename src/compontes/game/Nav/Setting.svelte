@@ -17,7 +17,7 @@
                         //LOGO 重置游戏
                         localStorage.removeItem("map_data")
                         localStorage.removeItem("player-power")
-                        window.location = "/"
+                        window.location.reload()
                     }
                 }
                 value="新的一轮"

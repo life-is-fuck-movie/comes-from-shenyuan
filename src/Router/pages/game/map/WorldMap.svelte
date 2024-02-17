@@ -35,8 +35,6 @@ import mapResource from "../../../../../game/fake_json/mapResource.js";
 import allow_scroll from "../../../../stores/stores.js"
 import settingConfig from "../../../../stores/globalSettingConfiger.js";
 
-let demo_rich_value = mapResource.rich
-let demo_rich_value_poor = mapResource.poor
 let random = mapResource.random_rich
 import { onMount } from 'svelte';
 let self;

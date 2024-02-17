@@ -12,7 +12,7 @@
     position: fixed;
     top: calc(100vh - 230px);
     z-index: 1000;
-    right: 30px;
+    right: 60px;
 
     width: @size;
     height: @size;

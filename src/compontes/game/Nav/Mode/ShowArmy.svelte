@@ -25,54 +25,57 @@
 
     <div class="actives">
         <!--   己方角色     -->
-        <Button value="我要让你去... (1)" click={()=>{
-        }}></Button>
-        <Button value="可以参观下你的军队吗..." click={()=>{
-            let generalDetail = new GeneralDetail(data.character);
-            generalDetail.show_modal()
-        }}></Button>
-        <Button value="我要你攻击... (1)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="对于军资我有以下的意见... (1)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="你都有哪些俘虏... (3)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="想对你说些知心话... (3)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="让我给你一些职务吧... (3)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="我们来较量一下吧... (3)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="你有兴趣组建军团吗... (...)" click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="我觉得有个这地方适合你去管理..." click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="可以跟着我么..." click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="你犯下了滔天大罪，我要将你明正典刑..." click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="我觉得监狱可能更适合你..." click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="我要立你为储君..." click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="我要让你离开我们国家..." click={()=>{
-            console.log("行动")
-        }}></Button>
-        <Button value="我觉得有个这地方适合你去管理..." click={()=>{
-            console.log("行动")
-        }}></Button>
+        {#if data.power_type === "self"}
+            <Button value="我要让你去... (1)" click={()=>{
+            }}></Button>
+            <Button value="可以参观下你的军队吗..." click={()=>{
+                let generalDetail = new GeneralDetail(data.character);
+                generalDetail.show_modal()
+            }}></Button>
+            <Button value="我要你攻击... (1)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="对于军资我有以下的意见... (1)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="你都有哪些俘虏... (3)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="想对你说些知心话... (3)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="让我给你一些职务吧... (3)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="我们来较量一下吧... (3)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="你有兴趣组建军团吗... (...)" click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="我觉得有个这地方适合你去管理..." click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="可以跟着我么..." click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="你犯下了滔天大罪，我要将你明正典刑..." click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="我觉得监狱可能更适合你..." click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="我要立你为储君..." click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="我要让你离开我们国家..." click={()=>{
+                console.log("行动")
+            }}></Button>
+            <Button value="我觉得有个这地方适合你去管理..." click={()=>{
+                console.log("行动")
+            }}></Button>
+        {/if}
+
         <!--  region 友方角色     -->
         <Button value="我们要和贵国做些交易... (3)" click={()=>{
             console.log("行动")
@@ -101,7 +104,7 @@
         <Button value="贵国可以给敝国一些奴隶吗..." click={()=>{
             console.log("行动")
         }}></Button>
-<!--        endregion-->
+        <!--        endregion-->
         <!-- region 敌人角色 -->
         <Button value="给我立刻离开这里!" click={()=>{
             console.log("行动")
@@ -134,7 +137,7 @@
         <Button value="我要对你们宣战..." click={()=>{
             console.log("行动")
         }}></Button>
-<!--        endregion -->
+        <!--        endregion -->
     </div>
     <audio src={bindBox.getAudio("询问")} autoplay/>
 
@@ -178,18 +181,21 @@
     font-weight: bold;
 
   }
-    .value-show{
-      display: flex;
-      user-select: none;
 
-      justify-content: center;
-    }
+  .value-show {
+    display: flex;
+    user-select: none;
+
+    justify-content: center;
+  }
+
   .value-view {
     width: @width;
     text-align: center;
     font-size: 20px;
     color: white;
-    font-family: 幼圆,serif;
+    font-family: 幼圆, serif;
+
     img {
       display: block;
       width: @width;
