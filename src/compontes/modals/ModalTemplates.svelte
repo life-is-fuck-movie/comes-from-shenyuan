@@ -1,3 +1,4 @@
+、
 {#if !allow_close && show_modal}
     <div class="barrier"></div>
 {/if}
@@ -20,6 +21,16 @@
                 <div class="title">新建游戏</div>
                 <NewGameModal/>
             {/if}
+
+            {#if modal_type === "character_own"}
+                <div class="title">我的武将</div>
+                <MyGaneral />
+            {/if}
+
+            {#if modal_type === "army_edit"}
+                <div class="title">军队编辑</div>
+                <AramEdit form_character="{data.form}"/>
+            {/if}
         </div>
     </main>
 {/if}
@@ -28,6 +39,8 @@
     import ShowModals from "/src/stores/showModals.js";
     import GeneralDetail from "./children/GeneralDetail.svelte";
     import NewGameModal from "./children/NewGameModal.svelte";
+    import MyGaneral from "./children/MyGaneral.svelte";
+    import AramEdit from "./children/AramEdit.svelte";
 
     let show_modal = true
     let modal_type = null

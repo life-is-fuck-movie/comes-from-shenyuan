@@ -6,6 +6,8 @@ import buffDispatch from "../Buffs/BuffDispatch.js";
 /**
  * 因为JSON不方便存储方法 所以存档在这里进行BindBox
  */
+
+let nowPlay = null;
 class BindBox {
     character;
 
@@ -68,6 +70,15 @@ class BindBox {
 
     getAudio(type){
         return `/src/game_resource/assets/characters/${this.character.AliasName}/sound/${type}.wav`
+    }
+    playAudio(type){
+        let audio = new Audio(this.getAudio("军队派遣"));
+
+        if (nowPlay !== null){
+            nowPlay.pause()
+        }
+        nowPlay = audio
+        audio.play();
     }
 
     getBuffTrigger(triggerEvent){

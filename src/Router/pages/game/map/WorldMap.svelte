@@ -22,7 +22,7 @@
             {#if id % 40 === 0}
                 <clear></clear>
             {/if}
-            <DefaultMap map_resource="{random(id)}" clazz="small_map" />
+            <DefaultMap map_resource="{random(id)}" clazz="small_map default-map-{id}" />
         {/each}
     </div>
 

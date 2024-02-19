@@ -8,7 +8,7 @@
 
     {#if map_config.has_army}
         <img src="{new BindBox(map_config.character).getAvatar()}" class="aram-header"/>
-        <div class="aram-name">
+        <div class={get_icon()}>
             {#if map_config.character_power_type === "self"}
                 <span class="self-logo">我</span>
             {/if}
@@ -41,6 +41,8 @@
 
     let clazz = ""
     export {clazz}
+
+
 
 
     let self;
@@ -109,6 +111,16 @@
             show_mode.set({
                 type: "default"
             })
+        }
+    }
+    function get_icon(){
+        if (map_config.character_power_type === "self"){
+            return "self-aram-name"
+        }
+        else if (map_config.character_power_type === "enemy"){
+            return  "enemy-aram-name"
+        }else{
+            return "aram-name"
         }
     }
 
@@ -239,6 +251,18 @@
     margin: auto;
     padding: 4px 15px;
     background: #9b7f3e;
+    color: white;
+  }
+
+  .self-aram-name {
+    text-align: center;
+    font-family: 楷体, serif;
+    font-weight: bold;
+    font-size: 25px;
+    width: fit-content;
+    margin: auto;
+    padding: 4px 15px;
+    background: green;
     color: white;
   }
 

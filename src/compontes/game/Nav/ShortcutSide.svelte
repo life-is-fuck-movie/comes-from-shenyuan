@@ -1,5 +1,12 @@
 <script>
+    import ShowModals from "../../../stores/showModals.js";
+
     function show_my_general(){
+        ShowModals.set({
+            flag: true,
+            type: "character_own",
+            close: true
+        })
 
     }
 </script>

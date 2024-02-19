@@ -14,7 +14,7 @@ class Naxida extends CharacterTemplates{
         SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
     }
 
-    Belongs = "须弥"
+    Belongs = "璃月"
 
     Status = {
         is_die: false, // 是否死亡
@@ -22,6 +22,7 @@ class Naxida extends CharacterTemplates{
         now_job: [], // 当前所在的职位
         overloads: [], // 所携带的物品
         ranks: {
+            "教令院使者": 2
         } //  当前角色所拥有的军队
     }
 }

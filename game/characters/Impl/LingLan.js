@@ -19,16 +19,16 @@ class LingLan extends CharacterTemplates{
 
     SkillsName = {
         SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
-    }
+}
 
-    Status = {
-        is_die: false, // 是否死亡
-        in_jail: null, // 所在监狱的地图名称
-        now_job: [], // 当前所在的职位
-        overloads: [], // 所携带的物品
-        ranks: {
-            "小狐狸": 20,
-        } //  当前角色所拥有的军队
-    }
+Status = {
+    is_die: false, // 是否死亡
+    in_jail: null, // 所在监狱的地图名称
+    now_job: [], // 当前所在的职位
+    overloads: [], // 所携带的物品
+    ranks: {
+        "小狐狸": 20,
+    } //  当前角色所拥有的军队
+}
 }
 export default LingLan
