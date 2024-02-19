@@ -2,6 +2,7 @@ import SkillDict from "../skills/SkillDict.js";
 import Save from "../other/tools/Save.js";
 import BuffDispatch from "../Buffs/BuffDispatch.js";
 import buffDispatch from "../Buffs/BuffDispatch.js";
+import RefreshMapData from "../../src/stores/RefreshMapData.js";
 
 /**
  * 因为JSON不方便存储方法 所以存档在这里进行BindBox
@@ -72,13 +73,18 @@ class BindBox {
         return `/src/game_resource/assets/characters/${this.character.AliasName}/sound/${type}.wav`
     }
     playAudio(type){
-        let audio = new Audio(this.getAudio(type));
+        try{
+            let audio = new Audio(this.getAudio(type));
 
-        if (nowPlay !== null){
-            nowPlay.pause()
+            if (nowPlay !== null){
+                nowPlay.pause()
+            }
+            nowPlay = audio
+            audio.play();
+        }catch{
+            console.log("似乎没有音频?")
         }
-        nowPlay = audio
-        audio.play();
+
     }
 
     getBuffTrigger(triggerEvent){

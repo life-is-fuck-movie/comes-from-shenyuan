@@ -1,5 +1,6 @@
 import to_character from "../../src/stores/toCharacter.js";
 import BindBox from "../characters/BindBox.js";
+import RefreshMapData from "../../src/stores/RefreshMapData.js";
 
 class ArmyChage {
     do(supplies) {
@@ -26,6 +27,9 @@ class ArmyChage {
         if(character_form.Status.ranks[armyName] >= count){
             bindbox.playAudio("军队派遣")
             character_form.Status.ranks[armyName] -= count
+            if (character_form.Status.ranks[armyName] === 0){
+                delete character_form.Status.ranks[armyName] // 这个兵种就没有
+            }
             if (character_to.Status.ranks[armyName] == null)
                 character_to.Status.ranks[armyName] = count
             else
@@ -47,6 +51,8 @@ class ArmyChage {
         console.log(character_form.Name, character_to.Name)
         new BindBox(character_form).Save()
         new BindBox(character_to).Save()
+        console.log(character_to.Status.ranks)
+        RefreshMapData.set(Math.random())
     }
 }
 

@@ -42,9 +42,6 @@
     let clazz = ""
     export {clazz}
 
-
-
-
     let self;
     let ground_style;
 
