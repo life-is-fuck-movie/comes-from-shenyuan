@@ -1,7 +1,10 @@
 <main>
     {#if character !== undefined}
         {#each Object.keys(character.Status.ranks) as armyname}
-            <ArmyElement army={armyname} count={character.Status.ranks[armyname]} to_mode={to_mode}/>
+            {#if character.Status.ranks[armyname] > 0}
+                <ArmyElement army={armyname} count={character.Status.ranks[armyname]} to_mode={to_mode}/>
+
+            {/if}
         {/each}
 
         {#if Object.keys(character.Status.ranks).length === 0}
@@ -15,7 +18,7 @@
     import to_character from "/src/stores/toCharacter.js";
     import {onMount} from "svelte";
 
-    export let character;
+    let character;
     export let to_mode = false;
 
 
@@ -23,9 +26,12 @@
     to_character.subscribe(
         value => {
             if (to_mode === true) {
-                console.log(value)
                 if (value !== null)
                     character = value.to
+            } else {
+                if (value !== null) {
+                    character = value.form
+                }
             }
         }
     )
@@ -33,7 +39,7 @@
 </script>
 
 <style>
-    .none{
+    .none {
         color: slategray;
         border: red 1px dashed;
         margin-top: 10px;

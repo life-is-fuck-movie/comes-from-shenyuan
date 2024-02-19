@@ -46,6 +46,17 @@ class CharactersDescriptor {
         let power = localStorage.getItem("player-power");
         return this.getPowerCharacter(power);
     }
+
+    loadCharacterByID(id){
+        let map_data = Save.LoadSaveJson("map_data")
+        let armies = map_data.army;
+        for (let army of armies){
+            let obj = army.data.object;
+            if (obj.ID === id){
+                return obj
+            }
+        }
+    }
 }
 
 export default CharactersDescriptor

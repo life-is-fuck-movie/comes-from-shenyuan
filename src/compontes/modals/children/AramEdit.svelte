@@ -9,11 +9,13 @@
 
     export let form_character
 
+
+
     onMount(
-        ()=>{
+        () => {
             let default_character = characterDescriptor.getUserCharacter()
             default_character = default_character.filter(
-                i => i.ID !==  form_character.ID
+                i => i.ID !== form_character.ID
             )
             to_character.set({
                 form: form_character,
@@ -26,7 +28,7 @@
 <main class="main">
     <div class="character-army">
         这是 {form_character.Name} 的军队
-        <Armymananger character={form_character}></Armymananger>
+        <Armymananger to_mode={false}></Armymananger>
     </div>
     <div class="mode">
         &lt;=&gt;
@@ -35,17 +37,17 @@
         军队管理对象
 
         <select on:change={()=>{
-            let character = JSON.parse(event.target.value);
+            let character = characterDescriptor.loadCharacterByID(event.target.value);
             to_character.set({
                 form: form_character,
                 to: character
             })
         }}>
-            {#each characterDescriptor.getUserCharacter() as character}
-                {#if character.ID !== form_character.ID}
-                    <option value={JSON.stringify(character)}>{character.Name}</option>
-                {/if}
-            {/each}
+                {#each characterDescriptor.getUserCharacter() as character}
+                    {#if character.ID !== form_character.ID}
+                        <option value={character.ID}>{character.Name}</option>
+                    {/if}
+                {/each}
         </select>
 
         <Armymananger to_mode={true}></Armymananger>
@@ -61,7 +63,8 @@
         height: 50vh;
         justify-content: space-around;
     }
-    .mode{
+
+    .mode {
         align-items: center !important;
         height: 50vh;
         display: flex;

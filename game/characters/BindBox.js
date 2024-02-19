@@ -72,7 +72,7 @@ class BindBox {
         return `/src/game_resource/assets/characters/${this.character.AliasName}/sound/${type}.wav`
     }
     playAudio(type){
-        let audio = new Audio(this.getAudio("军队派遣"));
+        let audio = new Audio(this.getAudio(type));
 
         if (nowPlay !== null){
             nowPlay.pause()
