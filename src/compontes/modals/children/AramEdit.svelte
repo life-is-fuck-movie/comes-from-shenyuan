@@ -30,9 +30,7 @@
         这是 {form_character.Name} 的军队
         <Armymananger to_mode={false}></Armymananger>
     </div>
-    <div class="mode">
-        &lt;=&gt;
-    </div>
+
     <div class="character-army">
         军队管理对象
 

@@ -1,9 +1,12 @@
 import to_character from "../../src/stores/toCharacter.js";
 import BindBox from "../characters/BindBox.js";
 import RefreshMapData from "../../src/stores/RefreshMapData.js";
+import Notify from "../../src/stores/notify.js";
 
 class ArmyChage {
     do(supplies) {
+        let flag = true;
+
         let character_form;
         let character_to;
 
@@ -21,7 +24,11 @@ class ArmyChage {
             character_to = character_form
             character_form = temp
         }
-        console.log(`从${character_form.Name}的军队拿出${armyName}${count}名给${character_to.Name}`)
+        let str = (`从${character_form.Name}的军队派出【${armyName}】${count}名给${character_to.Name}`)
+        Notify.set({
+            type:"info",
+            value: str
+        })
         let bindbox = new BindBox(character_form)
         // TODO 军队派遣
         if(character_form.Status.ranks[armyName] >= count){
@@ -34,8 +41,10 @@ class ArmyChage {
                 character_to.Status.ranks[armyName] = count
             else
                 character_to.Status.ranks[armyName] += count
+
         }else {
             bindbox.playAudio("军队派遣失败")
+            return  false
         }
 
 
@@ -53,6 +62,8 @@ class ArmyChage {
         new BindBox(character_to).Save()
         console.log(character_to.Status.ranks)
         RefreshMapData.set(Math.random())
+        flag = true
+        return flag
     }
 }
 

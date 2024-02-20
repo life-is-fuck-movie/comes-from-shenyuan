@@ -1,4 +1,6 @@
+
 <main>
+
     <div class="army-detail">
         {army}  {count}
         <span class="manager-btn" on:click={
@@ -13,12 +15,15 @@
             <input type="range" id="slider" name="slider" min="0" max={count} bind:value={count_give}>{count_give}
             <Button value="给对面!" click={chage}></Button>
         {/if}
+
+
     </div>
 </main>
 
 <script>
     import Button from "../functions/Button.svelte";
     import ArmyChage from "../../../game/other/armyChage.js";
+    import toast from "/src/stores/toast.js";
 
     export let army = "";
     export let count = 0;
@@ -31,13 +36,27 @@
 
     let armyChange =new  ArmyChage()
 
+    let success_handler = false;
+    let error_handler = false
+
     function chage(){
         let argument = {
             armyName: army,
             count: count_give,
             mode: to_mode
         }
-        armyChange.do(argument)
+        let ret = armyChange.do(argument)
+        if(ret){
+            toast.set({
+                show_code: Math.random(),
+                value: "成功派遣!"
+            })
+        }else{
+            toast.set({
+                show_code: Math.random(),
+                value: "派遣失败!"
+            })
+        }
 
     }
 
