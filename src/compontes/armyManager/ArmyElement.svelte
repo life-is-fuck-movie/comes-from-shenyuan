@@ -24,6 +24,7 @@
     import Button from "../functions/Button.svelte";
     import ArmyChage from "../../../game/other/armyChage.js";
     import toast from "/src/stores/toast.js";
+    import ToastManager from "../../../game/other/ToastManager.js";
 
     export let army = "";
     export let count = 0;
@@ -46,16 +47,14 @@
             mode: to_mode
         }
         let ret = armyChange.do(argument)
-        if(ret){
-            toast.set({
-                show_code: Math.random(),
-                value: "成功派遣!"
-            })
+        if(count_give < 1){
+            ToastManager.sendToast("派遣人数需要大于1")
+            return
+        }
+        if(ret === true){
+            ToastManager.sendToast(`成功【${count_give}个】派遣【${army}】!`)
         }else{
-            toast.set({
-                show_code: Math.random(),
-                value: "派遣失败!"
-            })
+            ToastManager.sendToast(ret)
         }
 
     }

@@ -44,7 +44,7 @@ class ArmyChage {
 
         }else {
             bindbox.playAudio("军队派遣失败")
-            return  false
+            return  `${character_form.Name}的【${armyName}】不足以派遣`
         }
 
 

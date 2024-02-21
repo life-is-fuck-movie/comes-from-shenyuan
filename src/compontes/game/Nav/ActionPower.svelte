@@ -10,9 +10,9 @@
     user-select: none;
 
     position: fixed;
-    top: calc(100vh - 230px);
-    z-index: 1000;
-    right: 60px;
+    top: 10px;
+    z-index: 9000;
+    right: 20px;
 
     width: @size;
     height: @size;

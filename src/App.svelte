@@ -28,14 +28,19 @@
             if (v.value !== "") {
                 show_flag = true;
                 toast_value = v.value
-                try {
-                    clearTimeout(an)
-                } catch {} // 事件防抖
-                an = setTimeout(
-                    () => {
-                        show_flag = false
-                    }, 2000
-                )
+
+                if (v.flag){
+
+                }else{
+                    try {
+                        clearTimeout(an)
+                    } catch {} // 事件防抖
+                    an = setTimeout(
+                        () => {
+                            show_flag = false
+                        }, 2000
+                    )
+                }
             }
         }
     )

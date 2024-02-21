@@ -9,16 +9,26 @@
     <h4 class="belongs-to">
         {belongs}
     </h4>
+
+    {#if data.with_run}
+        <Button value="你可以在这里先住下吧..."/>
+        <Button value="带领你的部下进攻此处..."/>
+        <Button value="要不你就在这里要做点坏事情..."/>
+        <Button value="" />
+    {/if}
 </main>
 
 <script>
 
     import {onMount} from "svelte";
     import mapManager from "/game/fake_json/Map.js"
+    import Button from "../../../functions/Button.svelte";
+
 
     export let data
 
     let map_name = data.city_name
+
     let belongs = "2"
     let city_mode = "nice"
     let mapper_image = {
@@ -50,7 +60,6 @@
   .main-city {
     color: white;
     font-family: 楷体;
-
   }
 
   .viewer {

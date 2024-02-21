@@ -45,7 +45,7 @@ let init_map_resource = {
                 belongs: "璃月",
                 rich: "small",
             },
-            site: 164
+            site: 162
         },
         {
             data: {
@@ -93,7 +93,7 @@ let init_map_resource = {
                 name: "纳西妲",
                 object:  new Naxida()
             },
-            site: 204
+            site: 242
         },
         {
             data: {

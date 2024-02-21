@@ -1,4 +1,4 @@
-<main class="app-default-map {clazz}" bind:this={self} on:click={clickEvent}>
+<main class="app-default-map {runhere !== false ? runhere :'' } {clazz}" bind:this={self} on:click={clickEvent}>
     {map_resource.point_id}
     {#if map_config.has_city}
         <img class="center-icon" src="/src/game_resource/assets/image/towndown/church.gif"/>
@@ -36,6 +36,8 @@
     import sideSwitch from "../../../stores/sideSwitch.js";
     import BindBox from "../../../../game/characters/BindBox.js";
     import RefreshMapData from "../../../stores/RefreshMapData.js";
+    import renderMap from "../../../stores/renderMap.js";
+    import Save from "../../../../game/other/tools/Save.js";
 
     export let map_resource; // 地图资源对象
 
@@ -44,6 +46,8 @@
 
     let self;
     let ground_style;
+
+    let runhere = false;
 
 
     let map_config = {
@@ -54,69 +58,100 @@
         character: null,
         has_wood: false,
         has_store: false,
-        character_power_type: null
+        character_power_type: null,
+        with_run: false
     }
 
     function clickEvent() {
-        if (map_config.has_city) {
-            // 点击的是城市
-
-            sideSwitch.set(true)
-
-            show_mode.set({
-                type: "city",
-                data: {
-                    city_name: map_config.city_name
-                }
-            })
-
-            sideSwitch.set(false)
-
-        } else if (map_config.has_army) {
-            sideSwitch.set(true)
-
-            show_mode.set({
-                type: "army",
-                data: {
-                    army_data: map_config.army_datal,
-                    character: map_config.character,
-                    power_type: map_config.character_power_type
-                }
-            })
-
-            sideSwitch.set(false)
-        } else if (map_config.has_wood) {
-            sideSwitch.set(true)
-
-            show_mode.set({
-                type: "wood"
-            })
-
-            sideSwitch.set(false)
-        } else if (map_config.has_store) {
-            sideSwitch.set(true)
-
-            show_mode.set({
-                type: "store"
-            })
-
-            sideSwitch.set(false)
-        } else // TODO 不同单元格的点击事件
+        if (runhere)
         {
-            // 无单位格子
-            sideSwitch.set(true)
-            show_mode.set({
-                type: "default"
-            })
+            if(runhere === "city-runhere"){
+                console.log("城市")
+                show_mode.set({
+                    type: "city",
+                    data: {
+                        city_name: map_config.city_name,
+                        with_run: true
+                    }
+                })
+                sideSwitch.set(false)
+            }else if(runhere === "self-runhere"){
+                show_mode.set({
+                    type: "army",
+                    data: {
+                        army_data: map_config.army_datal,
+                        character: map_config.character,
+                        power_type: map_config.character_power_type,
+                        site: parseInt(map_resource.point_id),
+                        with_run: true
+                    }
+                })
+                sideSwitch.set(false)
+            }
+        }
+        else
+        {
+            if (map_config.has_city) {
+                // 点击的是城市
+
+                sideSwitch.set(true)
+
+                show_mode.set({
+                    type: "city",
+                    data: {
+                        city_name: map_config.city_name
+                    }
+                })
+
+                sideSwitch.set(false)
+
+            } else if (map_config.has_army) {
+                sideSwitch.set(true)
+
+                show_mode.set({
+                    type: "army",
+                    data: {
+                        army_data: map_config.army_datal,
+                        character: map_config.character,
+                        power_type: map_config.character_power_type,
+                        site: parseInt(map_resource.point_id)
+                    }
+                })
+
+                sideSwitch.set(false)
+            } else if (map_config.has_wood) {
+                sideSwitch.set(true)
+
+                show_mode.set({
+                    type: "wood"
+                })
+
+                sideSwitch.set(false)
+            } else if (map_config.has_store) {
+                sideSwitch.set(true)
+
+                show_mode.set({
+                    type: "store"
+                })
+
+                sideSwitch.set(false)
+            } else // TODO 不同单元格的点击事件
+            {
+                // 无单位格子
+                sideSwitch.set(true)
+                show_mode.set({
+                    type: "default"
+                })
+            }
         }
     }
-    function get_icon(){
-        if (map_config.character_power_type === "self"){
+
+    function get_icon() {
+        if (map_config.character_power_type === "self") {
             return "self-aram-name"
-        }
-        else if (map_config.character_power_type === "enemy"){
-            return  "enemy-aram-name"
-        }else{
+        } else if (map_config.character_power_type === "enemy") {
+            return "enemy-aram-name"
+        } else {
             return "aram-name"
         }
     }
@@ -195,8 +230,44 @@
                 }
             }
         )
+
+        renderMap.subscribe(
+            //TODO 这里渲染地图信息
+            v => {
+                if (v.mode !== null) {
+                    console.log(map_resource.point_id)
+                    for (let i of v.command) {
+                        let site = i + ""
+                        console.log(map_resource.point_id === i, map_resource.point_id, i)
+                        if (map_resource.point_id === i) {
+                            if (v.mode === "target") { // 目标
+                                if (map_config.has_army) {
+                                    if (map_config.character.Belongs === Save.LoadSave("player-power")) {
+                                        runhere = "self-runhere" // 友军
+                                    } else {
+                                        runhere = "bad-runhere" // 友军
+                                    }
+                                } else if (map_config.has_wood || map_config.has_store) {
+                                    runhere = "resource-runhere" // 资源
+                                } else if (map_config.has_city) {
+                                    runhere = "city-runhere" // 城市
+                                } else {
+                                    runhere = "runhere"
+                                }
+                            } else if (v.mode === "clear") {
+                                runhere = false
+                            }
+                        }
+                    }
+                }
+            }
+        )
+
+
         render_map()
     })
+
+
 </script>
 
 <style lang="less">
@@ -213,7 +284,7 @@
   .city_name {
     text-align: center;
     margin-top: 10px;
-    font-family: 楷体;
+    font-family: 楷体, serif;
   }
 
   .app-default-map {
@@ -272,4 +343,118 @@
     background: #5eff00;
     color: #000;
   }
+
+  @layer {
+    .runhere {
+      position: relative !important;
+
+      &:after {
+        position: absolute;
+        background: #08E7EACC !important;
+
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: "前进";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: 楷体, serif;
+
+      }
+    }
+
+    .self-runhere {
+      position: relative !important;
+
+      &:after {
+        position: absolute;
+        background: #08E7EACC !important;
+
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: "本国将军";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: 楷体, serif;
+
+      }
+    }
+
+    .bad-runhere {
+      position: relative !important;
+
+      &:after {
+        position: absolute;
+        background: rgba(171, 71, 71, 0.78) !important;
+        color: white;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: "他国将军";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: 楷体, serif;
+
+      }
+
+    }
+
+    .resource-runhere {
+      position: relative !important;
+
+      &:after {
+        position: absolute;
+        background: #08E7EACC !important;
+
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: "移动并采取资源";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: 楷体, serif;
+
+      }
+    }
+
+    .city-runhere {
+      position: relative !important;
+
+      &:after {
+        position: absolute;
+        background: #08E7EACC !important;
+
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: "城市管理";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: 楷体, serif;
+
+      }
+    }
+  }
+
 </style>

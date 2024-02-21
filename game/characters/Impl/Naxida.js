@@ -14,7 +14,7 @@ class Naxida extends CharacterTemplates{
         SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
     }
 
-    Belongs = "璃月"
+    Belongs = "须弥"
 
     Status = {
         is_die: false, // 是否死亡
