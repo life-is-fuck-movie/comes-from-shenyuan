@@ -5,7 +5,10 @@ import { writable } from 'svelte/store';
 const toast = writable({
     show_code: Math.random(),
     value: "",
-    flag: false
+    flag: false,
+    callback(){
+
+    }
 });
 
 export default toast;

@@ -38,6 +38,8 @@
     import RefreshMapData from "../../../stores/RefreshMapData.js";
     import renderMap from "../../../stores/renderMap.js";
     import Save from "../../../../game/other/tools/Save.js";
+    import Rendetor from "../../../../game/other/Rendetor.js";
+    import go2here from "../../../../game/actives/go2here.js";
 
     export let map_resource; // 地图资源对象
 
@@ -48,6 +50,7 @@
     let ground_style;
 
     let runhere = false;
+    let render_data;
 
 
     let map_config = {
@@ -63,9 +66,8 @@
     }
 
     function clickEvent() {
-        if (runhere)
-        {
-            if(runhere === "city-runhere"){
+        if (runhere) {
+            if (runhere === "city-runhere") {
                 console.log("城市")
                 show_mode.set({
                     type: "city",
@@ -75,7 +77,7 @@
                     }
                 })
                 sideSwitch.set(false)
-            }else if(runhere === "self-runhere"){
+            } else if (runhere === "self-runhere") {
                 show_mode.set({
                     type: "army",
                     data: {
@@ -87,10 +89,13 @@
                     }
                 })
                 sideSwitch.set(false)
+            } else if (runhere === "display-runhere") {
+                new go2here().stop_target()
+            } else if (runhere === "runhere") {
+                new go2here().moveCharacter(render_data.character, map_resource.point_id);
             }
-        }
-        else
-        {
+            //TODO 不同的RUNHERE在这里
+        } else {
             if (map_config.has_city) {
                 // 点击的是城市
 
@@ -158,7 +163,7 @@
 
     function render_map() {
 
-        // region 根据??置颜色深度
+        // region 颜色深度
         ground_style = `rgb(173, 255, 4)`
         self.style.background = ground_style
         // endregion
@@ -213,13 +218,30 @@
 
         if (woods.includes(my_id)) {
             map_config.has_wood = true
+            return;
         } else if (stones.includes(my_id)) {
             map_config.has_store = true
+            return;
         }
 
         // endregion
 
         // endregion
+
+        // region 渲染普通的地图
+        map_config = {
+            has_city: false,
+            city_name: "",
+            has_army: false,
+            army_data: null,
+            character: null,
+            has_wood: false,
+            has_store: false,
+            character_power_type: null,
+            with_run: false
+        }
+        // endregion
+
     }
 
     onMount(() => {
@@ -230,35 +252,20 @@
                 }
             }
         )
-
         renderMap.subscribe(
             //TODO 这里渲染地图信息
             v => {
-                if (v.mode !== null) {
-                    console.log(map_resource.point_id)
-                    for (let i of v.command) {
-                        let site = i + ""
-                        console.log(map_resource.point_id === i, map_resource.point_id, i)
-                        if (map_resource.point_id === i) {
-                            if (v.mode === "target") { // 目标
-                                if (map_config.has_army) {
-                                    if (map_config.character.Belongs === Save.LoadSave("player-power")) {
-                                        runhere = "self-runhere" // 友军
-                                    } else {
-                                        runhere = "bad-runhere" // 友军
-                                    }
-                                } else if (map_config.has_wood || map_config.has_store) {
-                                    runhere = "resource-runhere" // 资源
-                                } else if (map_config.has_city) {
-                                    runhere = "city-runhere" // 城市
-                                } else {
-                                    runhere = "runhere"
-                                }
-                            } else if (v.mode === "clear") {
-                                runhere = false
-                            }
-                        }
-                    }
+                let render = new Rendetor();
+
+                if (v.data !== null) {
+                    render_data = v.data
+                }
+
+                if (v.mode === "target") { // 目标
+                    runhere = render.target_render_event(map_config, runhere, map_resource, v)
+
+                } else if (v.mode === "clear") {
+                    runhere = false
                 }
             }
         )
@@ -294,6 +301,7 @@
     transition: .3s;
     border: 1px seagreen solid;
     box-sizing: border-box;
+    cursor: none;
 
     &:hover {
       background: aquamarine !important;
@@ -394,7 +402,7 @@
 
       &:after {
         position: absolute;
-        background: rgba(171, 71, 71, 0.78) !important;
+        background: rgba(255, 82, 238, .80) !important;
         color: white;
         width: 100%;
         height: 100%;
@@ -455,6 +463,29 @@
 
       }
     }
+
+    .display-runhere {
+      position: relative !important;
+
+      &:after {
+        position: absolute;
+        background: rgba(164, 24, 86, 0.8) !important;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: "取消移动";
+        display: flex;
+        color: cornsilk;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: 楷体, serif;
+      }
+    }
+
   }
+
 
 </style>

@@ -23,18 +23,29 @@
     let show_flag = false;
     let toast_value;
     let an;
+    let toast_callback = () => {
+        console.log("默认毁掉")
+        show_flag = false
+    }
     toast.subscribe(
         v => {
             if (v.value !== "") {
                 show_flag = true;
                 toast_value = v.value
+                if (v.callback) {
+                    console.log("设置回调")
+                    toast_callback = v.callback
+                }
+                if (v.flag && v.flag !== "Now") {
 
-                if (v.flag){
-
-                }else{
+                } else if (v.flag === "Now") {
+                    console.log("里客观")
+                    show_flag = false
+                } else {
                     try {
                         clearTimeout(an)
-                    } catch {} // 事件防抖
+                    } catch {
+                    } // 事件防抖
                     an = setTimeout(
                         () => {
                             show_flag = false
@@ -74,7 +85,9 @@
 
 </script>
 {#if show_flag}
-    <div class="toast" type="success">
+    <div class="toast" type="success" on:click={()=>{
+toast_callback()
+    }}>
         <div class="toast-inner" transition:fade>{toast_value}</div>
     </div>
 {/if}

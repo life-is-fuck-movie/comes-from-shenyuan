@@ -1,12 +1,23 @@
 import renderMap from "../../src/stores/renderMap.js";
 
 class RenderMapManager {
-    target_render(array) {
+    target_render(character, array) {
         renderMap.set({
             mode: "target",
-            command: array
+            command: array,
+            data: {
+                character: character,
+            }
         })
     }
+
+    clear_render() {
+        renderMap.set({
+            mode: "clear"
+        })
+    }
+
+
 
 }
 
