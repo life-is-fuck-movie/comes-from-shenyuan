@@ -12,6 +12,7 @@
     import ShortcutSide from "./compontes/game/Nav/ShortcutSide.svelte";
     import {fade} from 'svelte/transition'
     import toast from "./stores/toast.js";
+    import ResourceView from "./compontes/game/Nav/ResourceView.svelte";
 
     let setting_show
 
@@ -114,12 +115,11 @@ toast_callback()
             }}
     />
 
-    <ActionPower></ActionPower>
 
     <ShortcutSide/>
 
     <ModalTemplates></ModalTemplates>
-
+    <ResourceView/>
 
 </main>
 

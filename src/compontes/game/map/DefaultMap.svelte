@@ -93,6 +93,8 @@
                 new go2here().stop_target()
             } else if (runhere === "runhere") {
                 new go2here().moveCharacter(render_data.character, map_resource.point_id);
+            } else if (runhere === "resource-runhere") {
+                
             }
             //TODO 不同的RUNHERE在这里
         } else {

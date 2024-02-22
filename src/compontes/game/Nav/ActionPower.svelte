@@ -34,16 +34,7 @@
 </style>
 
 <script>
-    import return_value from "../../../stores/active-power-value.js";
-    let activePowerValue = return_value.status
-    let active_power;
 
-    activePowerValue.subscribe(
-        v => {
-            active_power = v
-            localStorage["active-power"] = v
-        }
-    )
 
 
 

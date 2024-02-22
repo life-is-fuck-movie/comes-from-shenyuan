@@ -22,7 +22,7 @@ class Go2here {
     }
     render(can_run_sheets){
         SideSwitch.set(true)
-        ToastManager.sendToastNoDestroy("请选择你要前往的地点, 点击我取消操作", ()=>{
+        ToastManager.sendToastNoDestroy("【cost: 一点行动力】请选择你要前往的地点, 点击我取消操作", ()=>{
             this.stop_target()
         }) // 通知存在
         RenderMapManager.target_render(this.character, can_run_sheets)  // 渲染
