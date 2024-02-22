@@ -6,6 +6,7 @@ import renderMapManager from "../other/RenderMapManager.js";
 import Save from "../other/tools/Save.js";
 import RefreshMapData from "../../src/stores/RefreshMapData.js";
 import sideSwitch from "../../src/stores/sideSwitch.js";
+import activePowerValue from "../../src/stores/active-power-value.js";
 
 class Go2here {
     site;
@@ -72,6 +73,12 @@ class Go2here {
     moveCharacter(character, site){
         let save = Save.LoadSaveJson("map_data")
         console.log(site)
+
+        if (!activePowerValue.expend(1)){
+            this.stop_target()
+            ToastManager.sendToast("体力不足! 请在补充体力在继续!!!")
+            return
+        }
 
         let armies = save.army
         console.log(armies)

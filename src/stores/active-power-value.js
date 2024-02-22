@@ -17,6 +17,9 @@ function expend(value) {
             let ret = value1 - value;
             flag = ret >= 0;
             if (flag){return ret}
+            else{
+                return value1
+            }
     }) // 修改
     return flag
 }
