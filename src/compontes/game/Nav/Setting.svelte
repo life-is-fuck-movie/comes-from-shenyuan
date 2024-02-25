@@ -18,8 +18,9 @@
                         localStorage.removeItem("map_data")
                         localStorage.removeItem("player-power")
 
-                        localStorage["active-power"] = "5"
+                        localStorage["active-power"] = "30"
                         localStorage["resource"] = `{"wood": 0,"stone": 0}`
+
                         window.location.reload()
                     }
                 }
@@ -123,6 +124,8 @@
     import settingConfig from "../../../stores/globalSettingConfiger.js";
     import notify_value from "../../../stores/notify.js";
     import Button from "../../functions/Button.svelte";
+    import RefreshMapData from "../../../stores/RefreshMapData.js";
+    import Map from "../../../../game/fake_json/Map.js";
 
     let setting_config
 

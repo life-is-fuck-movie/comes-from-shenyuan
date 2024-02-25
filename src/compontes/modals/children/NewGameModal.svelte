@@ -21,7 +21,7 @@
             value: "玩家选择了" + select_power + "势力!",
             headimage: "/src/game_resource/assets/characters/congyu/headimage.jpg"
         })
-        RefreshMapData.set(true)
+        window.location.reload()
     }
 </script>
 

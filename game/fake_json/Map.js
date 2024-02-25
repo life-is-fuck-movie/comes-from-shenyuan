@@ -62,7 +62,7 @@ for(let army of armies){
     no_cant.push(army.site)
 }
 let stones = generateRandomNumbers(0, 1199, 200, no_cant)
-let woods  = generateRandomNumbers(0, 1199, 200, stones)
+let woods  = generateRandomNumbers(0, 1199, 200, stones.concat(no_cant))
 
 
 // 这个是初始化地图的数据 如果修改 请删除localStorage的map_data
