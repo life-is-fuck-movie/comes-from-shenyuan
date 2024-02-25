@@ -1,5 +1,6 @@
 import resource from "../../src/stores/resource.js";
 import Save from "./tools/Save.js";
+import Notify from "../../src/stores/notify.js";
 
 let sub_res;
 resource.subscribe(
@@ -14,6 +15,14 @@ class ResourceManager {
         if (this.hasStone(value)) {
             resource.set(sub_res)
             Save.WriteSaveJSON("resource", sub_res) // 存档
+            let logo = "失去"
+            if (value>0){
+                logo = "获取"
+            }
+            Notify.set({
+                type:"info",
+                value: `${logo}资源 【石头】 ${value} 个`
+            })
             return true
         }
         return false
@@ -24,6 +33,14 @@ class ResourceManager {
         if (this.hasWood(value)) {
             resource.set(sub_res)
             Save.WriteSaveJSON("resource", sub_res) // 存档
+            let logo = "失去"
+            if (value>0){
+                logo = "获取"
+            }
+            Notify.set({
+                type:"info",
+                value: `${logo}资源 【木头】 ${value} 个`
+            })
             return true
         }
         return false
