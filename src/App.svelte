@@ -25,7 +25,7 @@
     let toast_value;
     let an;
     let toast_callback = () => {
-        console.log("默认毁掉")
+        // console.log("默认毁掉")
         show_flag = false
     }
     toast.subscribe(
@@ -34,13 +34,11 @@
                 show_flag = true;
                 toast_value = v.value
                 if (v.callback) {
-                    console.log("设置回调")
                     toast_callback = v.callback
                 }
                 if (v.flag && v.flag !== "Now") {
 
                 } else if (v.flag === "Now") {
-                    console.log("里客观")
                     show_flag = false
                 } else {
                     try {
@@ -106,12 +104,10 @@ toast_callback()
 
     <Notify
             on:mouseleave={()=>{
-                console.log("mouseleave")
                 allow_scroll.set(false)
             }}
             on:mouseenter={()=>{
                 allow_scroll.set(true)
-                console.log("mouseleave")
             }}
     />
 

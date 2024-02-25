@@ -7,28 +7,33 @@ import Save from "../other/tools/Save.js";
 import RefreshMapData from "../../src/stores/RefreshMapData.js";
 import sideSwitch from "../../src/stores/sideSwitch.js";
 import activePowerValue from "../../src/stores/active-power-value.js";
+import ResourceManager from "../other/resourceManager.js";
+import SaveMapDataManager from "../other/saveMapDataManager.js";
+import saveMapDataManager from "../other/saveMapDataManager.js";
 
 class Go2here {
     site;
     character;
 
-    constructor(site=null, character=null) {
-        if (site === null || character === null){
+    constructor(site = null, character = null) {
+        if (site === null || character === null) {
 
-        }else{
+        } else {
             this.site = site;
             this.character = character
             this.render(this.get_can_run())
         }
     }
-    render(can_run_sheets){
+
+    render(can_run_sheets) {
         SideSwitch.set(true)
-        ToastManager.sendToastNoDestroy("【cost: 一点行动力】请选择你要前往的地点, 点击我取消操作", ()=>{
+        ToastManager.sendToastNoDestroy("【cost: 一点行动力】请选择你要前往的地点, 点击我取消操作", () => {
             this.stop_target()
         }) // 通知存在
         RenderMapManager.target_render(this.character, can_run_sheets)  // 渲染
 
     }
+
     get_can_run() {
         let can_run_sheets = []
         let site = this.site
@@ -59,33 +64,54 @@ class Go2here {
         return can_run_sheets
     }
 
-    stop_target(){
-        ToastManager.closeToast(
-            ()=>{
-                RenderMapManager.clear_render()
-            }
-        )
+    stop_target() {
+        ToastManager.closeToast(() => RenderMapManager.clear_render() )
 
         sideSwitch.set(true)
     }
 
+    moveCharacter2Resource(map_config, character, site) {
 
-    moveCharacter(character, site){
+        if (this.moveCharacter(character, site, false) === false) {
+            return false;
+            // 角色移动失败
+        }
+
+        let res_name;
+
+        if (map_config.has_store) {
+            // 有石头
+            res_name = "石头"
+            ResourceManager.addStone(1)
+
+        } else if (map_config.has_wood) {
+            res_name = "木头"
+            ResourceManager.addWood(1)
+        }
+
+        saveMapDataManager.saveMapData(saveMapDataManager.removeResource(site))
+        // 删除之后进行保存map_data
+        RefreshMapData.set(Math.random())
+
+        ToastManager.sendToast(`获取${res_name}一个`)
+
+
+    }
+
+    moveCharacter(character, site, render_flag=true) {
         let save = Save.LoadSaveJson("map_data")
-        console.log(site)
 
-        if (!activePowerValue.expend(1)){
+        if (!activePowerValue.expend(1)) {
             this.stop_target()
             ToastManager.sendToast("体力不足! 请在补充体力在继续!!!")
-            return
+            return false
         }
 
         let armies = save.army
-        console.log(armies)
-        for (let index = 0; index < armies.length ;index++){
+        for (let index = 0; index < armies.length; index++) {
             let army = armies[index]
             let id = army.data.object.ID;
-            if (id === character.ID){
+            if (id === character.ID) {
                 armies[index].site = site
                 console.log(armies)
                 break
@@ -94,10 +120,11 @@ class Go2here {
         save.army = armies
         console.log(save)
         Save.WriteSaveJSON("map_data", save)
-        RefreshMapData.set(
-            Math.random()
-        )
         this.stop_target()
+
+        if (render_flag)
+            RefreshMapData.set(Math.random())
+        return true
     }
 }
 

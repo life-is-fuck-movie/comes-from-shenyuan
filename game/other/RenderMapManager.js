@@ -11,6 +11,9 @@ class RenderMapManager {
         })
     }
 
+    /**
+     * 清空移动目标渲染的格子回复默认状态
+     */
     clear_render() {
         renderMap.set({
             mode: "clear"

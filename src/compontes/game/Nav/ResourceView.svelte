@@ -3,10 +3,10 @@
     <div class="main">
         资源
         <div class="inner">
-            <img src="/src/game_resource/assets/image/wood.svg" alt="" class="icon">44
+            <img src="/src/game_resource/assets/image/wood.svg" alt="" class="icon">{res.wood}
         </div>
         <div class="inner">
-            <img src="/src/game_resource/assets/image/stone.png" alt="" class="icon">44
+            <img src="/src/game_resource/assets/image/stone.png" alt="" class="icon">{res.stone}
         </div>
         <div class="inner">
             行动力：{active_power}
@@ -16,8 +16,17 @@
 
 <script>
     import return_value from "../../../stores/active-power-value.js";
+    import resource from "../../../stores/resource.js";
     let activePowerValue = return_value.status
     let active_power;
+
+    let res;
+
+    resource.subscribe(
+        v => {
+            res = v
+        }
+    )
 
     activePowerValue.subscribe(
         v => {

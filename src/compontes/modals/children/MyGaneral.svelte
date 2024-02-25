@@ -21,7 +21,6 @@
         let index = event.target.getAttribute("index")
         let chara = characters[index]
         let where = characterDescriptor.getCharacterWhere(chara)
-        console.log(where)
         document.getElementsByClassName(`default-map-${where}`)[0].click()
     }
 </script>

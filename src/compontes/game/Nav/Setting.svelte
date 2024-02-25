@@ -17,6 +17,9 @@
                         //LOGO 重置游戏
                         localStorage.removeItem("map_data")
                         localStorage.removeItem("player-power")
+
+                        localStorage["active-power"] = "5"
+                        localStorage["resource"] = `{"wood": 0,"stone": 0}`
                         window.location.reload()
                     }
                 }

@@ -27,7 +27,44 @@ function generateRandomNumbers(min, max, length, had) {
 
     return result;
 }
-let stones = generateRandomNumbers(0, 1199, 200, [])
+let armies =  [
+    {
+        data: {
+            name: "胡桃",
+            object: new HuTao()
+        },
+        site: 201
+    },
+    {
+        data: {
+            name: "铃兰",
+            object: new LingLan()
+        },
+        site: 247
+    },
+    {
+        data: {
+            name: "纳西妲",
+            object:  new Naxida()
+        },
+        site: 242
+    },
+    {
+        data: {
+            name: "行秋",
+            object:  new XingQiu()
+        },
+        site: 202
+    }
+]
+let no_cant = []
+for(let army of armies){
+    no_cant.push(army.site)
+}
+let stones = generateRandomNumbers(0, 1199, 200, no_cant)
+let woods  = generateRandomNumbers(0, 1199, 200, stones)
+
+
 // 这个是初始化地图的数据 如果修改 请删除localStorage的map_data
 let init_map_resource = {
     city: [
@@ -72,37 +109,8 @@ let init_map_resource = {
 
     ],
     stone: stones,
-    wood: generateRandomNumbers(0, 1199, 200, stones),
-    army: [
-        {
-            data: {
-                name: "胡桃",
-                object: new HuTao()
-            },
-            site: 201
-        },
-        {
-            data: {
-                name: "铃兰",
-                object: new LingLan()
-            },
-            site: 247
-        },
-        {
-            data: {
-                name: "纳西妲",
-                object:  new Naxida()
-            },
-            site: 242
-        },
-        {
-            data: {
-                name: "行秋",
-                object:  new XingQiu()
-            },
-            site: 202
-        }
-    ],
+    wood: woods,
+    army: armies,
     power:{
         "璃月": {
             army: [{
@@ -111,6 +119,7 @@ let init_map_resource = {
             }]
         }
     }
+
 }
 
 class Manager{

@@ -66,9 +66,9 @@
     }
 
     function clickEvent() {
+        let Go2here = new go2here()
         if (runhere) {
             if (runhere === "city-runhere") {
-                console.log("城市")
                 show_mode.set({
                     type: "city",
                     data: {
@@ -90,11 +90,11 @@
                 })
                 sideSwitch.set(false)
             } else if (runhere === "display-runhere") {
-                new go2here().stop_target()
+                Go2here.stop_target()
             } else if (runhere === "runhere") {
-                new go2here().moveCharacter(render_data.character, map_resource.point_id);
+                Go2here.moveCharacter(render_data.character, map_resource.point_id);
             } else if (runhere === "resource-runhere") {
-                
+                Go2here.moveCharacter2Resource(map_config, render_data.character, map_resource.point_id);
             }
             //TODO 不同的RUNHERE在这里
         } else {
@@ -204,9 +204,7 @@
                 //LOGO 角色类型判断
                 let character = map_config.character
                 let player_power = localStorage.getItem("player-power")
-                console.log(player_power)
                 if (player_power === character.Belongs) {
-                    console.log("找到了")
                     map_config.character_power_type = "self"
                 }
                 return //  不继续渲染了
@@ -271,8 +269,6 @@
                 }
             }
         )
-
-
         render_map()
     })
 
