@@ -34,7 +34,7 @@
             <!--   己方角色     -->
             {#if data.power_type === "self"}
                 <Button value="我要让你去... (1)" click={()=>{
-                let go2here = new Go2here(data.site, data.character);
+                let go2here = new Go2here(data.site, data.character, true);
 
             }}></Button>
                 <Button value="可以参观下你的军队吗..." click={()=>{

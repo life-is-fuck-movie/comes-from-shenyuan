@@ -10,17 +10,21 @@ import activePowerValue from "../../src/stores/active-power-value.js";
 import ResourceManager from "../other/resourceManager.js";
 import SaveMapDataManager from "../other/saveMapDataManager.js";
 import saveMapDataManager from "../other/saveMapDataManager.js";
+import CharactersDescriptor from "../characters/CharactersDescriptor.js";
 
 class Go2here {
     site;
     character;
+    continuous_flag;
 
-    constructor(site = null, character = null) {
+    constructor(site = null, character = null, continuous_flag = false) {
         if (site === null || character === null) {
 
         } else {
+            this.continuous_flag = continuous_flag
             this.site = site;
             this.character = character
+            location["go2hereCharacterID"] = this.character.ID
             this.render(this.get_can_run())
         }
     }
@@ -65,7 +69,7 @@ class Go2here {
     }
 
     stop_target() {
-        ToastManager.closeToast(() => RenderMapManager.clear_render() )
+        ToastManager.closeToast(() => RenderMapManager.clear_render())
 
         sideSwitch.set(true)
     }
@@ -91,19 +95,28 @@ class Go2here {
 
         saveMapDataManager.saveMapData(saveMapDataManager.removeResource(site))
         // 删除之后进行保存map_data
-        RefreshMapData.set(Math.random())
-
         ToastManager.sendToast(`获取${res_name}一个`)
+
+        this.finishMove()
+
 
 
     }
 
-    moveCharacter(character, site, render_flag=true) {
+    /**
+     * 移动角色
+     * @param character
+     * @param site 角色移动后所在的位置
+     * @param render_flag 是否渲染
+     * @returns boolean 是否移动成功
+     */
+    moveCharacter(character, site, render_flag = true) {
         let save = Save.LoadSaveJson("map_data")
 
         if (!activePowerValue.expend(1)) {
             this.stop_target()
             ToastManager.sendToast("体力不足! 请在补充体力在继续!!!")
+            this.move_after = false // 移动结束
             return false
         }
 
@@ -121,10 +134,22 @@ class Go2here {
         console.log(save)
         Save.WriteSaveJSON("map_data", save)
         this.stop_target()
+        this.move_after = site // 角色移动到的位置
 
         if (render_flag)
-            RefreshMapData.set(Math.random())
+            this.finishMove()
         return true
+    }
+
+    finishMove() {
+        RefreshMapData.set(Math.random())
+        if (this.continuous_flag || this.move_after !== false) {
+            console.log("继续移动", this.move_after )
+            this.characterID = location["go2hereCharacterID"]
+            delete location["go2hereCharacterID"]
+
+            return new Go2here(this.move_after, new CharactersDescriptor().loadCharacterByID(this.characterID) , true) // 给我继续移动
+        }
     }
 }
 
