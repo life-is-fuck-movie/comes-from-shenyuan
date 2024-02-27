@@ -3,6 +3,7 @@
 
     <div class="army-detail">
         {army}  {count}
+        {#if manager}
         <span class="manager-btn" on:click={
             ()=>{
                 showManagerFlag = !showManagerFlag
@@ -10,6 +11,7 @@
             }>
             {showManagerFlag ? "收回"  : "管理"}
         </span>
+        {/if}
         {#if showManagerFlag}
             <br>
             <input type="range" id="slider" name="slider" min="0" max={count} bind:value={count_give}>{count_give}
@@ -28,6 +30,7 @@
 
     export let army = "";
     export let count = 0;
+    export let manager = true
 
     export let to_mode = false;// 默认方是 form
 

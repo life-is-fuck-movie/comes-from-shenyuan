@@ -73,7 +73,9 @@
                     type: "city",
                     data: {
                         city_name: map_config.city_name,
-                        with_run: true
+                        with_run: {
+                            form_character : render_data.character
+                        }
                     }
                 })
                 sideSwitch.set(false)
@@ -85,7 +87,9 @@
                         character: map_config.character,
                         power_type: map_config.character_power_type,
                         site: parseInt(map_resource.point_id),
-                        with_run: true
+                        with_run: {
+                            form_character : render_data.character
+                        }
                     }
                 })
                 sideSwitch.set(false)
@@ -95,6 +99,22 @@
                 Go2here.moveCharacter(render_data.character, map_resource.point_id);
             } else if (runhere === "resource-runhere") {
                 Go2here.moveCharacter2Resource(map_config, render_data.character, map_resource.point_id);
+            }else if(runhere === "bad-runhere"){
+                show_mode.set({
+                    type: "army",
+                    data: {
+                        army_data: map_config.army_datal,
+                        character: map_config.character,
+                        power_type: map_config.character_power_type,
+                        site: parseInt(map_resource.point_id),
+                        with_run: {
+                            form_character : render_data.character
+                        },
+
+                    }
+                })
+                sideSwitch.set(false)
+
             }
             //TODO 不同的RUNHERE在这里
         } else {

@@ -2,7 +2,7 @@
     {#if character !== undefined}
         {#each Object.keys(character.Status.ranks) as armyname}
             {#if character.Status.ranks[armyname] > 0}
-                <ArmyElement army={armyname} count={character.Status.ranks[armyname]} to_mode={to_mode}/>
+                <ArmyElement manager="{manager}" army={armyname} count={character.Status.ranks[armyname]} to_mode={to_mode}/>
 
             {/if}
         {/each}
@@ -20,6 +20,7 @@
 
     let character;
     export let to_mode = false;
+    export let manager = true
 
 
     // to_mode开启的时候

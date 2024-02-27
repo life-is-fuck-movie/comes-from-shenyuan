@@ -26,23 +26,24 @@
 
     <div class="actives">
         {#if data.with_run}
-            <Button value="你可以在这里先住下吧..."/>
-            <Button value="带领你的部下进攻此处..."/>
-            <Button value="要不你就在这里要做点坏事情..."/>
-            <Button value="" />
+            {#if data.power_type === "self"}
+                <Button value="让【{data.character.Name}】给【{data.with_run.form_character.Name}】使用技能..."/>
+                <Button value="让【{data.with_run.form_character.Name}】给【{data.character.Name}】使用技能..."/>
+                <Button value="你们两个交换下位置吧..."/>
+                <Button value="要不你就在这里要做点坏事情..."/>
             {:else }
+                <Button value="对【{data.character.Name}】进军"/>
+
+            {/if}
+        {:else }
             <!--   己方角色     -->
             {#if data.power_type === "self"}
                 <Button value="我要让你去... (1)" click={()=>{
                 let go2here = new Go2here(data.site, data.character, true);
-
             }}></Button>
                 <Button value="可以参观下你的军队吗..." click={()=>{
                 let generalDetail = new GeneralDetail(data.character);
                 generalDetail.show_modal()
-            }}></Button>
-                <Button value="我要你攻击... (1)" click={()=>{
-                console.log("行动")
             }}></Button>
                 <Button value="对于军资我有以下的意见... (1)" click={()=>{
                 console.log("行动")
@@ -120,8 +121,17 @@
             <Button value="我们可以停战吗?..." click={()=>{
             console.log("行动")
         }}></Button>
-            <Button value="派人看看这个军队..." click={()=>{
+            <Button value="看看这个军队..." click={()=>{
             console.log("行动")
+            showModals.set({
+                    flag: true,
+                    type: "army_edit",
+                    data: {
+                        form: data.character,
+                        manager: false
+                    },
+                    close: true,
+                })
         }}></Button>
             <Button value="悄悄卧底..." click={()=>{
             console.log("行动")
@@ -158,6 +168,7 @@
     import GeneralDetail from "/game/actives/GeneralDetail.js"
     import Button from "../../../functions/Button.svelte";
     import Go2here from "../../../../../game/actives/go2here.js";
+    import showModals from "../../../../stores/showModals.js";
 
     export let data
     let self

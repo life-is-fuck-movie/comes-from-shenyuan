@@ -8,6 +8,7 @@
 
 
     export let form_character
+    export let manager = true
 
 
 
@@ -28,7 +29,7 @@
 <main class="main">
     <div class="character-army">
         这是 {form_character.Name} 的军队
-        <Armymananger to_mode={false}></Armymananger>
+        <Armymananger to_mode={false} manager={manager}></Armymananger>
     </div>
 
     <div class="character-army">
@@ -48,7 +49,7 @@
                 {/each}
         </select>
 
-        <Armymananger to_mode={true}></Armymananger>
+        <Armymananger to_mode={true} manager={manager}></Armymananger>
 
     </div>
 </main>

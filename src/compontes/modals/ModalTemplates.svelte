@@ -29,7 +29,7 @@
 
             {#if modal_type === "army_edit"}
                 <div class="title">军队编辑</div>
-                <AramEdit form_character="{data.form}"/>
+                <AramEdit form_character="{data.form}" manager="{data.manager}"/>
             {/if}
         </div>
     </main>
