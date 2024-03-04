@@ -32,9 +32,14 @@
                 <Button value="你们两个交换下位置吧..."/>
                 <Button value="要不你就在这里要做点坏事情..."/>
             {:else }
-                <Button value="对【{data.character.Name}】进军"/>
-
+                <Button value="对【{data.character.Name}】进军(军战)" click={
+                    ()=>{warManager.start_default_war(data.with_run.form_character, data.character)}
+                }/>
+                <Button value="对【{data.character.Name}】进军(舌战)"/>
+                <Button value="对【{data.character.Name}】进军(色战)"/>
             {/if}
+
+            
         {:else }
             <!--   己方角色     -->
             {#if data.power_type === "self"}
@@ -158,6 +163,7 @@
         {/if}
 
     </div>
+
     <audio src={bindBox.getAudio("询问")} autoplay/>
 
 </main>
@@ -169,6 +175,8 @@
     import Button from "../../../functions/Button.svelte";
     import Go2here from "../../../../../game/actives/go2here.js";
     import showModals from "../../../../stores/showModals.js";
+    import ShowModals from "../../../../stores/showModals.js";
+    import warManager from "../../../../../game/actives/WarManager.js";
 
     export let data
     let self
@@ -188,6 +196,10 @@
     height: 400px;
     background-size: cover;
     background-position: center;
+  }
+
+  .actives {
+    padding-bottom: 100px;
   }
 
   .general-info {

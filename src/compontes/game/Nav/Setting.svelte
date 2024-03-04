@@ -18,7 +18,7 @@
                         localStorage.removeItem("map_data")
                         localStorage.removeItem("player-power")
 
-                        localStorage["active-power"] = "30"
+                        localStorage["active-power"] = "100"
                         localStorage["resource"] = `{"wood": 0,"stone": 0}`
 
                         window.location.reload()

@@ -30,10 +30,13 @@
             let rate = now_value / max_value
             let int_strip_width = strip_width.replace("px", "").replace("%", "")
             let child_dom = self.querySelector(".child")
-            console.log(self.querySelector(".child"))
+            self.querySelector(".maxvalue").style.color = front_color
+
+
             int_strip_width = parseInt(int_strip_width)
 
             child_dom.style.width = (rate * 100) + "%"
+
 
             if (front_color !== undefined) {
                 child_dom.width = (rate * 100) + "%"
@@ -42,6 +45,9 @@
             if (back_color !== undefined) {
                 self.style.background = back_color
             }
+
+
+
         }
     )
 </script>
@@ -66,6 +72,5 @@
         position: relative;
         top: -20px;
         left: 30px;
-        color: red;
     }
 </style>

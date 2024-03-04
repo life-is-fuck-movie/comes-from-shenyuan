@@ -12,9 +12,16 @@ class CharacterTemplates {
 
     Avatar = null // 头像别名
     Picture = null // 全图别名
+    badge = []; // 战斗中时候所有的标记
 
     Values = {
-        attack: 10, defense: 10, max_hp: 10, max_mp: 10, now_hp:10 , now_mp:10
+        attack: 10,
+        defense: 10,
+        max_hp: 10,
+        max_mp: 10,
+        now_hp:10 ,
+        now_mp:10,
+        speed: 10,
     }
     Belongs = ""
     SkillsName = {

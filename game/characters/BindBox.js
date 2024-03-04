@@ -9,6 +9,7 @@ import RefreshMapData from "../../src/stores/RefreshMapData.js";
  */
 
 let nowPlay = null;
+
 class BindBox {
     character;
 
@@ -16,7 +17,7 @@ class BindBox {
         this.character = character
     }
 
-    getName(){
+    getName() {
         return this.character.Name
     }
 
@@ -26,12 +27,23 @@ class BindBox {
 
         let skill_name = this.character.SkillsName[skill_type]
         if (skill_name !== null) {
+            skill_name = skill_name.event
+
+            console.log(SkillDict)
             let skill = SkillDict[skill_name]
             if (skill !== null) {
                 return skill
             }
         }
         this.getBuffTrigger("AfterReleaseSkill")
+    }
+
+    computedHint(hint_value=1, magnification = 1, hostile_character) {
+        // magnification 是倍率
+        let ret = parseInt((this.character.Values.attack * hint_value) / hostile_character.Values.defense)
+        return ret;
+
+
     }
 
     releaseSkillA() {
@@ -49,58 +61,60 @@ class BindBox {
     releaseSkillD() {
         return this.skill_type("SkillD")
     }
+
     // endregion
 
     getStatusData(key) {
         return this.character.Status[key]
     }
 
-    getAvatar(){
-        if (this.character.Avatar !== null){
+    getAvatar() {
+        if (this.character.Avatar !== null) {
             return `/src/game_resource/assets/characters/${this.character.AliasName}/` + this.character.Avatar
         }
         return `/src/game_resource/assets/characters/${this.character.AliasName}/Avatar.png`
     }
 
-    getPicture(){
-        if (this.character.Picture !== null){
+    getPicture() {
+        if (this.character.Picture !== null) {
             return `/src/game_resource/assets/characters/${this.character.AliasName}/` + this.character.Picture
         }
         return `/src/game_resource/assets/characters/${this.character.AliasName}/Picture.png`
     }
 
-    getAudio(type){
+    getAudio(type) {
         return `/src/game_resource/assets/characters/${this.character.AliasName}/sound/${type}.wav`
     }
-    playAudio(type){
-        try{
+
+    playAudio(type) {
+        try {
             let audio = new Audio(this.getAudio(type));
 
-            if (nowPlay !== null){
+            if (nowPlay !== null) {
                 nowPlay.pause()
             }
             nowPlay = audio
             audio.play();
-        }catch{
+        } catch {
             console.log("似乎没有音频?")
         }
 
     }
 
-    getBuffTrigger(triggerEvent){
+    getBuffTrigger(triggerEvent) {
         let buffs = this.character.Buffs;
-        for (let buff of buffs){
+        for (let buff of buffs) {
             // TODO 触发当前角色的 `buff`
             console.log("触发当前角色的 `buff`， 当前是", triggerEvent)
         }
     }
 
-    Save(){
+    Save() {
         // 存档到本地存档
         let save = Save.LoadSaveJson("map_data")
-        for (let index = 0 ; index < save.army.length ; index ++) {
+        for (let index = 0; index < save.army.length; index++) {
             console.log(save.army[index].data.object.ID, this.character.ID)
-            if(save.army[index].data.object.ID === this.character.ID){
+            if (save.army[index].data.object.ID === this.character.ID) {
                 // 我们需要替换数据了
                 console.log("FINDER")
                 save.army[index].data.object = this.character
@@ -112,31 +126,34 @@ class BindBox {
     }
 
     SetNowHp(value) {
-        if (value > 0 ){
+        if (value > 0) {
             this.character.Values.now_hp = value
-        }else{
+        } else {
             this.character.Values.now_hp = 0
             this.character.Status.is_die = true
+            return false
         }
+        return true
     }
 
-    SetNowMp(value){
-        if (value > 0){
+    SetNowMp(value) {
+        if (value > 0) {
             this.character.Values.now_mp = value
             return true
-        }else{
+        } else {
             return false
         }
     }
 
-    GetBuffsWithDescription(){
+    GetBuffsWithDescription() {
         let return_value = []
-        for (let buff_name of this.character.Buffs){
+        for (let buff_name of this.character.Buffs) {
             let Buff = new buffDispatch[buff_name.name](this.character)
-            let tmp = [buff_name.name,Buff.description]
+            let tmp = [buff_name.name, Buff.description]
             return_value.push(tmp)
         }
         return return_value
     }
 }
+
 export default BindBox

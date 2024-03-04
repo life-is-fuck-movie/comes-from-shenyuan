@@ -7,19 +7,20 @@
             type: "character_own",
             close: true
         })
-
     }
 </script>
 <main class="main">
   <div class="center">
-      <div class="side-element">情报</div>
+      <div class="side-element">法律</div>
+      <div class="side-element">文化</div>
+      <div class="side-element">战争</div>
+      <div class="side-element">派别</div>
       <div class="side-element" on:click={show_my_general}>武将</div>
       <div class="side-element">城池</div>
       <div class="side-element">朝会</div>
       <div class="side-element">监狱</div>
       <div class="side-element">外交</div>
       <div class="side-element">国库</div>
-      <div class="side-element">军队</div>
       <div class="side-element">战团</div>
   </div>
 </main>

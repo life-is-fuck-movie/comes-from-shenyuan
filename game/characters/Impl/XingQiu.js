@@ -11,7 +11,7 @@ class XingQiu extends CharacterTemplates{
     Belongs = "璃月" // 所属类别"
 
     Values = {
-        attack: 10, defense: 11,max_hp: 12, max_mp: 12, now_hp:11.3 , now_mp:10.3
+        attack: 10, defense: 11,max_hp: 12, max_mp: 12, now_hp:11.3 , now_mp:10.3, speed: 10
     }
 
     SkillsName = {

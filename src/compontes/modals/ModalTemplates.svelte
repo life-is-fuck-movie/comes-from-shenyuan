@@ -1,4 +1,4 @@
-、
+
 {#if !allow_close && show_modal}
     <div class="barrier"></div>
 {/if}
@@ -23,13 +23,17 @@
             {/if}
 
             {#if modal_type === "character_own"}
-                <div class="title">我的武将</div>
-                <MyGaneral />
+                <div class="title">我的武将</div>s
+                <MyGaneral/>
             {/if}
 
             {#if modal_type === "army_edit"}
                 <div class="title">军队编辑</div>
                 <AramEdit form_character="{data.form}" manager="{data.manager}"/>
+            {/if}
+
+            {#if modal_type === "war-army"}
+                <WarArmy native_data="{data}"/>
             {/if}
         </div>
     </main>
@@ -41,6 +45,8 @@
     import NewGameModal from "./children/NewGameModal.svelte";
     import MyGaneral from "./children/MyGaneral.svelte";
     import AramEdit from "./children/AramEdit.svelte";
+    import WarArmy from "./children/Wars/WarArmy.svelte";
+
 
     let show_modal = true
     let modal_type = null
@@ -94,14 +100,14 @@
     font-weight: bolder;
   }
 
-  .barrier{
+  .barrier {
     width: 100vw;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     background: #ffffff33;
-    z-index: 0;
+    z-index:998;
   }
 
 
