@@ -9,16 +9,23 @@ class SkillMapA {
         }
     }
 
+    make_hint_to_hostile(self, hos, skill){
+        // 对敌方造成基础伤害
+        let bind_hos = new BindBox(hos)
+        let bind_self = new BindBox(self)
+        let value = bind_self.computedHint(self.Values.attack, 1 , hos);
+        bind_hos.SetNowHp(hos.Values.now_hp - value);
+        return value
+    }
+
     xqmx(self_character, hostile_character, data = null) {
         let fluctuation = Math.abs(self_character.Values.max_hp - self_character.Values.now_hp)
-        self_character.Values.attack += fluctuation; // 提升攻击
 
         let bindCharacter = new BindBox(self_character)
-        let damage = this.get_skill_detail(self_character,"xqmx").damage
+        let damage = this.get_skill_detail(self_character,"xqmx").damage + fluctuation // 提升伤害
         let hint = bindCharacter.computedHint(damage, 1, hostile_character)
         let bindHostile = new BindBox(hostile_character)
-        bindHostile.SetNowHp(hostile_character.Values.now_hp - damage)
-        self_character.Values.attack -= fluctuation
+        bindHostile.SetNowHp(hostile_character.Values.now_hp - hint)
         bindCharacter.SetNowHp(self_character.Values.now_hp - fluctuation);
 
         return {
@@ -34,19 +41,72 @@ class SkillMapA {
         self_character.Values.attack = parseInt(now_attack)
         return {
             characters:[self_character, hostile_character],
-            value:`{render:self} 使用了【蝶舞】提升了 【${now_attack}】 点攻击但是自己也失去了[3]点生命`
+            value:`{render:self} 使用了【蝶舞】提升到了 【${now_attack}】 点攻击但是自己也失去了[3]点生命`
         }
     }
 
     asmf(self_character, hostile_character, data = null) {
-        console.log("安神秘法")
-        return [self_character, hostile_character]
+        // 对其造成伤害，自身恢复敌方剩余的生命的30%
+        let bind_character = new BindBox(self_character);
+        let bind_hostile = new BindBox(hostile_character);
+
+        let damage = this.get_skill_detail(self_character,"asmf")
+        let hint_value = bind_character.computedHint(damage, 1, hostile_character)
+        bind_hostile.SetNowHp(hostile_character.Values.now_hp - hint_value);
+        let add_hp =  parseInt(hostile_character.Values.now_hp * 0.3);
+        bind_character.SetNowHp(self_character.Values.now_hp + add_hp);
+        return {
+            characters:[self_character, hostile_character],
+            value:`{render:self} 使用了【安神秘法】提升了 【${add_hp}】 点生命且敌方生命失去了【${hint_value}】`
+        }
+
     }
 
     dmhx(self_character, hostile_character, data = null) {
-        console.log("蝶梦回香")
-        return [self_character, hostile_character]
+        //限定技，对敌方造成伤害后，如果自身血量百分比小于敌方，则恢复自身当前相同与敌方相同的百分比的血量，如果大于敌方血量百分比，并对其在进行一次技能伤害(敌方收到伤害后不再判断血量大小)。
+        let value = this.make_hint_to_hostile(self_character, hostile_character, "dmhx") // 造成伤害
+        let self_hp = self_character.Values.now_hp;
+        let hostile_hp = hostile_character.Values.now_hp;
+        let bigger = (self_hp > hostile_hp);
+        if(!bigger){
+            // 则恢复到敌方同百分比的血量
+            let rate = hostile_character.Values.now_hp / hostile_character.Values.max_hp;
+            let now_hp = self_character.Values.max_hp * rate;
+            let bind_self = new BindBox(self_character);
+            bind_self.SetNowHp(parseInt(self_character.Values.now_hp + now_hp));
+            return {
+                characters:[self_character, hostile_character],
+                value:`{render:self} 使用了【蝶梦回香】提升到了 【${now_hp}】 点生命且敌方生命失去了【${value}】`
+            }
+        }else{
+            // 并对其在进行一次技能伤害
+            value += this.make_hint_to_hostile(self_character, hostile_character, "dmhx") // 造成伤害
+            return {
+                characters:[self_character, hostile_character],
+                value:`{render:self} 使用了【蝶梦回香】对敌方造成了两次伤害，总计:【${value}】`
+            }
+        }
+
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default new SkillMapA()

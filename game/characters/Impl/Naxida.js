@@ -7,7 +7,7 @@ class Naxida extends CharacterTemplates{
 
 
     Values = {
-        attack: 10, defense: 10,max_hp: 10, max_mp: 10, now_hp:10 , now_mp:10
+        attack: 10, defense: 10,max_hp: 4500, max_mp: 10, now_hp:4500 , now_mp:10
     }
 
     SkillsName = {

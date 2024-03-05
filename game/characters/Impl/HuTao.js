@@ -45,7 +45,7 @@ class HuTao extends CharacterTemplates{
             event: "蝶梦回香",
             function_name: "dmhx",
 
-            description: "限定技，对敌方造成伤害后，如果自身血量百分比小于敌方，则恢复到敌方同百分比的血量，如果大于敌方血量百分比，并对其在进行一次技能伤害(敌方收到伤害后不再判断血量大小)。",
+            description: "限定技，对敌方造成伤害后，如果自身血量百分比小于敌方，则恢复自身当前相同与敌方相同的百分比的血量，如果大于敌方血量百分比，并对其在进行一次技能伤害(敌方收到伤害后不再判断血量大小)。",
             damage: 50,
             needMp: 40,
             is_limit: true,

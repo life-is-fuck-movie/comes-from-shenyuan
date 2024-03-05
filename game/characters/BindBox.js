@@ -127,7 +127,10 @@ class BindBox {
 
     SetNowHp(value) {
         if (value > 0) {
-            this.character.Values.now_hp = value
+            this.character.Values.now_hp = parseInt(value)
+            if ( value > this.character.Values.max_hp){
+                this.character.Values.now_hp = parseInt(this.character.Values.max_hp)
+            }
         } else {
             this.character.Values.now_hp = 0
             this.character.Status.is_die = true
