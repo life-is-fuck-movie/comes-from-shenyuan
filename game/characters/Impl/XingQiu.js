@@ -11,11 +11,43 @@ class XingQiu extends CharacterTemplates{
     Belongs = "璃月" // 所属类别"
 
     Values = {
-        attack: 10, defense: 11,max_hp: 12, max_mp: 12, now_hp:11.3 , now_mp:10.3, speed: 10
+        attack: 15, defense: 30,max_hp: 180, max_mp: 50, now_hp: 180 , now_mp:50, speed: 10
     }
 
     SkillsName = {
-        SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
+        SkillA: {
+            event: "雨剑化帘",
+            function_name: "yjhl",
+            description: "对敌军造成伤害前，获得一个`雨帘`的标记，然后对敌军造成伤害，`雨帘`标记可以记录3次行秋造成的伤害，记录结束后行秋提升3次伤害的平均值的生命。\n\n" +
+                "如果`雨帘`处于叠加态则恢复的生命为当前恢复生命*`雨帘`的数量",
+            damage: 10,
+            needMp: 15,
+            is_limit: false,
+        }, SkillB: {
+            event: "诗书与义",
+            function_name: "dw",
+
+            description: "限定技，添加一个`义`的标记给自己，如果受到致命伤可以用`义`进行抵消，抵消后恢复到血量上限的一半。使用`义`之后`雨帘`的效果对自己无效。",
+            damage: 20,
+            needMp: 12,
+            is_limit: true,
+        }, SkillC: {
+            event: "闻识见意",
+            description: "将自身非`雨帘`的标记全部清除, 且如果清除的标记大于3个则每清除3个可以转化为一个`雨帘`。",
+            function_name: "asmf",
+
+            damage: 15,
+            needMp: 20,
+            is_limit: false,
+        }, SkillD: {
+            event: "古华剑法",
+            function_name: "dmhx",
+
+            description: "限定技，恢复到满血，攻击力翻倍，防御力翻倍，每回合固定失去10点生命上限提升4点防御，4点攻击。",
+            damage: 50,
+            needMp: 40,
+            is_limit: true,
+        }
     }
 
     Status = {

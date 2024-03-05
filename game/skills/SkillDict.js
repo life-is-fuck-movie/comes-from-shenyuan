@@ -9,11 +9,11 @@ class SkillMapA {
         }
     }
 
-    make_hint_to_hostile(self, hos, skill){
+    make_hint_to_hostile(self, hos, skill) {
         // 对敌方造成基础伤害
         let bind_hos = new BindBox(hos)
         let bind_self = new BindBox(self)
-        let value = bind_self.computedHint(self.Values.attack, 1 , hos);
+        let value = bind_self.computedHint(self.Values.attack, 1, hos);
         bind_hos.SetNowHp(hos.Values.now_hp - value);
         return value
     }
@@ -22,15 +22,15 @@ class SkillMapA {
         let fluctuation = Math.abs(self_character.Values.max_hp - self_character.Values.now_hp)
 
         let bindCharacter = new BindBox(self_character)
-        let damage = this.get_skill_detail(self_character,"xqmx").damage + fluctuation // 提升伤害
+        let damage = this.get_skill_detail(self_character, "xqmx").damage + fluctuation // 提升伤害
         let hint = bindCharacter.computedHint(damage, 1, hostile_character)
         let bindHostile = new BindBox(hostile_character)
         bindHostile.SetNowHp(hostile_character.Values.now_hp - hint)
         bindCharacter.SetNowHp(self_character.Values.now_hp - fluctuation);
 
         return {
-            characters:[self_character, hostile_character],
-            value:`{render:self} 使用了【雪霁梅香】临时提升了 【${fluctuation}】 点攻击，同时对敌人造成了【${damage}】 点伤害，但是自己也失去了【${fluctuation}】点生命`
+            characters: [self_character, hostile_character],
+            value: `{render:self} 使用了【雪霁梅香】临时提升了 【${fluctuation}】 点攻击，同时对敌人造成了【${damage}】 点伤害，但是自己也失去了【${fluctuation}】点生命`
         }
     }
 
@@ -40,24 +40,22 @@ class SkillMapA {
         let now_attack = self_character.Values.attack * 1.1
         self_character.Values.attack = parseInt(now_attack)
         return {
-            characters:[self_character, hostile_character],
-            value:`{render:self} 使用了【蝶舞】提升到了 【${now_attack}】 点攻击但是自己也失去了[3]点生命`
+            characters: [self_character, hostile_character],
+            value: `{render:self} 使用了【蝶舞】提升到了 【${now_attack}】 点攻击但是自己也失去了[3]点生命`
         }
     }
 
     asmf(self_character, hostile_character, data = null) {
-        // 对其造成伤害，自身恢复敌方剩余的生命的30%
+        // 对其造成伤害，自身恢复敌方剩余的生命的10%
         let bind_character = new BindBox(self_character);
         let bind_hostile = new BindBox(hostile_character);
 
-        let damage = this.get_skill_detail(self_character,"asmf")
-        let hint_value = bind_character.computedHint(damage, 1, hostile_character)
-        bind_hostile.SetNowHp(hostile_character.Values.now_hp - hint_value);
-        let add_hp =  parseInt(hostile_character.Values.now_hp * 0.3);
+        let hint_value = this.make_hint_to_hostile(self_character, hostile_character, "asmf")
+        let add_hp = parseInt(hostile_character.Values.now_hp * 0.1);
         bind_character.SetNowHp(self_character.Values.now_hp + add_hp);
         return {
-            characters:[self_character, hostile_character],
-            value:`{render:self} 使用了【安神秘法】提升了 【${add_hp}】 点生命且敌方生命失去了【${hint_value}】`
+            characters: [self_character, hostile_character],
+            value: `{render:self} 使用了【安神秘法】提升了 【${add_hp}】 点生命且敌方生命失去了【${hint_value}】`
         }
 
     }
@@ -68,45 +66,36 @@ class SkillMapA {
         let self_hp = self_character.Values.now_hp;
         let hostile_hp = hostile_character.Values.now_hp;
         let bigger = (self_hp > hostile_hp);
-        if(!bigger){
+        if (!bigger) {
             // 则恢复到敌方同百分比的血量
             let rate = hostile_character.Values.now_hp / hostile_character.Values.max_hp;
             let now_hp = self_character.Values.max_hp * rate;
             let bind_self = new BindBox(self_character);
             bind_self.SetNowHp(parseInt(self_character.Values.now_hp + now_hp));
             return {
-                characters:[self_character, hostile_character],
-                value:`{render:self} 使用了【蝶梦回香】提升到了 【${now_hp}】 点生命且敌方生命失去了【${value}】`
+                characters: [self_character, hostile_character],
+                value: `{render:self} 使用了【蝶梦回香】提升到了 【${now_hp}】 点生命且敌方生命失去了【${value}】`
             }
-        }else{
+        } else {
             // 并对其在进行一次技能伤害
             value += this.make_hint_to_hostile(self_character, hostile_character, "dmhx") // 造成伤害
             return {
-                characters:[self_character, hostile_character],
-                value:`{render:self} 使用了【蝶梦回香】对敌方造成了两次伤害，总计:【${value}】`
+                characters: [self_character, hostile_character],
+                value: `{render:self} 使用了【蝶梦回香】对敌方造成了两次伤害，总计:【${value}】`
             }
         }
 
 
+    }
 
+    yjhl(self_character, hostile_character, data = null) {
+        /**
+         * 对敌军造成伤害前，获得一个`雨帘`的标记，然后对敌军造成伤害，
+         * `雨帘`标记可以记录3次行秋造成的伤害，记录结束后行秋提升3次伤害的平均值的生命。如果`雨帘`处于叠加态则恢复的生命为当前恢复生命*`雨帘`的数量
+         */
+        hostile_character.badge.push({value:'雨帘'})
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export default new SkillMapA()

@@ -85,6 +85,7 @@
     import warEffectTigger from "../../../../../game/actives/WarEffectTigger.js";
     import Tags from "../../../functions/Tags.svelte";
     import skillDict from "../../../../../game/skills/SkillDict.js";
+    import roundWheel from "../../../../../game/roundWheel.js";
 
     export let native_data; // 原始数据
 
@@ -127,6 +128,7 @@
     let war_context = [] // 战斗的上下文
     let show_skill = null
 
+    let round_wheel = roundWheel
     function render_policy(policy_event) {
         let {info, status, context} = policy_event();
 
@@ -166,10 +168,21 @@
             character_from.SkillsName.SkillD,
         ]
     }
+    function afterTrigger(round_wheel){
+        round_wheel.active_tasks(round_wheel.TYPE.BEFORE) // 启动当前回合的所有的任务， 结束的时候
+        round_wheel.round ++;
+    }
+
+    function beforeTrigger(round_wheel){
+        round_wheel.active_tasks(round_wheel.TYPE.AFTER) // 启动当前回合的所有的任务，开始的时候
+    }
 
     function trigger_skill(){
         let skill_name = show_skill.function_name;
-        let array_characters = skillDict[skill_name](character_from, character_to);
+        beforeTrigger(round_wheel)
+        let array_characters = skillDict[skill_name](character_from, character_to, round_wheel);
+        afterTrigger(round_wheel)
+
 
         let value = array_characters.value
         value = render_color(value)

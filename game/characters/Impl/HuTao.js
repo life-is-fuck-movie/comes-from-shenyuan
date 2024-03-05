@@ -35,7 +35,7 @@ class HuTao extends CharacterTemplates{
             is_limit: false,
         }, SkillC:  {
             event: "安神秘法",
-            description: "对其造成伤害，自身恢复敌方剩余的生命的30%",
+            description: "对其造成伤害，自身恢复敌方剩余的生命的10%",
             function_name: "asmf",
 
             damage: 15,
