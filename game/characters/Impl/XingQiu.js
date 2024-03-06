@@ -11,15 +11,15 @@ class XingQiu extends CharacterTemplates{
     Belongs = "璃月" // 所属类别"
 
     Values = {
-        attack: 15, defense: 30,max_hp: 180, max_mp: 50, now_hp: 180 , now_mp:50, speed: 10
+        attack: 15, defense: 30,max_hp: 180, max_mp: 50, now_hp: 120 , now_mp:50, speed: 10
     }
 
     SkillsName = {
         SkillA: {
             event: "雨剑化帘",
             function_name: "yjhl",
-            description: "对敌军造成伤害前，获得一个`雨帘`的标记，然后对敌军造成伤害，`雨帘`标记可以记录3次行秋造成的伤害，记录结束后行秋提升3次伤害的平均值的生命。\n\n" +
-                "如果`雨帘`处于叠加态则恢复的生命为当前恢复生命*`雨帘`的数量",
+            description: "对敌军造成伤害前，获得一个`雨帘`的标记，`雨帘`标记可以记录3次行秋造成的伤害，记录结束后行秋提升3次伤害的平均值的生命。\n\n" +
+                "`雨帘`效果可以叠加，效果结束后回收雨帘，施加雨帘后，若在3回合内失去雨帘那么累计失效。",
             damage: 10,
             needMp: 15,
             is_limit: false,

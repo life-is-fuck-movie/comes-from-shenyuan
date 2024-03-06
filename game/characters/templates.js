@@ -13,7 +13,9 @@ class CharacterTemplates {
     Avatar = null // 头像别名
     Picture = null // 全图别名
     badge = []; // 战斗中时候所有的标记
-
+    temp_value = {
+        hint_sum: 0,
+    }
     Values = {
         attack: 10,
         defense: 10,

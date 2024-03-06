@@ -3,6 +3,7 @@
         {character_from.Name} PK {character_to.Name}
     </h2>
     <div class="status">
+        {round_wheel.round}
         {#key character_from}
             <div class="info-status left-info-status">
                 <div>{character_from.Name} {character_from.badge}</div>
@@ -86,6 +87,7 @@
     import Tags from "../../../functions/Tags.svelte";
     import skillDict from "../../../../../game/skills/SkillDict.js";
     import roundWheel from "../../../../../game/roundWheel.js";
+    import warTips from "../../../../stores/war_tips.js";
 
     export let native_data; // 原始数据
 
@@ -129,6 +131,15 @@
     let show_skill = null
 
     let round_wheel = roundWheel
+
+    warTips.subscribe(
+        (v) => {
+            let tips = v.tips
+            let html = render_color(tips)
+            war_info_html += html
+        }
+    )
+
     function render_policy(policy_event) {
         let {info, status, context} = policy_event();
 
@@ -139,11 +150,13 @@
         character_from = characters[0]
         character_to = characters[1]
     }
-    function render_color(value){
+
+    function render_color(value) {
         value = value.replace("{render:self}", `<span class="self-character" style="color: #5eff00;padding: 0 10px;display: inline-block;">${character_from.Name}</span>`)
         value = "<br />" + value
         return value
     }
+
     function war_render(war_policy) {
         let effect_data = war_policy();
 
@@ -151,8 +164,6 @@
         value = render_color(value)
         war_info_html += value
         policies = effect_data.policies;
-
-
     }
 
 
@@ -168,19 +179,40 @@
             character_from.SkillsName.SkillD,
         ]
     }
-    function afterTrigger(round_wheel){
-        round_wheel.active_tasks(round_wheel.TYPE.BEFORE) // 启动当前回合的所有的任务， 结束的时候
-        round_wheel.round ++;
+
+    function beforeTrigger(round_wheel) {
+        round_wheel.active_tasks(round_wheel.TYPE.BEFORE) // 启动当前回合的所有的任务，开始的时候
     }
 
-    function beforeTrigger(round_wheel){
-        round_wheel.active_tasks(round_wheel.TYPE.AFTER) // 启动当前回合的所有的任务，开始的时候
+    function afterTrigger(round_wheel) {
+        round_wheel.active_tasks(round_wheel.TYPE.AFTER) // 启动当前回合的所有的任务， 结束的时候
+        round_wheel.round++;
     }
 
-    function trigger_skill(){
+    /**
+     * 伤害AOP
+     * @param round_wheel 回合轮
+     * @param skill_data 释放技能详细
+     * @param my_round 是否为我的回合 如果不是我的回合就是地方的技能伤害AOP
+     */
+    function hintTrigger(round_wheel, skill_data, my_round) {
+
+        let has_hint = skill_data.hint !== undefined
+
+        if (has_hint) {
+            if (my_round)
+                round_wheel.active_tasks(round_wheel.TYPE.ME_HINT, skill_data.hint); // 我的攻击
+            else
+                round_wheel.active_tasks(round_wheel.TYPE.HOS_HINT, skill_data.hint); // 敌方的攻击
+        } // 是否存在攻击行为
+    }
+
+    function trigger_skill() {
         let skill_name = show_skill.function_name;
         beforeTrigger(round_wheel)
-        let array_characters = skillDict[skill_name](character_from, character_to, round_wheel);
+        let array_characters = skillDict[skill_name](character_from, character_to, {round_wheel: round_wheel});
+        let skill_data = array_characters.data;
+        hintTrigger(round_wheel, skill_data, true)
         afterTrigger(round_wheel)
 
 
@@ -191,8 +223,6 @@
         array_characters = array_characters.characters
         character_from = array_characters[0]
         character_to = array_characters[1]
-
-        console.log(character_from.Values.attack)
     }
 
     onMount(
