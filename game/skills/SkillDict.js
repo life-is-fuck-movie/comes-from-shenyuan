@@ -130,6 +130,26 @@ class SkillMapA {
         }
     }
 
+    ssyy(self_character, hostile_character, data = null){
+        badgeAppend.append_yi(self_character, data.round_wheel)
+        return {
+            characters: [self_character, hostile_character],
+            value: `为自己加载了一个【义】标签`,
+            data: {}
+        }
+    }
+    lks(self_character, hostile_character, data = null){
+        let bind_character = new BindBox(self_character);
+        bind_character.SetNowHp(parseInt(self_character.Values.now_hp - 4000)) // 血量恢复
+        return {
+            characters: [self_character, hostile_character],
+            value: `立刻死`,
+            data:{
+
+            }
+        }
+    }
+
 }
 
 

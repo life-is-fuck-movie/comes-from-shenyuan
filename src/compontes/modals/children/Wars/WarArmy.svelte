@@ -41,9 +41,13 @@
     </div>
     <div class="policy">
         <div class="body">
+
+
+
             <div class="war-info">
                 {character_from.Name} , {character_to.Name}开始战斗... <br>
                 {@html war_info_html}
+
             </div>
             {#if (show_skill !== null)}
                 <div class="skill-info">
@@ -88,11 +92,14 @@
     import skillDict from "../../../../../game/skills/SkillDict.js";
     import roundWheel from "../../../../../game/roundWheel.js";
     import warTips from "../../../../stores/war_tips.js";
+    import game_over from "../../../../../game/actives/game_over.js";
 
     export let native_data; // 原始数据
 
     let character_from = native_data.form_character;
     let character_to = native_data.to_character;
+
+    let dieTriggered = false // 是否已经触发过死亡
 
     let player_skills = [];
 
@@ -187,6 +194,9 @@
     function afterTrigger(round_wheel) {
         round_wheel.active_tasks(round_wheel.TYPE.AFTER) // 启动当前回合的所有的任务， 结束的时候
         round_wheel.round++;
+
+        console.log("-------")
+        console.log(round_wheel.tasks_bus)
     }
 
     /**
@@ -207,13 +217,29 @@
         } // 是否存在攻击行为
     }
 
+    function dieTrigger() {
+        if(!dieTriggered){
+            if (character_from.Values.now_hp <= 0 || character_to.Values.now_hp <= 0) {
+                dieTriggered = round_wheel.active_tasks(round_wheel.TYPE.HAS_DIE)
+            }
+        }
+    }
+
     function trigger_skill() {
         let skill_name = show_skill.function_name;
+
         beforeTrigger(round_wheel)
+        dieTrigger()
+
         let array_characters = skillDict[skill_name](character_from, character_to, {round_wheel: round_wheel});
+        dieTrigger()
+
         let skill_data = array_characters.data;
         hintTrigger(round_wheel, skill_data, true)
+        dieTrigger()
+
         afterTrigger(round_wheel)
+        dieTrigger()
 
 
         let value = array_characters.value
@@ -225,9 +251,52 @@
         character_to = array_characters[1]
     }
 
+    function resurrectionTrigger() {
+
+        // 判断是否复活
+        let flag  = null
+        let token
+        if (character_to.is_die)
+            token = `re_life${character_to.ID}`;
+        else
+            token = `re_life${character_from.ID}`;
+
+        flag =  round_wheel.tasks_signal.includes(token)
+        round_wheel.active_tasks(token, null,true) // 触发复活后注销
+        round_wheel.tasks_signal.splice(round_wheel.tasks_signal.indexOf(token), 1)
+
+        return flag;
+    }
+
+    function gameover() {
+        // TODO 游戏结束 角色死亡一个
+        let has_resurrection = resurrectionTrigger() // 复活判断
+        if (has_resurrection) {
+            dieTriggered = false // 复活之后又要重新触发死亡机制了
+            return
+        }
+
+        game_over.city_war = false
+
+        if (character_to.is_die) {
+            game_over.loser = character_to
+            game_over.winner = character_from
+        } else {
+            game_over.loser = character_from
+            game_over.winner = character_to
+        }
+
+        game_over.task_pip() // 全局的
+        war_info_html += "游戏结束"
+
+    }
+
     onMount(
         _ => {
             war_render(warManager.policy_select)
+            console.log("注册死亡")
+            round_wheel.replace_task(round_wheel.TYPE.HAS_DIE, gameover, round_wheel.RoundMakePolicy.long()); // 游戏死亡轮回
+
         }
     )
 
