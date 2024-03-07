@@ -71,7 +71,6 @@ class roundWheel {
                 if (argument === null) {
                     task.run(); // 启动!
                     if (cancel_it){
-                        console.log("已注销")
                         this.cancel_task(task.task_name)
                     }
                     return true

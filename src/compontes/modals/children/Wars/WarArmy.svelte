@@ -65,6 +65,7 @@
                 </div>
             {/if}
         </div>
+        {dieTriggered}
         <div class="selector">
             {#each policies as a}
                 <Button value="{a[0]}" click="{()=>{
@@ -218,9 +219,11 @@
     }
 
     function dieTrigger() {
+
         if(!dieTriggered){
             if (character_from.Values.now_hp <= 0 || character_to.Values.now_hp <= 0) {
-                dieTriggered = round_wheel.active_tasks(round_wheel.TYPE.HAS_DIE)
+                dieTriggered = true; // 触发结束
+                round_wheel.active_tasks(round_wheel.TYPE.HAS_DIE)
             }
         }
     }
@@ -262,16 +265,19 @@
             token = `re_life${character_from.ID}`;
 
         flag =  round_wheel.tasks_signal.includes(token)
-        round_wheel.active_tasks(token, null,true) // 触发复活后注销
+        round_wheel.active_tasks(token, null) // 触发复活后注销
         round_wheel.tasks_signal.splice(round_wheel.tasks_signal.indexOf(token), 1)
-
+        console.log("s",flag)
         return flag;
     }
 
     function gameover() {
+        console.log("有人死")
         // TODO 游戏结束 角色死亡一个
         let has_resurrection = resurrectionTrigger() // 复活判断
+
         if (has_resurrection) {
+            console.log("有人复活")
             dieTriggered = false // 复活之后又要重新触发死亡机制了
             return
         }

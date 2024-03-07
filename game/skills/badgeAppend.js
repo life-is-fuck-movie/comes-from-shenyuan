@@ -76,6 +76,7 @@ export default {
                 bind_character.SetNowHp(parseInt(character.Values.max_hp / 2)) // 血量恢复
                 warTipsManager.send_tip(`${character.Name}受到致命一击但是使用【义】复活了`)
                 character.temp_value.used_yi = true
+                round_wheel.cancel_task(cancel_code)
 
 
             }, token, round_wheel.RoundMakePolicy.long()
