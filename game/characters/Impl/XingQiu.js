@@ -32,7 +32,7 @@ class XingQiu extends CharacterTemplates{
         }, SkillC: {
             event: "闻识见意",
             description: "将自身非`雨帘`的标记全部清除, 且如果清除的标记大于3个则每清除3个可以转化为一个`雨帘`。",
-            function_name: "lks",
+            function_name: "bwqz",
             damage: 15,
             needMp: 20,
             is_limit: false,

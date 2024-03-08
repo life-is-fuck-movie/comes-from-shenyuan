@@ -110,7 +110,6 @@ class SkillMapA {
     }
 
 
-
     yjhl(self_character, hostile_character, data = null) {
         /**
          * 对敌军造成伤害前，获得一个`雨帘`的标记，然后对敌军造成伤害，
@@ -118,19 +117,19 @@ class SkillMapA {
          */
         badgeAppend.append_yulian(self_character, data.round_wheel)
 
-        let hint = this.make_hint_to_hostile(self_character,hostile_character,"yjhl");
+        let hint = this.make_hint_to_hostile(self_character, hostile_character, "yjhl");
         let bind_hos = new BindBox(hostile_character);
-        bind_hos.SetNowHp(hostile_character.Values.now_hp-hint);
+        bind_hos.SetNowHp(hostile_character.Values.now_hp - hint);
         return {
             characters: [self_character, hostile_character],
             value: `{render:self} 对敌方造成伤害${hint}`,
-            data:{
+            data: {
                 hint: hint
             }
         }
     }
 
-    ssyy(self_character, hostile_character, data = null){
+    ssyy(self_character, hostile_character, data = null) {
         badgeAppend.append_yi(self_character, data.round_wheel)
         return {
             characters: [self_character, hostile_character],
@@ -138,17 +137,37 @@ class SkillMapA {
             data: {}
         }
     }
-    lks(self_character, hostile_character, data = null){
+
+    bwqz(self_character, hostile_character, data) {
+        const only_yulian = self_character.badge.filter(badge => badge === "雨帘")
+        let non_yulian = self_character.badge.filter(badge => badge !== "雨帘")
+        let non_yulian_count = non_yulian.length; // 获取非雨帘的数量
+        let convert = parseInt(non_yulian_count / 3)
+        let has = non_yulian_count % 3
+        const  has_badge = non_yulian.slice(0, has) // 截取剩下的
+        console.log(non_yulian, has_badge)
+        self_character.badge = [...has_badge, ...only_yulian]
+        for (let convert_count=0; convert_count < convert; convert_count++){
+            badgeAppend.append_yulian(self_character, data.round_wheel)
+        }
+
+        return {
+            characters: [self_character, hostile_character],
+            value: `{render:self} 转化了 ${convert}个新的【雨帘】`,
+            data: {}
+        }
+    }
+
+    lks(self_character, hostile_character, data = null) {
         let bind_character = new BindBox(self_character);
         bind_character.SetNowHp(parseInt(self_character.Values.now_hp - 4000)) // 血量恢复
         return {
             characters: [self_character, hostile_character],
             value: `立刻死`,
-            data:{
-
-            }
+            data: {}
         }
     }
+
 
 }
 
