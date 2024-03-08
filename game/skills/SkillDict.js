@@ -144,16 +144,39 @@ class SkillMapA {
         let non_yulian_count = non_yulian.length; // 获取非雨帘的数量
         let convert = parseInt(non_yulian_count / 3)
         let has = non_yulian_count % 3
-        const  has_badge = non_yulian.slice(0, has) // 截取剩下的
+        const has_badge = non_yulian.slice(0, has) // 截取剩下的
         console.log(non_yulian, has_badge)
         self_character.badge = [...has_badge, ...only_yulian]
-        for (let convert_count=0; convert_count < convert; convert_count++){
+        for (let convert_count = 0; convert_count < convert; convert_count++) {
             badgeAppend.append_yulian(self_character, data.round_wheel)
         }
 
         return {
             characters: [self_character, hostile_character],
             value: `{render:self} 转化了 ${convert}个新的【雨帘】`,
+            data: {}
+        }
+    }
+
+    ghjf(self_character, hostile_character, data = null) {
+        // 限定技，恢复到满血，攻击力翻倍，防御力翻倍，每回合固定失去10点生命上限提升4点防御，4点攻击
+        let self_bind = new BindBox(self_character);
+        self_bind.SetNowHp(parseInt(self_character.Values.max_hp))
+        self_character.Values.attack *= 2
+        self_character.Values.defense *= 2
+        let round = data?.round_wheel;
+        round.register_task(
+            () => {
+                self_bind.SetNowHp(parseInt(self_character.Values.now_hp - 10)); // 每回合失去10生命
+
+                self_character.Values.attack += 4
+                self_character.Values.defense += 4
+            },round.TYPE.BEFORE, round.RoundMakePolicy.long()
+        )
+
+        return {
+            characters: [self_character, hostile_character],
+            value: `恢复了满血并在每回合失去10点生命`,
             data: {}
         }
     }

@@ -1,9 +1,13 @@
+
 <div>
     <h2 class="title">
-        {character_from.Name} PK {character_to.Name}
+        {#key round_wheel.round}
+            {character_from.Name} PK {character_to.Name} 第 {round} 回合
+        {/key}
     </h2>
+
     <div class="status">
-        {round_wheel.round}
+
         {#key character_from}
             <div class="info-status left-info-status">
                 <div>{character_from.Name} {character_from.badge}</div>
@@ -41,7 +45,6 @@
     </div>
     <div class="policy">
         <div class="body">
-
 
 
             <div class="war-info">
@@ -140,6 +143,7 @@
 
     let round_wheel = roundWheel
 
+    let round = 0;
     warTips.subscribe(
         (v) => {
             let tips = v.tips
@@ -195,6 +199,7 @@
     function afterTrigger(round_wheel) {
         round_wheel.active_tasks(round_wheel.TYPE.AFTER) // 启动当前回合的所有的任务， 结束的时候
         round_wheel.round++;
+        round ++;
 
         console.log("-------")
         console.log(round_wheel.tasks_bus)
@@ -220,7 +225,7 @@
 
     function dieTrigger() {
 
-        if(!dieTriggered){
+        if (!dieTriggered) {
             if (character_from.Values.now_hp <= 0 || character_to.Values.now_hp <= 0) {
                 dieTriggered = true; // 触发结束
                 round_wheel.active_tasks(round_wheel.TYPE.HAS_DIE)
@@ -257,17 +262,17 @@
     function resurrectionTrigger() {
 
         // 判断是否复活
-        let flag  = null
+        let flag = null
         let token
         if (character_to.is_die)
             token = `re_life${character_to.ID}`;
         else
             token = `re_life${character_from.ID}`;
 
-        flag =  round_wheel.tasks_signal.includes(token)
+        flag = round_wheel.tasks_signal.includes(token)
         round_wheel.active_tasks(token, null) // 触发复活后注销
         round_wheel.tasks_signal.splice(round_wheel.tasks_signal.indexOf(token), 1)
-        console.log("s",flag)
+        console.log("s", flag)
         return flag;
     }
 

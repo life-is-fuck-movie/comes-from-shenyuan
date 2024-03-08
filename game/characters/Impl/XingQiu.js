@@ -38,7 +38,7 @@ class XingQiu extends CharacterTemplates{
             is_limit: false,
         }, SkillD: {
             event: "古华剑法",
-            function_name: "dmhx",
+            function_name: "ghjf",
 
             description: "限定技，恢复到满血，攻击力翻倍，防御力翻倍，每回合固定失去10点生命上限提升4点防御，4点攻击。",
             damage: 50,
