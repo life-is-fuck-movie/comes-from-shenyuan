@@ -1,4 +1,5 @@
 import CharacterTemplates from '../templates.js'
+import AISkillModel from "../../skills/AISkillModel.js";
 class Naxida extends CharacterTemplates{
     ID = "Naxida #01"
     Name = "纳西妲";
@@ -10,9 +11,9 @@ class Naxida extends CharacterTemplates{
         attack: 10, defense: 15,max_hp: 4500, max_mp: 10, now_hp:4500 , now_mp:10
     }
 
-    SkillsName = {
-        SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
-    }
+    SkillsName = AISkillModel.skillGroup.the_3()
+    SkillGroup = "the_3"
+
 
     Belongs = "须弥"
 

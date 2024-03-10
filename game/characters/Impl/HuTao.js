@@ -1,4 +1,5 @@
 import CharacterTemplates from '../templates.js'
+import AISkillModel from "../../skills/AISkillModel.js";
 class HuTao extends CharacterTemplates{
     ID = "HUTAO #01"
     Name = "胡桃";
@@ -17,40 +18,8 @@ class HuTao extends CharacterTemplates{
         attack: 20, defense: 5 ,max_hp: 120, max_mp: 50, now_hp:120 , now_mp:50
     }
 
-    SkillsName = {
-        SkillA: {
-            event: "雪霁梅香",
-            function_name: "xqmx",
-            description: "攻击提升相当于当前血量距离血量上限的值，并在技能结束后失去伤害等量的生命, 结束后伤害恢复技能释放前",
-            damage: 10,
-            needMp: 15,
-            is_limit: false,
-        }, SkillB: {
-            event: "蝶舞",
-            function_name: "dw",
-
-            description: "失去3点生命后获得攻击提升10%",
-            damage: 20,
-            needMp: 12,
-            is_limit: false,
-        }, SkillC:  {
-            event: "安神秘法",
-            description: "对其造成伤害，自身恢复敌方剩余的生命的10%",
-            function_name: "asmf",
-
-            damage: 15,
-            needMp: 20,
-            is_limit: false,
-        }, SkillD:  {
-            event: "蝶梦回香",
-            function_name: "dmhx",
-
-            description: "限定技，对敌方造成伤害后，如果自身血量百分比小于敌方，则恢复自身当前相同与敌方相同的百分比的血量，如果大于敌方血量百分比，并对其在进行一次技能伤害(敌方收到伤害后不再判断血量大小)。",
-            damage: 50,
-            needMp: 40,
-            is_limit: true,
-        }
-    }
+    SkillsName = AISkillModel.skillGroup.the_1() // 使用技能组
+    SkillGroup = "the_1"
 
     Status = {
         is_die: false, // 是否死亡

@@ -97,6 +97,7 @@
     import roundWheel from "../../../../../game/roundWheel.js";
     import warTips from "../../../../stores/war_tips.js";
     import game_over from "../../../../../game/actives/game_over.js";
+    import BindBox from "../../../../../game/characters/BindBox.js";
 
     export let native_data; // 原始数据
 
@@ -239,7 +240,15 @@
         beforeTrigger(round_wheel)
         dieTrigger()
 
+        let bindbox = new BindBox(character_from)
+        let flag_use = bindbox.limit_use(skill_name)
+        if(!flag_use){
+            alert("无法使用多次限定技能!")
+            return
+        }
+
         let array_characters = skillDict[skill_name](character_from, character_to, {round_wheel: round_wheel});
+        character_from.skill_history.push(skill_name) // 技能释放结束后就放在技能表中
         dieTrigger()
 
         let skill_data = array_characters.data;

@@ -29,6 +29,9 @@ class CharacterTemplates {
     SkillsName = {
         SkillA: "attack", SkillB: "attack", SkillC: "attack", SkillD: "attack"
     }
+    SkillsPolicy = () => {
+
+    }
 
     Status = {
         is_die: false, // 是否死亡

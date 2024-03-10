@@ -21,22 +21,29 @@ class BindBox {
         return this.character.Name
     }
 
-    // region 技能释放
-    release(skill_type) {
-        this.getBuffTrigger("BeforeReleaseSkill")
+    limit_use(skill_name){
 
-        let skill_name = this.character.SkillsName[skill_type]
-        if (skill_name !== null) {
-            skill_name = skill_name.event
-
-            console.log(SkillDict)
-            let skill = SkillDict[skill_name]
-            if (skill !== null) {
-                return skill
+        for (let skill of Object.values(this.character.SkillsName)){
+            console.log(skill, skill_name)
+            if (skill.function_name === skill_name){
+                let is_limit = skill.is_limit
+                if(is_limit){
+                    return !this.character.skill_history.includes(skill_name) // 找到了就不能用
+                }else{
+                    return true // 不是限定就可以一致用
+                }
             }
         }
-        this.getBuffTrigger("AfterReleaseSkill")
+        console.log("没找到~!")
+        return false // 没找到呢!
+
     }
+
+    AISkill(){
+
+    }
+
+    // region 技能释放
 
     computedHint(hint_value=1, magnification = 1, hostile_character) {
         // magnification 是倍率
