@@ -9,6 +9,7 @@ class CharacterTemplates {
     Name = "匿名角色";
     Buffs = []; // 被动效果 、 回合效果等
     AliasName = "" // 别名 用在文件系统上的
+    skill_history = [] // 释放的技能历史
 
     Avatar = null // 头像别名
     Picture = null // 全图别名

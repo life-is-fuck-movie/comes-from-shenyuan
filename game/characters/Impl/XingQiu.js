@@ -15,7 +15,6 @@ class XingQiu extends CharacterTemplates{
         attack: 15, defense: 30,max_hp: 180, max_mp: 50, now_hp: 120 , now_mp:50, speed: 10
     }
 
-    skill_history = [] // 释放的技能历史
 
     SkillsName = AISkillModel.skillGroup.the_2()
     SkillGroup = "the_2"

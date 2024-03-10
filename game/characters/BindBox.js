@@ -44,14 +44,15 @@ class BindBox {
     }
 
     AISkill(hos_character){
-        return AISkillTirgger.trigger(this.character, hos_character, this.character.SkillGroup) // 触发 指定技能组的 AI技能
+        AISkillTirgger.trigger(this.character.SkillGroup)
+        return AISkillTirgger // 触发 指定技能组的 AI技能
     }
 
     // region 技能释放
 
     computedHint(hint_value=1, magnification = 1, hostile_character) {
         // magnification 是倍率
-        let ret = parseInt((this.character.Values.attack * hint_value) / hostile_character.Values.defense)
+        let ret = parseInt((this.character.Values.attack * hint_value) / hostile_character.Values.defense )
         return ret;
 
     }

@@ -32,7 +32,7 @@ class SkillMapA {
 
         return {
             characters: [self_character, hostile_character],
-            value: `{render:self} 使用了【雪霁梅香】临时提升了 【${fluctuation}】 点攻击，同时对敌人造成了【${damage}】 点伤害，但是自己也失去了【${fluctuation}】点生命`,
+            value: `{render:self} 使用了【雪霁梅香】临时提升了 【${fluctuation}】 点攻击，同时对敌人造成了【${hint}】 点伤害，但是自己也失去了【${fluctuation}】点生命`,
             data: {
                 hint: damage,
                 add_hp: -fluctuation

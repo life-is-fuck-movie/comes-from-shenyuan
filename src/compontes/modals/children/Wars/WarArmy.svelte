@@ -165,8 +165,14 @@
         character_to = characters[1]
     }
 
-    function render_color(value) {
+    function render_color(value, reversal=false) {
+        if (reversal){
+            value = value.replace("{render:self}","{render:hos_tmp}")
+            value = value.replace("{render:hos}","{render:self}")
+            value = value.replace("{render:hos_tmp}","{render:hos}")
+        }
         value = value.replace("{render:self}", `<span class="self-character" style="color: #5eff00;padding: 0 10px;display: inline-block;">${character_from.Name}</span>`)
+        value = value.replace("{render:hos}", `<span class="hos-character" style="color: #ff00e2;padding: 0 10px;display: inline-block;">${character_to.Name}</span>`)
         value = "<br />" + value
         return value
     }
@@ -256,9 +262,6 @@
         hintTrigger(round_wheel, skill_data, true)
         dieTrigger()
 
-        afterTrigger(round_wheel)
-        dieTrigger()
-
 
         let value = array_characters.value
         value = render_color(value)
@@ -271,7 +274,32 @@
         // 电脑攻击环节
         let hos_bindBox = new bindBox(character_to);
         let policy = hos_bindBox.AISkill(character_from)
-        policy({})
+        let function_name = policy.policy({
+            self: character_to,
+            hos: character_from
+        })
+
+        array_characters = skillDict[function_name]( character_to,character_from, {round_wheel: round_wheel}); // AI 释放技能
+
+        character_to.skill_history.push(skill_name) // AI技能释放结束后就放在技能表中
+        dieTrigger()
+
+        skill_data = array_characters.data;
+        hintTrigger(round_wheel, skill_data, false)
+        dieTrigger()
+
+        afterTrigger(round_wheel)
+        dieTrigger()
+
+
+        value = array_characters.value
+        value = render_color(value, true)
+        war_info_html += value
+
+        array_characters = array_characters.characters
+        character_from = array_characters[1] // AI 世界是反的
+        character_to = array_characters[0]
+
     }
 
     function resurrectionTrigger() {
