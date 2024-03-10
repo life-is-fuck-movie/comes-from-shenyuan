@@ -98,6 +98,7 @@
     import warTips from "../../../../stores/war_tips.js";
     import game_over from "../../../../../game/actives/game_over.js";
     import BindBox from "../../../../../game/characters/BindBox.js";
+    import bindBox from "../../../../../game/characters/BindBox.js";
 
     export let native_data; // 原始数据
 
@@ -266,6 +267,11 @@
         array_characters = array_characters.characters
         character_from = array_characters[0]
         character_to = array_characters[1]
+
+        // 电脑攻击环节
+        let hos_bindBox = new bindBox(character_to);
+        let policy = hos_bindBox.AISkill(character_from)
+        policy({})
     }
 
     function resurrectionTrigger() {
@@ -286,12 +292,10 @@
     }
 
     function gameover() {
-        console.log("有人死")
         // TODO 游戏结束 角色死亡一个
         let has_resurrection = resurrectionTrigger() // 复活判断
 
         if (has_resurrection) {
-            console.log("有人复活")
             dieTriggered = false // 复活之后又要重新触发死亡机制了
             return
         }
@@ -314,7 +318,6 @@
     onMount(
         _ => {
             war_render(warManager.policy_select)
-            console.log("注册死亡")
             round_wheel.replace_task(round_wheel.TYPE.HAS_DIE, gameover, round_wheel.RoundMakePolicy.long()); // 游戏死亡轮回
 
         }

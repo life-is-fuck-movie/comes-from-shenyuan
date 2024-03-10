@@ -3,6 +3,7 @@ import Save from "../other/tools/Save.js";
 import BuffDispatch from "../Buffs/BuffDispatch.js";
 import buffDispatch from "../Buffs/BuffDispatch.js";
 import RefreshMapData from "../../src/stores/RefreshMapData.js";
+import AISkillTirgger from "../skills/AISkillTirgger.js";
 
 /**
  * 因为JSON不方便存储方法 所以存档在这里进行BindBox
@@ -21,14 +22,18 @@ class BindBox {
         return this.character.Name
     }
 
-    limit_use(skill_name){
+    can_use_skill(skill_function_name){
+        return  this.limit_use(skill_function_name)
+    }
+
+    limit_use(skill_function_name){
 
         for (let skill of Object.values(this.character.SkillsName)){
-            console.log(skill, skill_name)
-            if (skill.function_name === skill_name){
+            console.log(skill, skill_function_name)
+            if (skill.function_name === skill_function_name){
                 let is_limit = skill.is_limit
                 if(is_limit){
-                    return !this.character.skill_history.includes(skill_name) // 找到了就不能用
+                    return !this.character.skill_history.includes(skill_function_name) // 找到了就不能用
                 }else{
                     return true // 不是限定就可以一致用
                 }
@@ -36,11 +41,10 @@ class BindBox {
         }
         console.log("没找到~!")
         return false // 没找到呢!
-
     }
 
-    AISkill(){
-
+    AISkill(hos_character){
+        return AISkillTirgger.trigger(this.character, hos_character, this.character.SkillGroup) // 触发 指定技能组的 AI技能
     }
 
     // region 技能释放
@@ -50,30 +54,9 @@ class BindBox {
         let ret = parseInt((this.character.Values.attack * hint_value) / hostile_character.Values.defense)
         return ret;
 
-
-    }
-
-    releaseSkillA() {
-        return this.skill_type("SkillA")
-    }
-
-    releaseSkillB() {
-        return this.skill_type("SkillB")
-    }
-
-    releaseSkillC() {
-        return this.skill_type("SkillC")
-    }
-
-    releaseSkillD() {
-        return this.skill_type("SkillD")
     }
 
     // endregion
-
-    getStatusData(key) {
-        return this.character.Status[key]
-    }
 
     getAvatar() {
         if (this.character.Avatar !== null) {

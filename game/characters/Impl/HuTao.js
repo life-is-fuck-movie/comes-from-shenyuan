@@ -12,7 +12,7 @@ class HuTao extends CharacterTemplates{
     }]; // 被动效果 、 回合效果等
     AliasName = "hutao" // 别名 用在文件系统上的
 
-    Belongs = "璃月" // 所属类别"
+    Belongs = "璃月2" // 所属类别"
 
     Values = {
         attack: 20, defense: 5 ,max_hp: 120, max_mp: 50, now_hp:120 , now_mp:50
