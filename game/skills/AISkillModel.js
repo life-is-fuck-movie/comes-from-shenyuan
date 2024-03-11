@@ -64,7 +64,6 @@ class skillGroup{
             }, SkillD: {
                 event: "古华剑法",
                 function_name: "ghjf",
-
                 description: "限定技，恢复到满血，攻击力翻倍，防御力翻倍，每回合固定失去10点生命上限提升4点防御，4点攻击。",
                 damage: 50,
                 needMp: 40,
@@ -77,7 +76,35 @@ class skillGroup{
         // 纳西妲技能组
 
         return {
-
+            SkillA: {
+                event: "花园",
+                function_name: "hy",
+                description: "为敌方叠加一个`花`的标记; 进行叠加`花`的时候，如果敌方原有的`花`超过2个，会有20%`花`标记全部清空，且自身收到  `暴种`的惩罚失去20点生命。<br><i >啊,种下这精致的小花,真是可爱极了!不过要是种太多就会引来蜜蜂惩罚哦~</i>",
+                damage: 0,
+                needMp: 15,
+                is_limit: false,
+            }, SkillB: {
+                event: "密林",
+                function_name: "ml",
+                description: "为敌方叠加1个`花`的标记，每一个花标记对敌方造成80%的伤害, 技能结束后敌方的`花`被回收 <br> 想了很久还是把那些美丽的事物困聚其中吧，把头仰着就那么看看天~有些时候躲在密林里这般也是无穷的快乐呢 ",
+                damage: 10,
+                needMp: 12,
+                is_limit: false,
+            }, SkillC: {
+                event: "闻识见意",
+                description: "立刻为自己叠加`2~4`个`花`的标记，如果叠加后自身`花`的数量大于5个以上，50%和敌方互换`花`标记，敌方在交换前后的花标记数量之差的绝对值的2倍将会提升到自己的攻击力本身。",
+                function_name: "cmjx",
+                damage: 15,
+                needMp: 20,
+                is_limit: false,
+            }, SkillD: {
+                event: "古华剑法",
+                function_name: "lks",
+                description: "限定技，神是无私地，所以自愿的转交给敌方20%的生命；神也是自私的，所以在之后的每回合自身恢复10点血，敌方失去转交给其生命的50%。 <br>  ”糜风南海起，仿似北鸟来。来者不知影，归处寻无迹。恰如东旭日，弭定无长久，幻梦常觉醒，心入大荒流。”",
+                damage: 50,
+                needMp: 40,
+                is_limit: true,
+            }
         }
     }
 }

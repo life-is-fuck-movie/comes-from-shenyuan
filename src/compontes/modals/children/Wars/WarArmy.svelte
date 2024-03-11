@@ -57,7 +57,7 @@
                     <h1>{show_skill.event}</h1>
                     <h2>伤害: {show_skill.damage}</h2>
                     <h3 class="skill-description">
-                        {show_skill.description}
+                        {@html show_skill.description}
                     </h3>
                     <Button value="释放" click={
                     ()=>{
