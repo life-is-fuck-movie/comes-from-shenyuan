@@ -237,7 +237,7 @@ class SkillMapA {
     cmjx(self_character, hostile_character, data = null){
         // 立刻为自己叠加`1~2`个`花`的标记，如果叠加后自身`花`的数量大于3个以上，
         // 可以和敌方互换`花`标记，敌方在交换前后的花标记数量之差的绝对值将会提升到自己的攻击力本身。
-        let count_hua = Gloabs.getRandomInt(1,2)
+        let count_hua = Gloabs.getRandomInt(2,4)
 
         // 给自己加入 count_hua 个花
         self_character.badge.push(...Array(count_hua).fill("花"))

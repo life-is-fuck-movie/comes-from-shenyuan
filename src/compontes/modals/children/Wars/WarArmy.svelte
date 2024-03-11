@@ -68,7 +68,7 @@
                 </div>
             {/if}
         </div>
-        {dieTriggered}
+
         <div class="selector">
             {#each policies as a}
                 <Button value="{a[0]}" click="{()=>{
@@ -412,13 +412,48 @@
 
   .skill-info {
     font-family: "华文中宋", "幼圆", serif;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
 
+    max-height: 33vh;
+    transition: 1s;
+
+    overflow: auto;
     .skill-description {
       margin: 20px 0px;
       color: #1A262F;
-
     }
 
+
+    &:hover{
+      animation-name: show;
+      animation-duration: 10s;
+      animation-iteration-count: infinite;
+    }
+
+
+  }
+
+  @keyframes show {
+    0%{
+      transform: rotate3d(360, 360, 360,0deg);
+
+    }
+    25%{
+      transform: rotate3d(360, 360, 360,-5deg);
+
+    }
+    50%{
+      transform: rotate3d(360, 360, 360, 5deg);
+    }
+    75%{
+      transform: rotate3d(360, 360, 360, -5deg);
+    }
+    100%{
+      transform: rotate3d(360, 360, 360,0deg);
+
+    }
   }
 
 
