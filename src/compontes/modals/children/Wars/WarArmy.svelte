@@ -47,7 +47,7 @@
         <div class="body">
 
 
-            <div class="war-info">
+            <div class="war-info" bind:this={warInfoContainer}>
                 {character_from.Name} , {character_to.Name}开始战斗... <br>
                 {@html war_info_html}
 
@@ -88,7 +88,7 @@
 
 <script>
 
-    import {onMount} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import Strip from "../../../functions/Strip.svelte";
     import Button from "../../../functions/Button.svelte";
     import warManager from "../../../../../game/actives/WarManager.js";
@@ -165,6 +165,19 @@
         character_from = characters[0]
         character_to = characters[1]
     }
+    let warInfoContainer;
+
+    function scrollToBottom() {
+        warInfoContainer.scrollTop = warInfoContainer.scrollHeight;
+    }
+
+    onMount(() => {
+        scrollToBottom();
+    });
+
+    afterUpdate(() => {
+        scrollToBottom();
+    });
 
     function render_color(value, reversal=false) {
         if (reversal){
