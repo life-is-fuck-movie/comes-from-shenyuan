@@ -57,7 +57,7 @@ class skillGroup{
             }, SkillC: {
                 event: "闻识见意",
                 description: "将自身非`雨帘`的标记全部清除, 且如果清除的标记大于3个则每清除3个可以转化为一个`雨帘`。",
-                function_name: "bwqz",
+                function_name: "wsjy",
                 damage: 15,
                 needMp: 20,
                 is_limit: false,
@@ -99,7 +99,7 @@ class skillGroup{
                 is_limit: false,
             }, SkillD: {
                 event: "摩耶虚境",
-                function_name: "lks",
+                function_name: "myxj",
                 description: "限定技，神是无私地，所以自愿的转交给敌方20%的生命；神也是自私的，所以在之后的每回合自身恢复10点血，敌方失去转交给其生命的50%。 <br>  ”糜风南海起，仿似北鸟来。来者不知影，归处寻无迹。恰如东旭日，弭定无长久，幻梦常觉醒，心入大荒流。”",
                 damage: 50,
                 needMp: 40,

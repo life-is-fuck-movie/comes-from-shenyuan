@@ -55,7 +55,7 @@ class roundWheel {
             }
             return ret;
         }, // 指定 array 发生
-        long: ()=>{
+        long: () => {
             return ["LONG"]
         }
     }
@@ -63,24 +63,25 @@ class roundWheel {
 
     round = 1; // 默认从第一个回合开始
 
-    active_tasks(task_type, argument = null, cancel_it=false) {
-        console.log("触发", task_type)
+    active_tasks(task_type, argument = null, cancel_it = false) {
+        console.log("触发", this.tasks_bus)
+        let flag = false
         for (let task of this.tasks_bus) {
             if ((task.round.includes(this.round) || task.round.includes("LONG")) && task_type === task.type) {
                 // 当前回合和是触发任务的时候并且 任务类型和触发的一样的时候
                 if (argument === null) {
                     task.run(); // 启动!
-                    if (cancel_it){
+                    if (cancel_it) {
                         this.cancel_task(task.task_name)
                     }
-                    return true
+                    flag = true
                 } else {
                     task.run(argument)
-                    return true
+                    flag = true
                 }
             }
         }
-        return false
+        return flag
     }
 
     next_round() {
@@ -117,7 +118,7 @@ class roundWheel {
     /**
      * 替换某个类型的task_methods
      */
-    replace_task(type, task_method, round=[]) {
+    replace_task(type, task_method, round = []) {
         let flag_in = false;
         for (let task of this.tasks_bus) {
             flag_in = task.type === task

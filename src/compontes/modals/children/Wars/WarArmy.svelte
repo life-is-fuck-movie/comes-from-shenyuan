@@ -52,6 +52,7 @@
                 {@html war_info_html}
 
             </div>
+
             {#if (show_skill !== null)}
                 <div class="skill-info">
                     <h1>{show_skill.event}</h1>
@@ -201,7 +202,11 @@
     }
 
     function beforeTrigger(round_wheel) {
+        console.log("触发前提")
+
+        "你好这是我的代码"
         round_wheel.active_tasks(round_wheel.TYPE.BEFORE) // 启动当前回合的所有的任务，开始的时候
+
     }
 
     function afterTrigger(round_wheel) {
@@ -255,6 +260,12 @@
         }
 
         let array_characters = skillDict[skill_name](character_from, character_to, {round_wheel: round_wheel});
+
+        let array_character = array_characters.characters
+        character_from = array_character[0]
+        character_to = array_character[1]
+
+
         character_from.skill_history.push(skill_name) // 技能释放结束后就放在技能表中
         dieTrigger()
 
@@ -267,9 +278,7 @@
         value = render_color(value)
         war_info_html += value
 
-        array_characters = array_characters.characters
-        character_from = array_characters[0]
-        character_to = array_characters[1]
+
 
         // 电脑攻击环节
         let hos_bindBox = new bindBox(character_to);
@@ -281,7 +290,11 @@
 
         array_characters = skillDict[function_name]( character_to,character_from, {round_wheel: round_wheel}); // AI 释放技能
 
-        character_to.skill_history.push(skill_name) // AI技能释放结束后就放在技能表中
+        array_character = array_characters.characters
+        character_from = array_character[1] // AI 世界是反的
+        character_to = array_character[0]
+
+        character_to.skill_history.push(function_name) // AI技能释放结束后就放在技能表中
         dieTrigger()
 
         skill_data = array_characters.data;
@@ -296,9 +309,7 @@
         value = render_color(value, true)
         war_info_html += value
 
-        array_characters = array_characters.characters
-        character_from = array_characters[1] // AI 世界是反的
-        character_to = array_characters[0]
+
 
     }
 

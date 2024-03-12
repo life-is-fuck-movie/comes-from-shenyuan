@@ -2,6 +2,7 @@ import BindBox from "../characters/BindBox.js";
 import bindBox from "../characters/BindBox.js";
 import badgeAppend from "./badgeAppend.js";
 import Gloabs from "../actives/Gloabs.js";
+import warTipsManager from "../actives/warTipsManager.js";
 
 class SkillMapA {
     get_skill_detail(self_character, skill_name) {
@@ -139,7 +140,7 @@ class SkillMapA {
         }
     }
 
-    bwqz(self_character, hostile_character, data) {
+    wsjy(self_character, hostile_character, data) {
         const only_yulian = self_character.badge.filter(badge => badge === "雨帘")
         let non_yulian = self_character.badge.filter(badge => badge !== "雨帘")
         let non_yulian_count = non_yulian.length; // 获取非雨帘的数量
@@ -172,33 +173,33 @@ class SkillMapA {
 
                 self_character.Values.attack += 4
                 self_character.Values.defense += 4
-            },round.TYPE.BEFORE, round.RoundMakePolicy.long()
+            }, round.TYPE.BEFORE, round.RoundMakePolicy.long()
         )
 
         return {
             characters: [self_character, hostile_character],
-            value: `恢复了满血并在每回合失去10点生命`,
+            value: `{render:self}恢复了满血并在每回合失去10点生命`,
             data: {}
         }
     }
 
-    hy(self_character, hostile_character, data = null){
+    hy(self_character, hostile_character, data = null) {
 
         //为敌方叠加一个`花`的标记; 进行叠加`花`的时候，如果敌方原有的`花`超过2个，会有20%`花`标记全部清空，且自身收到  `暴种`的惩罚失去20点生命
         let self_bind = new BindBox(self_character);
         hostile_character.badge.push("花") // 叠加花标记
 
         let flag_baozhong = false
-        if(hostile_character.badge.length > 2){
+        if (hostile_character.badge.length > 2) {
             let rate = Gloabs.randomEvent(20)
-            if(rate){
+            if (rate) {
                 // 清空hostile_character.badge的花标记
                 hostile_character.badge = hostile_character.badge.filter(item => item !== "花") // 清空花的标记
                 //  受到暴种惩罚
                 self_bind.SetNowHp(parseInt(self_character.Values.now_hp - 20)); // 每回合失去20点生命
                 // 爆种了
                 flag_baozhong = true
-            }else{
+            } else {
                 // 没爆种
                 flag_baozhong = false
             }
@@ -206,19 +207,19 @@ class SkillMapA {
 
         return {
             characters: [self_character, hostile_character],
-            value: `{render:self} 使用了【花园】, ${flag_baozhong ? "因为概率原因爆种了，导致所有的花消失了": "给敌方施加了【花】的标记一个"}`,
+            value: `{render:self} 使用了【花园】, ${flag_baozhong ? "因为概率原因爆种了，导致所有的花消失了" : "给敌方施加了【花】的标记一个"}`,
             data: {}
         }
     }
 
-    ml(self_character, hostile_character, data = null){
+    ml(self_character, hostile_character, data = null) {
         // 为敌方叠加1个`花`的标记，每一个花标记对敌方造成80%的伤害, 技能结束后敌方的`花`被回收
         hostile_character.badge.push("花")
         // 对敌方的`花`标记进行计数
         let count_hua = hostile_character.badge
             .filter(item => item === "花").length
         //   计算伤害
-        let hint_value = this.make_hint_to_hostile(self_character,hostile_character,"ml")
+        let hint_value = this.make_hint_to_hostile(self_character, hostile_character, "ml")
         // 每一个花标记对敌方造成80%的伤害
         let damage = parseInt(hint_value * 0.8 * count_hua)
         let bindHos = new BindBox(hostile_character)
@@ -234,10 +235,10 @@ class SkillMapA {
         }
     }
 
-    cmjx(self_character, hostile_character, data = null){
+    cmjx(self_character, hostile_character, data = null) {
         // 立刻为自己叠加`1~2`个`花`的标记，如果叠加后自身`花`的数量大于3个以上，
         // 可以和敌方互换`花`标记，敌方在交换前后的花标记数量之差的绝对值将会提升到自己的攻击力本身。
-        let count_hua = Gloabs.getRandomInt(2,4)
+        let count_hua = Gloabs.getRandomInt(2, 4)
 
         // 给自己加入 count_hua 个花
         self_character.badge.push(...Array(count_hua).fill("花"))
@@ -246,11 +247,11 @@ class SkillMapA {
         let length_hua = self_character.badge.filter(e => e === "花").length;
         let power = 0;
         let rate = Gloabs.randomEvent(50)
-        let change_flag =  false
-        if (length_hua>3){
+        let change_flag = false
+        if (length_hua > 3) {
 
 
-            if (rate){
+            if (rate) {
                 change_flag = true
                 // 获取敌方的花标记个数
                 let length_hua_hostile = hostile_character.badge.filter(e => e === "花").length;
@@ -275,11 +276,44 @@ class SkillMapA {
         }
         return {
             characters: [self_character, hostile_character],
-            value: `{render:self} 获取了${length_hua}个【花】。${change_flag ? `顺便互换【花】了, 提升了${power}点攻击了。`: ""}`,
-            data: {
-
-            }
+            value: `{render:self} 获取了${length_hua}个【花】。${change_flag ? `顺便互换【花】了, 提升了${power}点攻击了。` : ""}`,
+            data: {}
         }
+
+    }
+
+    myxj(self_character, hostile_character, data = null) {
+        //限定技，神是无私地，所以自愿的转交给敌方20%的生命；神也是自私的，所以在之后的每回合自身恢复10点血，敌方失去转交给其生命的50%。
+
+
+        let bind_character = new BindBox(self_character);
+        let bind_hos = new BindBox(hostile_character);
+        // 转交 20% 的生命
+
+        let lose_hp = parseInt(self_character.Values.now_hp * .2)
+
+        bind_character.SetNowHp(self_character.Values.now_hp - lose_hp)
+        bind_hos.SetNowHp(hostile_character.Values.now_hp + lose_hp)
+
+        let round_wheel = data.round_wheel;
+        let tasks;
+
+        tasks = round_wheel.register_task(
+            _ => {
+                console.log("你好")
+                bind_character.SetNowHp(self_character.Values.now_hp + 10)
+                bind_hos.SetNowHp(hostile_character.Values.now_hp - parseInt(lose_hp / 2))
+                warTipsManager.send_tip(`${self_character.Name}恢复【10】点生命，${hostile_character.Name}
+                失去了${parseInt(lose_hp / 2)}点生命`)
+            }, round_wheel.TYPE.BEFORE, round_wheel.RoundMakePolicy.long()
+        )
+
+        return {
+            characters: [self_character, hostile_character],
+            value: `{render:self}失去了${lose_hp}点生命，敌方提升了${lose_hp}的生命`,
+            data: {}
+        }
+
 
     }
 
