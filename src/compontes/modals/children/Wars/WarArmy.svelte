@@ -416,7 +416,17 @@
     color: red;
     height: 40vh;
     max-height: 40vh;
+    background-color: #1A262FCC;
 
+  }
+
+  .war-info::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .war-info::-webkit-scrollbar-thumb {
+    background-color: #1A262F; /* 滚动条拖动部分的背景色 */
+    border-radius: 5px; /* 滚动条拖动部分的圆角 */
   }
 
   .selector {
