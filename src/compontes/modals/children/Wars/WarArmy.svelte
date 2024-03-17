@@ -1,8 +1,7 @@
-
 <div>
     <h2 class="title">
         {#key round_wheel.round}
-            {character_from.Name} PK {character_to.Name} 第 {round} 回合
+            {character_from.Name} PK {character_to.Name} 第 {round+1} 回合
         {/key}
     </h2>
 
@@ -11,6 +10,19 @@
         {#key character_from}
             <div class="info-status left-info-status">
                 <div>{character_from.Name} {character_from.badge}</div>
+                <div>
+                    兵力:<span class="show_army" on:click={_=>detail_from_army_show = !detail_from_army_show}>查看</span>
+                    {#if detail_from_army_show}
+                        <div class="detail_from" transition:fade>
+                            {#each Object.keys(character_from.Status.ranks) as army}
+                                <li>
+                                    {army}: {character_from.Status.ranks[army]}
+                                </li>
+                            {/each}
+                        </div>
+                    {/if}
+
+                </div>
                 <Strip
                         max_value={character_from.Values.max_hp}
                         now_value={character_from.Values.now_hp}
@@ -27,6 +39,21 @@
         {#key character_to}
             <div class="info-status">
                 <div>{character_to.Name} {character_to.badge}</div>
+                    <div>
+                        兵力: <span class="show_army" on:click={_=>detail_to_army_show = !detail_to_army_show}>查看</span>
+                        {#if detail_to_army_show }
+
+                        <div class="detail_to" transition:fade>
+                            {#each Object.keys(character_to.Status.ranks) as army}
+                                <li>
+                                    {army}: {character_to.Status.ranks[army]}
+                                </li>
+                            {/each}
+                        </div>
+                        {/if}
+
+                    </div>
+
                 <Strip
                         max_value={character_to.Values.max_hp}
                         now_value={character_to.Values.now_hp}
@@ -71,6 +98,7 @@
         </div>
 
         <div class="selector">
+            <Button value="士兵冲锋" click="{()=>{}}"/>
             {#each policies as a}
                 <Button value="{a[0]}" click="{()=>{
                     render_policy(a[1])
@@ -100,6 +128,7 @@
     import game_over from "../../../../../game/actives/game_over.js";
     import BindBox from "../../../../../game/characters/BindBox.js";
     import bindBox from "../../../../../game/characters/BindBox.js";
+    import {fade} from "svelte/transition"
 
     export let native_data; // 原始数据
 
@@ -109,6 +138,9 @@
     let dieTriggered = false // 是否已经触发过死亡
 
     let player_skills = [];
+
+    let detail_to_army_show = false;
+    let detail_from_army_show = false
 
     // region 恢复原数据的记录
     let native_from = {
@@ -165,6 +197,7 @@
         character_from = characters[0]
         character_to = characters[1]
     }
+
     let warInfoContainer;
 
     function scrollToBottom() {
@@ -179,11 +212,11 @@
         scrollToBottom();
     });
 
-    function render_color(value, reversal=false) {
-        if (reversal){
-            value = value.replace("{render:self}","{render:hos_tmp}")
-            value = value.replace("{render:hos}","{render:self}")
-            value = value.replace("{render:hos_tmp}","{render:hos}")
+    function render_color(value, reversal = false) {
+        if (reversal) {
+            value = value.replace("{render:self}", "{render:hos_tmp}")
+            value = value.replace("{render:hos}", "{render:self}")
+            value = value.replace("{render:hos_tmp}", "{render:hos}")
         }
         value = value.replace("{render:self}", `<span class="self-character" style="color: #5eff00;padding: 0 10px;display: inline-block;">${character_from.Name}</span>`)
         value = value.replace("{render:hos}", `<span class="hos-character" style="color: #ff00e2;padding: 0 10px;display: inline-block;">${character_to.Name}</span>`)
@@ -225,7 +258,7 @@
     function afterTrigger(round_wheel) {
         round_wheel.active_tasks(round_wheel.TYPE.AFTER) // 启动当前回合的所有的任务， 结束的时候
         round_wheel.round++;
-        round ++;
+        round++;
 
         console.log("-------")
         console.log(round_wheel.tasks_bus)
@@ -267,7 +300,7 @@
 
         let bindbox = new BindBox(character_from)
         let flag_use = bindbox.limit_use(skill_name)
-        if(!flag_use){
+        if (!flag_use) {
             alert("无法使用多次限定技能!")
             return
         }
@@ -292,7 +325,6 @@
         war_info_html += value
 
 
-
         // 电脑攻击环节
         let hos_bindBox = new bindBox(character_to);
         let policy = hos_bindBox.AISkill(character_from)
@@ -301,7 +333,7 @@
             hos: character_from
         })
 
-        array_characters = skillDict[function_name]( character_to,character_from, {round_wheel: round_wheel}); // AI 释放技能
+        array_characters = skillDict[function_name](character_to, character_from, {round_wheel: round_wheel}); // AI 释放技能
 
         array_character = array_characters.characters
         character_from = array_character[1] // AI 世界是反的
@@ -321,7 +353,6 @@
         value = array_characters.value
         value = render_color(value, true)
         war_info_html += value
-
 
 
     }
@@ -349,6 +380,7 @@
 
         if (has_resurrection) {
             dieTriggered = false // 复活之后又要重新触发死亡机制了
+            alert("角色复活")
             return
         }
 
@@ -431,11 +463,11 @@
 
   .selector {
     display: flex;
-    position: absolute;
-    bottom: 10px;
+    position: sticky;
+    bottom: 0;
     justify-content: center;
     align-items: center;
-    width: 95%;
+    width: 100%;
   }
 
   .selector :global(.my-button) {
@@ -454,13 +486,14 @@
     transition: 1s;
 
     overflow: auto;
+
     .skill-description {
       margin: 20px 0px;
       color: #1A262F;
     }
 
 
-    &:hover{
+    &:hover {
       animation-name: show;
       animation-duration: 10s;
       animation-iteration-count: infinite;
@@ -470,25 +503,29 @@
   }
 
   @keyframes show {
-    0%{
-      transform: rotate3d(360, 360, 360,0deg);
+    0% {
+      transform: rotate3d(360, 360, 360, 0deg);
 
     }
-    25%{
-      transform: rotate3d(360, 360, 360,-5deg);
+    25% {
+      transform: rotate3d(360, 360, 360, -5deg);
 
     }
-    50%{
+    50% {
       transform: rotate3d(360, 360, 360, 5deg);
     }
-    75%{
+    75% {
       transform: rotate3d(360, 360, 360, -5deg);
     }
-    100%{
-      transform: rotate3d(360, 360, 360,0deg);
+    100% {
+      transform: rotate3d(360, 360, 360, 0deg);
 
     }
   }
-
+    .show_army{
+      &:hover{
+        color: darkred;
+      }
+    }
 
 </style>

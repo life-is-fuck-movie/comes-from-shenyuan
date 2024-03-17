@@ -84,9 +84,9 @@
 
 </script>
 {#if show_flag}
-    <div class="toast" type="success" on:click={()=>{
-toast_callback()
-    }}>
+        <div class="toast" type="success" on:click={()=>{
+            toast_callback()
+        }}>
         <div class="toast-inner" transition:fade>{toast_value}</div>
     </div>
 {/if}
