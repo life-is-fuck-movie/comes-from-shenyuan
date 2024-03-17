@@ -15,6 +15,7 @@ class SaveManager{
     LoadSaveJson(saveName){
         let val =  localStorage.getItem(saveName)
         if (val === null){
+
             return void 0
         }
         return JSON.parse(val)

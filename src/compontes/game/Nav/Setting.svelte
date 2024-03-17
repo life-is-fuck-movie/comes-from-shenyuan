@@ -145,7 +145,12 @@
     }
 
     function loadSetting() {
-        settingConfig.set(saveManager.LoadSaveJson('setting')) // 加载到全局store中
+        let setting =  saveManager.LoadSaveJson('setting')
+        if(setting === void 0){
+            setting = {move:5}
+        }
+        settingConfig.set(setting) // 加载到全局store中
+
     }
 
     onMount(
