@@ -1,7 +1,7 @@
 <div>
     <h2 class="title">
         {#key round_wheel.round}
-            {character_from.Name} PK {character_to.Name} 第 {round+1} 回合
+            {character_from.Name} PK {character_to.Name} 第 {round + 1} 回合
         {/key}
     </h2>
 
@@ -9,9 +9,11 @@
 
         {#key character_from}
             <div class="info-status left-info-status">
-                <div>{character_from.Name} {character_from.badge}</div>
                 <div>
-                    兵力:<span class="show_army" on:click={_=>detail_from_army_show = !detail_from_army_show}>查看</span>
+                    <div>【体力: {character_from.war_active}】</div>{character_from.Name} {character_from.badge}</div>
+                <div>
+                    兵力:<span class="show_army"
+                               on:click={_=>detail_from_army_show = !detail_from_army_show}>查看</span>
                     {#if detail_from_army_show}
                         <div class="detail_from" transition:fade>
                             {#each Object.keys(character_from.Status.ranks) as army}
@@ -38,10 +40,11 @@
 
         {#key character_to}
             <div class="info-status">
-                <div>{character_to.Name} {character_to.badge}</div>
-                    <div>
-                        兵力: <span class="show_army" on:click={_=>detail_to_army_show = !detail_to_army_show}>查看</span>
-                        {#if detail_to_army_show }
+                <div>
+                    <div>【体力: {character_to.war_active}】</div>{character_to.Name} {character_to.badge}</div>
+                <div>
+                    兵力: <span class="show_army" on:click={_=>detail_to_army_show = !detail_to_army_show}>查看</span>
+                    {#if detail_to_army_show }
 
                         <div class="detail_to" transition:fade>
                             {#each Object.keys(character_to.Status.ranks) as army}
@@ -50,9 +53,9 @@
                                 </li>
                             {/each}
                         </div>
-                        {/if}
+                    {/if}
 
-                    </div>
+                </div>
 
                 <Strip
                         max_value={character_to.Values.max_hp}
@@ -299,14 +302,16 @@
         dieTrigger()
 
         let bindbox = new BindBox(character_from)
-        let flag_use = bindbox.limit_use(skill_name)
-        if (!flag_use) {
-            alert("无法使用多次限定技能!")
+        try {
+            bindbox.can_use_skill(skill_name)
+        }catch (e) {
+            alert(e.message)
             return
         }
 
-        let array_characters = skillDict[skill_name](character_from, character_to, {round_wheel: round_wheel});
 
+        let array_characters = skillDict[skill_name](character_from, character_to, {round_wheel: round_wheel});
+        character_from.war_active -= 1
         let array_character = array_characters.characters
         character_from = array_character[0]
         character_to = array_character[1]
@@ -327,7 +332,7 @@
 
         // 电脑攻击环节
         let hos_bindBox = new bindBox(character_to);
-        let policy = hos_bindBox.AISkill(character_from)
+        let policy = hos_bindBox.AISkill()
         let function_name = policy.policy({
             self: character_to,
             hos: character_from
@@ -522,10 +527,11 @@
 
     }
   }
-    .show_army{
-      &:hover{
-        color: darkred;
-      }
+
+  .show_army {
+    &:hover {
+      color: darkred;
     }
+  }
 
 </style>

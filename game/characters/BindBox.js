@@ -23,7 +23,14 @@ class BindBox {
     }
 
     can_use_skill(skill_function_name){
-        return  this.limit_use(skill_function_name)
+        this.limit_use(skill_function_name)
+        this.active_enough()
+
+    }
+
+    active_enough(){
+        if(this.character.war_active <= 0)
+            throw  Error(`【${this.character.Name}】行动力不足`)
     }
 
     limit_use(skill_function_name){
@@ -33,18 +40,20 @@ class BindBox {
             if (skill.function_name === skill_function_name){
                 let is_limit = skill.is_limit
                 if(is_limit){
-                    return !this.character.skill_history.includes(skill_function_name) // 找到了就不能用
+                    if (this.character.skill_history.includes(skill_function_name)){
+                        throw new Error("限定技能不能多次使用");
+                    } // 找到了就不能用
                 }else{
                     return true // 不是限定就可以一致用
                 }
             }
         }
-        console.log("没找到~!")
-        return false // 没找到呢!
+
     }
 
-    AISkill(hos_character){
+    AISkill(){
         AISkillTirgger.trigger(this.character.SkillGroup)
+        this.character.war_active --;
         return AISkillTirgger // 触发 指定技能组的 AI技能
     }
 

@@ -17,6 +17,7 @@ class CharacterTemplates {
     temp_value = {
         hint_sum: 0,
     }
+    war_active =  3 // 战斗默认体力
     Values = {
         attack: 10,
         defense: 10,
