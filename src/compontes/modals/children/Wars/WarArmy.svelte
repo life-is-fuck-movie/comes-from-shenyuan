@@ -101,7 +101,9 @@
         </div>
 
         <div class="selector">
-            <Button value="士兵冲锋" click="{()=>{}}"/>
+            <Button value="士兵冲锋" click="{()=>{
+                use_army(character_from, character_to)
+            }}"/>
             {#each policies as a}
                 <Button value="{a[0]}" click="{()=>{
                     render_policy(a[1])
@@ -132,6 +134,7 @@
     import BindBox from "../../../../../game/characters/BindBox.js";
     import bindBox from "../../../../../game/characters/BindBox.js";
     import {fade} from "svelte/transition"
+    import soldier from "../../../../../game/army/soldier.js";
 
     export let native_data; // 原始数据
 
@@ -227,6 +230,35 @@
         return value
     }
 
+    function summary_army(_from, _to, winner, loser) {
+        _from.war_active += 1;
+        render_color(`【${_from.Name}】 获得一点体力`)
+    }
+
+    function war_summary_army(){}
+
+    function use_army(_from, _to) {
+        // 获取自己的士兵
+        let army_to = Object.keys(_to.Status.ranks)
+        if (army_to.length !== 0) {
+            // 还有士兵
+            army_to = army_to[0] // 那就派出在前面的士兵
+        } else {
+            army_to = null // 出击方没有士兵
+            alert("因为没有士兵所以只是单纯的恢复了体力")
+            summary_army(_from, _to) // 对其进行正常总结
+            return
+        }
+        let army_from = Object.keys(_from.Status.ranks) // 敌方的士兵获取
+        army_from = army_from > 0 ? army_from[0] : null
+        let {value, characters} = soldier.pk(_from, _to, army_from, army_to) // 进行战斗\
+        console.log(value)
+        war_info_html += render_color(value)
+
+        summary_army(_from, _to)
+
+    }
+
     function war_render(war_policy) {
         let effect_data = war_policy();
 
@@ -304,7 +336,7 @@
         let bindbox = new BindBox(character_from)
         try {
             bindbox.can_use_skill(skill_name)
-        }catch (e) {
+        } catch (e) {
             alert(e.message)
             return
         }

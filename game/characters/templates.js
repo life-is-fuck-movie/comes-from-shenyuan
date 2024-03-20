@@ -45,6 +45,9 @@ class CharacterTemplates {
             "步兵": 30
         } //  当前角色所拥有的军队
     }
+
+    God = false
+    King = false
 }
 
 export default CharacterTemplates
