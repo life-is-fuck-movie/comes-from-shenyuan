@@ -28,5 +28,7 @@ class Naxida extends CharacterTemplates{
     }
 
     God = true // 默认是神明
+
+    ReloadId = Math.random() // 用于刷新角色状态的ID
 }
 export default Naxida

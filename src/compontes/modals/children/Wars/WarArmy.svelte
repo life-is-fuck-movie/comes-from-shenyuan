@@ -14,14 +14,18 @@
                 <div>
                     兵力:<span class="show_army"
                                on:click={_=>detail_from_army_show = !detail_from_army_show}>查看</span>
+                    {character_from.Status.ranks[army_from[0]]}
+
                     {#if detail_from_army_show}
-                        <div class="detail_from" transition:fade>
-                            {#each Object.keys(character_from.Status.ranks) as army}
-                                <li>
-                                    {army}: {character_from.Status.ranks[army]}
-                                </li>
-                            {/each}
-                        </div>
+                        {#key character_from.ReloadId}
+                            <div class="detail_from" transition:fade>
+                                {#each army_from as army}
+                                    <li>
+                                        {army}: {character_from.Status.ranks[army]}
+                                    </li>
+                                {/each}
+                            </div>
+                        {/key}
                     {/if}
 
                 </div>
@@ -103,6 +107,8 @@
         <div class="selector">
             <Button value="士兵冲锋" click="{()=>{
                 use_army(character_from, character_to)
+                character_from.ReloadId = Math.random()
+                character_to.ReloadId = Math.random()
             }}"/>
             {#each policies as a}
                 <Button value="{a[0]}" click="{()=>{
@@ -148,6 +154,8 @@
     let detail_to_army_show = false;
     let detail_from_army_show = false
 
+    $:  army_from = Object.keys(character_from.Status.ranks);
+    $:  army_to = Object.keys(character_to.Status.ranks)
     // region 恢复原数据的记录
     let native_from = {
         hp: {
@@ -230,33 +238,10 @@
         return value
     }
 
-    function summary_army(_from, _to, winner, loser) {
-        _from.war_active += 1;
-        render_color(`【${_from.Name}】 获得一点体力`)
-    }
-
-    function war_summary_army(){}
-
     function use_army(_from, _to) {
-        // 获取自己的士兵
-        let army_to = Object.keys(_to.Status.ranks)
-        if (army_to.length !== 0) {
-            // 还有士兵
-            army_to = army_to[0] // 那就派出在前面的士兵
-        } else {
-            army_to = null // 出击方没有士兵
-            alert("因为没有士兵所以只是单纯的恢复了体力")
-            summary_army(_from, _to) // 对其进行正常总结
-            return
-        }
-        let army_from = Object.keys(_from.Status.ranks) // 敌方的士兵获取
-        army_from = army_from > 0 ? army_from[0] : null
-        let {value, characters} = soldier.pk(_from, _to, army_from, army_to) // 进行战斗\
-        console.log(value)
-        war_info_html += render_color(value)
-
-        summary_army(_from, _to)
-
+        soldier.init(render_color, war_info_html) // 刷新参数
+        soldier.use_army(_from, _to)
+        war_info_html = soldier.war_info_html
     }
 
     function war_render(war_policy) {
@@ -284,8 +269,6 @@
 
     function beforeTrigger(round_wheel) {
         console.log("触发前提")
-
-        "你好这是我的代码"
         round_wheel.active_tasks(round_wheel.TYPE.BEFORE) // 启动当前回合的所有的任务，开始的时候
 
     }
@@ -440,6 +423,7 @@
         _ => {
             war_render(warManager.policy_select)
             round_wheel.replace_task(round_wheel.TYPE.HAS_DIE, gameover, round_wheel.RoundMakePolicy.long()); // 游戏死亡轮回
+            soldier.init(render_color, war_info_html) // 注册中心登记参数
 
         }
     )
