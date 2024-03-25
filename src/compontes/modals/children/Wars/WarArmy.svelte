@@ -105,11 +105,7 @@
         </div>
 
         <div class="selector">
-            <Button value="士兵冲锋" click="{()=>{
-                use_army(character_from, character_to)
-                character_from.ReloadId = Math.random()
-                character_to.ReloadId = Math.random()
-            }}"/>
+
             {#each policies as a}
                 <Button value="{a[0]}" click="{()=>{
                     render_policy(a[1])
@@ -117,8 +113,15 @@
                     render_skill()
                 }}"/>
             {/each}
-
+            {#if policies.length <= 0}
+                <Button value="士兵冲锋" click="{()=>{
+                use_army(character_from, character_to)
+                character_from.ReloadId = Math.random()
+                character_to.ReloadId = Math.random()
+            }}"/>
+            {/if}
             {#each player_skills as a}
+
                 <Button click="{()=>{render_skill_description(a)}}" value="{a.event}"/>
             {/each}
         </div>
