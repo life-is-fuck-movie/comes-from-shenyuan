@@ -126,7 +126,6 @@ class Go2here {
             let id = army.data.object.ID;
             if (id === character.ID) {
                 armies[index].site = site
-                console.log(armies)
                 break
             }
         }
@@ -144,7 +143,6 @@ class Go2here {
     finishMove() {
         RefreshMapData.set(Math.random())
         if (this.continuous_flag || this.move_after !== false) {
-            console.log("继续移动", this.move_after )
             this.characterID = location["go2hereCharacterID"]
             delete location["go2hereCharacterID"]
 

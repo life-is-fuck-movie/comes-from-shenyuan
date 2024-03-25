@@ -124,7 +124,7 @@ class SkillMapA {
         bind_hos.SetNowHp(hostile_character.Values.now_hp - hint);
         return {
             characters: [self_character, hostile_character],
-            value: `{render:self} 对敌方造成伤害${hint}`,
+            value: `{render:self} 获取雨帘标签后，对敌方造成伤害${hint}`,
             data: {
                 hint: hint
             }
@@ -135,7 +135,7 @@ class SkillMapA {
         badgeAppend.append_yi(self_character, data.round_wheel)
         return {
             characters: [self_character, hostile_character],
-            value: `为自己加载了一个【义】标签`,
+            value: `【${self_character.Name}】为自己加载了一个【义】标签`,
             data: {}
         }
     }

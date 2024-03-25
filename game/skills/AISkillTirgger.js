@@ -17,6 +17,7 @@ class AISkillTirgger {
             for (let skill of list_skills) {
                 let rate = Gloabs.randomEvent(80)
                 let bind_box = new BindBox(character)
+
                 if (rate && bind_box.can_use_skill(skill)) {
                     // 如果概率允许且支持释放
                     console.log("技能组", list_skills, skill);
@@ -24,7 +25,8 @@ class AISkillTirgger {
                 }
 
             }
-            if (!try_get){
+            if (try_get){
+                console.log("取消圆桌会议模式")
                 return null // 如果只是尝试获取就不用进行圆桌会议
             }
 

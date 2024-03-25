@@ -242,9 +242,11 @@
     }
 
     function use_army(_from, _to) {
+        war_info_html += `<br> ${_from.Name} 使用 士兵冲锋`
         soldier.init(render_color, war_info_html) // 刷新参数
         soldier.use_army(_from, _to)
         war_info_html = soldier.war_info_html
+        trigger_ai()
     }
 
     function war_render(war_policy) {
@@ -312,7 +314,48 @@
             }
         }
     }
+    function trigger_ai(){
+        let hos_bindBox = new bindBox(character_to);
+        let policy = hos_bindBox.AISkill()
 
+        let array_characters
+        let array_character
+        if(policy === null){
+            console.log("士兵冲锋")
+            use_army(character_to, character_from)
+            character_from.ReloadId = Math.random()
+            character_to.ReloadId = Math.random()
+        }else{
+            let function_name = policy.policy({
+                self: character_to,
+                hos: character_from
+            })
+
+            array_characters = skillDict[function_name](character_to, character_from, {round_wheel: round_wheel}); // AI 释放技能
+
+            array_character = array_characters.characters
+            character_from = array_character[1] // AI 世界是反的
+            character_to = array_character[0]
+
+            character_to.skill_history.push(function_name) // AI技能释放结束后就放在技能表中
+
+        }
+
+        dieTrigger()
+        console.log("ai",array_character,array_characters)
+        // hintTrigger(round_wheel, skill_data, false)
+        dieTrigger()
+
+        afterTrigger(round_wheel)
+        dieTrigger()
+
+
+        let value = array_characters.value
+        value = render_color(`<span style="color: goldenrod">敌军: ${value}</span>`, true)
+        war_info_html += value
+
+
+    }
     function trigger_skill() {
         let skill_name = show_skill.function_name;
 
@@ -349,33 +392,9 @@
 
 
         // 电脑攻击环节
-        let hos_bindBox = new bindBox(character_to);
-        let policy = hos_bindBox.AISkill()
-        let function_name = policy.policy({
-            self: character_to,
-            hos: character_from
-        })
-
-        array_characters = skillDict[function_name](character_to, character_from, {round_wheel: round_wheel}); // AI 释放技能
-
-        array_character = array_characters.characters
-        character_from = array_character[1] // AI 世界是反的
-        character_to = array_character[0]
-
-        character_to.skill_history.push(function_name) // AI技能释放结束后就放在技能表中
-        dieTrigger()
-
-        skill_data = array_characters.data;
-        hintTrigger(round_wheel, skill_data, false)
-        dieTrigger()
-
-        afterTrigger(round_wheel)
-        dieTrigger()
+        let array = trigger_ai()
 
 
-        value = array_characters.value
-        value = render_color(value, true)
-        war_info_html += value
 
 
     }

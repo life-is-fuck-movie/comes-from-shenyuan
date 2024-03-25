@@ -23,9 +23,13 @@ class BindBox {
     }
 
     can_use_skill(skill_function_name){
-        this.limit_use(skill_function_name)
-        this.active_enough()
-
+        try {
+            this.limit_use(skill_function_name)
+            this.active_enough()
+        }catch (e) {
+            throw e
+        }
+        return true
     }
 
     active_enough(){
@@ -36,7 +40,6 @@ class BindBox {
     limit_use(skill_function_name){
 
         for (let skill of Object.values(this.character.SkillsName)){
-            console.log(skill, skill_function_name)
             if (skill.function_name === skill_function_name){
                 let is_limit = skill.is_limit
                 if(is_limit){
@@ -52,9 +55,14 @@ class BindBox {
     }
 
     AISkill(){
-        AISkillTirgger.trigger(this.character.SkillGroup)
-        this.character.war_active --;
-        return AISkillTirgger // 触发 指定技能组的 AI技能
+        if(this.character.war_active > 1){
+            AISkillTirgger.trigger(this.character.SkillGroup)
+            this.character.war_active --;
+            return AISkillTirgger // 触发 指定技能组的 AI技能
+        }else{
+            return null// 返回 null 表示士兵冲锋
+        }
+
     }
 
     // region 技能释放
@@ -113,7 +121,6 @@ class BindBox {
         // 存档到本地存档
         let save = Save.LoadSaveJson("map_data")
         for (let index = 0; index < save.army.length; index++) {
-            console.log(save.army[index].data.object.ID, this.character.ID)
             if (save.army[index].data.object.ID === this.character.ID) {
                 // 我们需要替换数据了
                 console.log("FINDER")

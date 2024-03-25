@@ -105,8 +105,6 @@ class trigger {
 
     war_summary_army(winner, loser){
         let keys = Object.keys(loser.Status.ranks);
-        console.log(loser.Status.ranks)
-        console.log(keys[0])
 
         if (keys.length > 0){
             loser.Status.ranks[keys[0]] -= 1;
@@ -135,12 +133,14 @@ class trigger {
             army_to = army_to[0] // 那就派出在前面的士兵
             console.log(`还剩下${_from.Status.ranks[army_to]}个`)
             if (_from.Status.ranks[army_to] <= 0){
-                alert("士兵不够了")
+                this.war_info_html +=  this.render_color(`${_from.Name} 士兵不够了，所以只是恢复一点体力`)
+                delete _from.Status.ranks[army_to]
                 return
             }
         } else {
+            console.log("没有士兵了")
+            this.war_info_html +=  this.render_color(`${_from.Name} 士兵不够了，所以只是恢复一点体力`)
             army_to = null // 出击方没有士兵
-            alert("因为没有士兵所以只是单纯的恢复了体力")
             this.summary_army(_from, _to) // 对其进行正常总结
             return
         }

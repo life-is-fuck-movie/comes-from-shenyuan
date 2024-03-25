@@ -13,8 +13,6 @@ class SaveMapDataManager {
             map_data.wood.splice(map_data.wood.indexOf(site), 1)
         else if (map_data.stone.includes(site))
             map_data.stone.splice(map_data.stone.indexOf(site), 1)
-        console.log(map_data.stone.length)
-        console.log(map_data.wood.length)
         return map_data
     }
 
