@@ -129,17 +129,22 @@ class trigger {
 
     use_army(_from, _to) {
         // 获取自己的士兵
-        let army_to = Object.keys(_to.Status.ranks)
+        let army_to = Object.keys(_from.Status.ranks)
         if (army_to.length !== 0) {
             // 还有士兵
             army_to = army_to[0] // 那就派出在前面的士兵
+            console.log(`还剩下${_from.Status.ranks[army_to]}个`)
+            if (_from.Status.ranks[army_to] <= 0){
+                alert("士兵不够了")
+                return
+            }
         } else {
             army_to = null // 出击方没有士兵
             alert("因为没有士兵所以只是单纯的恢复了体力")
             this.summary_army(_from, _to) // 对其进行正常总结
             return
         }
-        let army_from = Object.keys(_from.Status.ranks) // 敌方的士兵获取
+        let army_from = Object.keys(_to.Status.ranks) // 敌方的士兵获取
         army_from = army_from > 0 ? army_from[0] : null
         let {value, characters} = this.pk(_from, _to, army_from, army_to) // 进行战斗\
         this.war_info_html += this.render_color(value)
